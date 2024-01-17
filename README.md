@@ -3,10 +3,10 @@
 This monorepo contains documentation and examples for Primodium developers.
 
 ```
-/packages
-  /docs
-  /example-usdc-reward # TODO for Cometshock
-  /example-delegate-oribiting-fleet # TODO for Cometshock
+/docs
+/examples
+  /plugin-usdc-transfer # TODO for Cometshock
+  /plugin-delegate-oribiting-fleet # TODO for Cometshock
 ```
 
 ## Testnet Deployment
