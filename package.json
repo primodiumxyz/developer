@@ -1,6 +1,11 @@
 {
   "name": "primodium",
   "private": true,
+  "scripts": {
+    "build": "pnpm recursive run build",
+    "clean": "pnpm recursive run clean",
+    "test": "pnpm recursive run test"
+  },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --cache --fix",
     "*.{ts,tsx,css,md,mdx,sol}": "prettier --write",
