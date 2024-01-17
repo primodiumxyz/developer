@@ -1,0 +1,26 @@
+{
+  "name": "primodium",
+  "private": true,
+  "scripts": {},
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --cache --fix",
+    "*.{ts,tsx,css,md,mdx,sol}": "prettier --write",
+    "package.json": "pnpm sort-package-json"
+  },
+  "devDependencies": {
+    "@latticexyz/cli": "2.0.0-next.13",
+    "@typescript-eslint/eslint-plugin": "5.46.1",
+    "@typescript-eslint/parser": "5.46.1",
+    "concurrently": "^8.0.1",
+    "eslint": "8.29.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
+    "rimraf": "^3.0.2",
+    "run-pty": "4.0.4",
+    "typescript": "5.1.6"
+  },
+  "engines": {
+    "node": "18.x",
+    "pnpm": "8.x"
+  }
+}
