@@ -10,7 +10,7 @@ const config: DocsThemeConfig = {
     link: "https://discord.gg/fFFtwhTVWm",
   },
   docsRepositoryBase:
-    "https://github.com/primodiumxyz/developers/packages/docs",
+    "https://github.com/primodiumxyz/developers/tree/main/docs",
   footer: {
     text: "Nextra Docs Template",
   },
