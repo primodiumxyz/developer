@@ -4,7 +4,7 @@ This monorepo contains documentation and examples for Primodium developers.
 
 ## Directories
 
-```
+```bash
 /docs
 /examples
   /plugin-minimal # TODO for Cometshock
@@ -20,7 +20,7 @@ Primodium is currently deployed to an OP Stack rollup hosted by Caldera that res
 
 To deploy a MUD contract to the Primodium testnet for interoperability with the testnet Primodium world contract, use the following deployment settings.
 
-```
+```toml
 [profile.caldera-sepolia]
 eth_rpc_url = "https://primodium-sepolia.rpc.caldera.xyz/http"
 chain_id = 10017
