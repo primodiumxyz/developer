@@ -7,6 +7,7 @@ This monorepo contains documentation and examples for Primodium developers.
 ```
 /docs
 /examples
+  /plugin-minimal # TODO for Cometshock
   /plugin-usdc-transfer # TODO for Cometshock
   /plugin-delegate-oribiting-fleet # TODO for Cometshock
 ```
