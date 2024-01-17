@@ -18,9 +18,5 @@
     "rimraf": "^3.0.2",
     "run-pty": "4.0.4",
     "typescript": "5.1.6"
-  },
-  "engines": {
-    "node": "18.x",
-    "pnpm": "8.x"
   }
 }
