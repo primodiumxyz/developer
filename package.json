@@ -2,6 +2,7 @@
   "name": "primodium",
   "private": true,
   "scripts": {
+    "dev": "pnpm --filter 'docs' run dev",
     "build": "pnpm recursive run build",
     "clean": "pnpm recursive run clean",
     "test": "pnpm recursive run test"

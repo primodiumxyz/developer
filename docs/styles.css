@@ -1,0 +1,26 @@
+@import "@fontsource/space-mono";
+@import "@fontsource/space-mono/700.css";
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Space Mono";
+  /* text-transform: uppercase; */
+}
+
+p,
+a {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.nextra-sidebar-container {
+  font-family: "Space Mono";
+  text-transform: uppercase;
+}
+.nextra-sidebar-container a,
+.nextra-sidebar-container button {
+  text-transform: none;
+}
