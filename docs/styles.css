@@ -16,11 +16,20 @@ a {
   font-family: Helvetica, Arial, sans-serif;
 }
 
+.logo {
+  font-family: "Space Mono";
+  font-weight: 700;
+}
+
+.nextra-banner-container {
+  font-family: "Space Mono";
+}
+
 .nextra-sidebar-container {
   font-family: "Space Mono";
-  text-transform: uppercase;
 }
+
 .nextra-sidebar-container a,
 .nextra-sidebar-container button {
-  text-transform: none;
+  font-family: "Space Mono";
 }

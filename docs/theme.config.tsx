@@ -2,7 +2,7 @@ import React from "react";
 import { DocsThemeConfig } from "nextra-theme-docs";
 
 const config: DocsThemeConfig = {
-  logo: <span>My Project</span>,
+  logo: <span className="logo">Primodium Developers</span>,
   project: {
     link: "https://github.com/primodiumxyz/docs",
   },
@@ -12,7 +12,7 @@ const config: DocsThemeConfig = {
   docsRepositoryBase:
     "https://github.com/primodiumxyz/developers/tree/main/docs",
   footer: {
-    text: "Nextra Docs Template",
+    text: "© 2024 Primodium",
   },
 };
 
