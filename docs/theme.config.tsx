@@ -20,7 +20,6 @@ const config: DocsThemeConfig = {
   head: (
     <>
       <meta property="title" content="Primodium Developer Documentation" />
-      <link rel="icon" href="/favicon.ico" />
     </>
   ),
   docsRepositoryBase:
