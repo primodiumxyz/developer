@@ -3,5 +3,11 @@
   "setup": "Setup",
   "examples": "Examples",
   "deploy": "Deploy",
-  "latest": "Version Info"
+  "latest": "Version Info",
+  "play": {
+    "title": "Play Primodium",
+    "type": "page",
+    "href": "https://www.primodium.com",
+    "newWindow": true
+  }
 }
