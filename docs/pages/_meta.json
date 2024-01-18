@@ -1,15 +1,7 @@
 {
-  "index": "Introduction",
-  "another": "Another Page",
-  "advanced": "Advanced (A Folder)",
-  "about": {
-    "title": "About",
-    "type": "page"
-  },
-  "contact": {
-    "title": "Twitter",
-    "type": "page",
-    "href": "https://twitter.com/primodiumgame",
-    "newWindow": true
-  }
+  "index": "Home",
+  "setup": "Setup",
+  "examples": "Examples",
+  "deploy": "Deploy",
+  "latest": "Version Info"
 }
