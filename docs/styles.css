@@ -1,6 +1,22 @@
 @import "@fontsource/space-mono";
 @import "@fontsource/space-mono/700.css";
 
+/* body {
+  background-color: #f1f1f1;
+}
+
+.dark body {
+  background-color: #a92d2d;
+} */
+
+body {
+  background: linear-gradient(to bottom, #f8f8f8, #f8f8f8);
+}
+
+.dark body {
+  background: linear-gradient(to bottom, #191a23, #191a23);
+}
+
 h1,
 h2,
 h3,
@@ -22,6 +38,18 @@ h6 {
 
 .nextra-sidebar-container {
   font-family: "Space Mono";
+}
+
+/* Hide background and shadow of lower left theme selector */
+.nextra-sidebar-container .nx-sticky {
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/* Hide background and shadow of Questions? container */
+.nextra-toc * {
+  background: none !important;
+  box-shadow: none !important;
 }
 
 .nextra-sidebar-container a,
