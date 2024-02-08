@@ -28,6 +28,14 @@ const config: DocsThemeConfig = {
   footer: {
     text: "© 2024 Primodium",
   },
+  primaryHue: {
+    dark: 190,
+    light: 190,
+  },
+  primarySaturation: {
+    dark: 100,
+    light: 80,
+  },
 };
 
 export default config;
