@@ -4,6 +4,8 @@
   "examples": "Examples",
   "deploy": "Deploy",
   "latest": "Version Info",
+  "hooks": "Hooks",
+  "project-structure": "Project Structure",
   "play": {
     "title": "Play Primodium",
     "type": "page",
