@@ -1,10 +1,30 @@
 {
-  "index": "Home",
-  "setup": "Setup",
-  "examples": "Examples",
-  "deploy": "Deploy",
+  "index": "Introduction",
+  "latest": "Latest Release",
+
+  "overview": {
+    "title": "Overview",
+    "type": "separator"
+  },
   "project-structure": "Project Structure",
-  "latest": "Version Info",
+  "delegation": "Delegation",
+
+  "extensions": {
+    "title": "Extensions",
+    "type": "separator"
+  },
+  "setup": "Setup",
+  "examples": "Contract Examples",
+
+  "deploy": "Deploy",
+
+  "open-source": {
+    "title": "Open Source",
+    "type": "separator"
+  },
+  "game-tools": "MUD Game Tools",
+  "state-tools": "MUD State Tools",
+
   "play": {
     "title": "Play Primodium",
     "type": "page",
