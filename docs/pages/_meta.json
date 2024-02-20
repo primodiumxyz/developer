@@ -3,13 +3,24 @@
   "setup": "Setup",
   "examples": "Examples",
   "deploy": "Deploy",
-  "latest": "Version Info",
-  "hooks": "Hooks",
   "project-structure": "Project Structure",
+  "latest": "Version Info",
   "play": {
     "title": "Play Primodium",
     "type": "page",
     "href": "https://www.primodium.com",
+    "newWindow": true
+  },
+  "discord": {
+    "title": "Join Discord",
+    "type": "page",
+    "href": "https://discord.gg/fFFtwhTVWm",
+    "newWindow": true
+  },
+  "follow": {
+    "title": "Follow",
+    "type": "page",
+    "href": "https://www.x.com/primodiumgame",
     "newWindow": true
   }
 }
