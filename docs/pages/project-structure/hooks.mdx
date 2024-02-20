@@ -23,7 +23,7 @@ Table Hooks allows us to define reactionary logic to changes to a table values. 
 
 In Primodium, we use them to calculate and store Player and Alliance Scores, which themselves are dependent on different player assets. The following example is a hook subscribed to the Score table and updates the AllianceScore table whenever an alliance member score is updated.
 
-```solidity filename="packages/contracts/src/hooks/storeHooks/OnScore_Alliance_Score.sol" copy showLineNumbers
+```solidity filename="/packages/contracts/src/hooks/storeHooks/OnScore_Alliance_Score.sol" copy showLineNumbers
 /// @title OnScore_Alliance_Score - Updates alliance scores based on player scores.
 contract OnScore_Alliance_Score is StoreHook {
   constructor() {}
