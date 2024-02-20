@@ -1,8 +1,8 @@
-# Hooks
+# Hooks: On-Chain Events
 
-Hooks are pieces of logic that are defined to react to specific parts of the codebase. They are based on [store hooks](https://mud.dev/store/store-hooks) as implemented in the MUD standard.
+**Primodium** hooks are contracts that are defined to react to specific parts of the codebase.
 
-We use hooks for several advantageous features:
+We use hooks for several reasons:
 
 - Decoupling: Defining secondary and/or reactionary logic in the form of hooks keep those logic and their relations to the core logic separate and decoupled allowing us to add and remove augmentations without having to directly modify the core functionality.
 - Readability: By breaking down general gameplay logic into hooks, we make the different parts of the codebase more readable and easier to understand.
@@ -13,15 +13,13 @@ There are two main types of hooks used in the Primodium contracts.
 
 ## System Hooks
 
-These are hooks which we subscribe to system calls. they can be called before or after the system function is called and provides us with the function selector, the calling player address and the input parameters of the function
-
-In Primodium, we have opted to use [Subsystems](./subsystems.mdx) in combination with modifiers (Link to Modifiers Page) to substitute system hooks.
+These are hooks which we subscribe to system calls. They can be called before or after the system function is called and provides us with the function selector, the calling player address, and the input parameters of the function. In Primodium, we have opted to use [Subsystems](./subsystems.mdx) in combination with modifiers (Link to Modifiers Page) to substitute system hooks.
 
 ## Table Hooks
 
-Table Hooks allows us to define reactionary logic to changes to a table values. They allow us to define tables with values dependant on other tables but keep their logic decoupled.
+Table Hooks allows us to define reactionary logic to changes to a table values. They are based on [store hooks](https://mud.dev/store/store-hooks) as implemented in the MUD standard.
 
-In Primodium, we use them to calculate and store Player and Alliance Scores, which themselves are dependent on different player assets. The following example is a hook subscribed to the Score table and updates the AllianceScore table whenever an alliance member score is updated.
+Table Hooks allow us to define tables with values dependant on other tables but keep their logic decoupled. In Primodium, we use them to calculate and store Player and Alliance Scores, which themselves are dependent on different player assets. The following example is a hook subscribed to the Score table and updates the AllianceScore table whenever an alliance member score is updated.
 
 ```solidity filename="/packages/contracts/src/hooks/storeHooks/OnScore_Alliance_Score.sol" copy showLineNumbers
 /// @title OnScore_Alliance_Score - Updates alliance scores based on player scores.

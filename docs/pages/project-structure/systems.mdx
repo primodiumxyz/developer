@@ -1,6 +1,8 @@
-# Systems and Subsystems
+# Systems: On-Chain Logic
 
-In the MUD standard, [systems](https://mud.dev/templates/typescript/contracts#systems) are contracts that changes on-chain state called by the central `World` contract. All systems are inherited from the `PrimodiumSystem` contract which provides the `addressToEntity()` and `entityToAddress()` functions to convert between Ethereum addresses and their corresponding entity IDs stored in [table contracts](https://mud.dev/store/data-model#tables-on-chain).
+**Primodium systems** are smart contracts that execute on-chain logic to modify state stored in Primodium [tables](./tables). Primodium systems are based on [systems](https://mud.dev/templates/typescript/contracts#systems) as defined in the MUD standard, which are contracts that changes on-chain state called by the central `World` contract.
+
+All systems are inherited from the `PrimodiumSystem` contract which provides the `addressToEntity()` and `entityToAddress()` functions to convert between Ethereum addresses and their corresponding entity IDs stored in [table contracts](https://mud.dev/store/data-model#tables-on-chain).
 
 ```solidity filename="/packages/contracts/src/systems/internal/PrimodiumSystem.sol" showLineNumbers
 // SPDX-License-Identifier: MIT
