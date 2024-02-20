@@ -1,0 +1,52 @@
+# Tables: On-Chain Data
+
+**Primodium tables** are smart contracts that store on-chain data. Primodium tables are based on [on-chain tables](https://mud.dev/templates/typescript/contracts#tables) as defined in the MUD standard.
+
+There are two main types of on-chain tables used in Primodium.
+
+## Prototype Tables
+
+Prototype tables store game configuration data such as building costs, unit stats, and other game constants. These tables are used to define the game's rules and are not expected to change during the game's lifecycle. Prototype tables are prefixed with `P_` and are populated during the `PostDeploy` step.
+
+In MUD-compliant projects, tables are defined in a file named `mud.config.ts` and generated before [compilation](https://mud.dev/templates/typescript/contracts#mudconfigts) into solidity. The following json string encodes a table that stores key game configuration named `P_GameConfig`.
+
+```js copy
+{
+  P_GameConfig: {
+    keySchema: {},
+    valueSchema: {
+      admin: "address",
+      unitProductionRate: "uint256",
+      maxMotherlodesPerAsteroid: "uint256",
+      motherlodeChanceInv: "uint256",
+      motherlodeDistance: "uint256",
+      travelTime: "uint256",
+      worldSpeed: "uint256",
+      tax: "uint256",
+    },
+  }
+}
+```
+
+## Tables
+
+All other tables store in-game data associated with players, space rocks, alliances, and other game entities. These tables are expected to change during the game's lifecycle. The following json string encodes a table that stores the position of a building named `Position`.
+
+```js copy
+{
+  Position: {
+    keySchema: { entity: "bytes32" },
+    valueSchema: {
+      x: "int32",
+      y: "int32",
+      parent: "bytes32",
+    },
+  }
+}
+```
+
+## Reading and Writing Tables
+
+Tables can be read directly from their contracts via their [ABIs](../latest.mdx). See the MUD documentation on the [table data model](https://mud.dev/store/data-model) for more information on how tables are structured on-chain.
+
+Both prototype and player tables cannot be written directly without [systems](./systems.mdx) unless [delegated](./delegation).

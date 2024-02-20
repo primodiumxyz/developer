@@ -14,9 +14,6 @@ const config: DocsThemeConfig = {
   project: {
     link: "https://github.com/primodiumxyz/docs",
   },
-  chat: {
-    link: "https://discord.gg/fFFtwhTVWm",
-  },
   head: (
     <>
       <meta property="title" content="Primodium Developer Documentation" />

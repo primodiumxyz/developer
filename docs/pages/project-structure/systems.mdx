@@ -1,0 +1,113 @@
+# Systems: On-Chain Logic
+
+**Primodium systems** are smart contracts that execute on-chain logic to modify state stored in Primodium [tables](./tables). Primodium systems are based on [systems](https://mud.dev/templates/typescript/contracts#systems) as defined in the MUD standard, which are contracts that changes on-chain state called by the central `World` contract.
+
+All systems are inherited from the `PrimodiumSystem` contract which provides the `addressToEntity()` and `entityToAddress()` functions to convert between Ethereum addresses and their corresponding entity IDs stored in [table contracts](https://mud.dev/store/data-model#tables-on-chain).
+
+```solidity filename="/packages/contracts/src/systems/internal/PrimodiumSystem.sol" showLineNumbers
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.21;
+
+import { System } from "@latticexyz/world/src/System.sol";
+
+contract PrimodiumSystem is System {
+  function addressToEntity(address a) internal pure returns (bytes32) {
+    return bytes32(uint256(uint160((a))));
+  }
+
+  function entityToAddress(bytes32 a) internal pure returns (address) {
+    return address(uint160(uint256((a))));
+  }
+}
+
+```
+
+## Systems
+
+A new system is defined for a group of related on-chain logic. For example, the `BuildSystem` is responsible for building new buildings in the game, as shown in the following code sample.
+
+```solidity filename="/packages/contracts/src/systems/BuildSystem.sol" showLineNumbers
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.21;
+
+// external
+import { PrimodiumSystem } from "systems/internal/PrimodiumSystem.sol";
+
+// tables
+import { P_EnumToPrototype, PositionData } from "codegen/index.sol";
+
+// libraries
+import { LibBuilding } from "codegen/Libraries.sol";
+
+// types
+import { BuildingKey } from "src/Keys.sol";
+import { EBuilding } from "src/Types.sol";
+
+
+/*
+  EBuilding is an uint256 that encodes different building types.
+
+  PositionData captures the x and y coordinates of a building as well as the asteroid ID, shown below.
+
+  struct PositionData {
+    int32 x;
+    int32 y;
+    bytes32 parent;
+  }
+*/
+
+contract BuildSystem is PrimodiumSystem {
+  function build(EBuilding buildingType, PositionData memory coord) public returns (bytes32 buildingEntity) {
+    bytes32 playerEntity = addressToEntity(_msgSender());
+    bytes32 buildingPrototype = P_EnumToPrototype.get(BuildingKey, uint8(buildingType));
+    return LibBuilding.build(playerEntity, buildingPrototype, coord);
+  }
+}
+```
+
+In TypeScript, a system is called using the `write$` observable. First, a `worldContract` object is initialized as follows, where `getContract()` is defined [here](https://github.com/latticexyz/mud/tree/main/packages/common/src/getContract.ts#L50C17-L50C28) in ththee `@latticexyz/mud` package.
+
+```typescript copy showLineNumbers
+import { ContractWrite, getContract } from "@latticexyz/common";
+import IWorldAbi from "contracts/out/IWorld.sol/IWorld.abi.json";
+
+const publicClient = createPublicClient(clientOptions);
+
+const write$ = new Subject<ContractWrite>();
+const worldContract = getContract({
+  address: worldAddress as Hex,
+  abi: IWorldAbi,
+  publicClient,
+  onWrite: (write) => write$.next(write),
+});
+```
+
+Then, a system can be called as follows as a [writeContract](https://viem.sh/docs/contract/writeContract.html) call in `viem`, with types defined [here](https://github.com/wevm/viem/blob/6eef194a05016f3c2967cd6b4f730012adcbfffc/src/actions/getContract.ts#L430).
+
+```typescript copy showLineNumbers
+worldContract.write.build([building, position], { gas: 7000000n });
+```
+
+Note that most Primodium systems can only be called by the owner of an asteroid, i.e. calling `build` requires the sender to be the owner of the asteroid at the given position. The exception is if the system is called by a system that has been delegated control of the asteroid by the owner. See [Delegation](../delegation) for more information.
+
+Primodium systems can also be called from the CLI with the publicly-available ABIs, which are accessible from [Version Info](../latest.mdx).
+
+## Subsystems
+
+Subsystems in Primodium are created for reusable logic that can be called by multiple systems, prefixed by `S_`. There are two subsystems in the Primodium contracts:
+
+- `S_BattleSystem`: Initiates and updates battles between players.
+- `S_SpawnPirateAsteroidSystem`: Spawns a pirate asteroid around a player's asteroid.
+
+While all systems can be directly called externally, Primodium subsystems are written to be called by other systems, and are not intended to be called directly by the `World` contract. This is to ensure that the subsystems are only called in the context of a system that has been delegated control of an asteroid by the owner.
+
+The following is an example of a system calling the `S_BattleSystem` subsystem via the `SystemCall` MUD `SystemCallcallWithHooksOrRevert` API defined [here](https://github.com/latticexyz/mud/blob/main/packages/world/src/SystemCall.sol#L123).
+
+```solidity copy showLineNumbers
+bytes memory rawBr = SystemCall.callWithHooksOrRevert(
+  DUMMY_ADDRESS,
+  getSystemResourceId("S_BattleSystem"),
+  abi.encodeCall(S_BattleSystem.battle, (invader, defender, rockEntity, ESendType.Invade)),
+  0
+);
+```

@@ -1,0 +1,62 @@
+# Hooks: On-Chain Events
+
+**Primodium** hooks are contracts that are defined to react to specific parts of the codebase.
+
+We use hooks for several reasons:
+
+- Decoupling: Defining secondary and/or reactionary logic in the form of hooks keep those logic and their relations to the core logic separate and decoupled allowing us to add and remove augmentations without having to directly modify the core functionality.
+- Readability: By breaking down general gameplay logic into hooks, we make the different parts of the codebase more readable and easier to understand.
+- Reusability: Hooks can be used to subscribe to different parts of the codebase.
+- Contract Size Limit: Using hooks, we can break down secondary parts of the game logic to reduce the size of our core contracts, especially since EVM limits contract sizes to 24kb.
+
+There are two main types of hooks used in the Primodium contracts.
+
+## System Hooks
+
+These are hooks which we subscribe to system calls. They can be called before or after the system function is called and provides us with the function selector, the calling player address, and the input parameters of the function. In Primodium, we have opted to use [Subsystems](./subsystems.mdx) in combination with modifiers (Link to Modifiers Page) to substitute system hooks.
+
+## Table Hooks
+
+Table Hooks allows us to define reactionary logic to changes to a table values. They are based on [store hooks](https://mud.dev/store/store-hooks) as implemented in the MUD standard.
+
+Table Hooks allow us to define tables with values dependant on other tables but keep their logic decoupled. In Primodium, we use them to calculate and store Player and Alliance Scores, which themselves are dependent on different player assets. The following example is a hook subscribed to the Score table and updates the AllianceScore table whenever an alliance member score is updated.
+
+```solidity filename="/packages/contracts/src/hooks/storeHooks/OnScore_Alliance_Score.sol" copy showLineNumbers
+/// @title OnScore_Alliance_Score - Updates alliance scores based on player scores.
+contract OnScore_Alliance_Score is StoreHook {
+  constructor() {}
+
+  /// @dev This function is called before splicing static data.
+  /// @param keyTuple The key tuple of the player score.
+  /// @param start The start position of the data.
+  /// @param data The data to be processed.
+  function onBeforeSpliceStaticData(
+    ResourceId,
+    bytes32[] memory keyTuple,
+    uint48 start,
+    bytes memory data
+  ) public override {
+    bytes32 playerEntity = keyTuple[0];
+    bytes32 allianceEntity = PlayerAlliance.getAlliance(playerEntity);
+
+    // Check if the player is part of an alliance
+    if (allianceEntity == 0) {
+      // If the player is not part of an alliance, there is no alliance score to update
+      return;
+    }
+
+    bytes memory newScoreRaw = SliceInstance.toBytes(SliceLib.getSubslice(data, start));
+    uint256 newScore = abi.decode(newScoreRaw, (uint256));
+    uint256 oldScore = Score.get(playerEntity);
+    uint256 allianceScore = Alliance.getScore(allianceEntity);
+
+    if (newScore > oldScore) {
+      uint256 scoreDiff = newScore - oldScore;
+      Alliance.setScore(allianceEntity, allianceScore + scoreDiff);
+    } else {
+      uint256 scoreDiff = oldScore - newScore;
+      Alliance.setScore(allianceEntity, allianceScore - scoreDiff);
+    }
+  }
+}
+```
