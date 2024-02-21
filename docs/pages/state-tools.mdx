@@ -1,3 +1,75 @@
 # MUD State Tools
 
-https://github.com/primodiumxyz/mud-state-tools
+All game state Primodium is stored fully on-chain within smart contracts structured around the [MUD standard](https://mud.dev/). While state can be entirely fetched from an Ethereum node for the chain that Primodium is deployed on, the state cannot be efficiently queried. For context, in `v0.10.0`, querying the full state of the two-month-long round directly from the node via an RPC endpoint could take upwards of an hour.
+
+To solve this problem, previous versions of Primodium used a hosted [off-chain indexer](https://mud.dev/services/indexer) implemented by Lattice. Since state in Primodium is global across all players instead of round-based, initializing the Primodium client requires fetching the entire state from the off-chain indexer.
+
+The default indexer implementation required a fallback for hydrating the state from RPC; however, state fetched from nodes via RPC cannot be selectively queried, which meant that state had to be fetched in whole by the off-chain indexer on initialization. Past a certain state size, the off-chain indexer container would run out of memory and always fall back to fetching from RPC.
+
+To solve this problem, the latest version of Primodium uses an indexer implementation that always assumes the availability of a schemaful Postgres database that contains MUD-compliant state, with no RPC fallback, called **MUD State Tools**.
+
+## Overview
+
+**MUD State Tools** is released under the MIT License [here](https://github.com/primodiumxyz/mud-state-tools). It is comprised of two separate `npm` packages, with more information located in their respective `README.md`'s linked below.
+
+- [`@primodiumxyz/pg-indexer-read`](https://github.com/primodiumxyz/mud-state-tools/blob/main/packages/pg-indexer-reader/README.md): replaces the `postgres-frontend` in the Lattice [store-indexer](https://github.com/latticexyz/mud/tree/main/packages/store-indexer) implementation.
+- [`@primodiumxyz/sync-stack`](https://github.com/primodiumxyz/mud-state-tools/blob/main/packages/sync-stack/README.md): replaces `syncToRecs()` in the Lattice [store-sync](https://github.com/latticexyz/mud/tree/main/packages/store-sync) TypeScript client.
+
+## Deployment
+
+See the [Github Container Registry](https://github.com/primodiumxyz/mud-state-tools/pkgs/container/pg-indexer-reader) for the latest Docker builds of `@primodiumxyz/pg-indexer-read`.
+
+Additionally, `@primodiumxyz/pg-indexer-read` requires an existing schemaful Postgres database that conforms to the MUD standard in production. Therefore, this package is best paired with the [`postgres-indexer`](https://mud.dev/services/indexer#schemaful-indexing-with-postgresql-via-npx) in `@latticexyz/store-indexer`, with its latest Docker builds available [here](https://github.com/latticexyz/mud/pkgs/container/store-indexer).
+
+The following is a sample YAML deployment of the above indexer architecture.
+
+```yaml copy showLineNumbers
+version: "3.8"
+
+services:
+  primodium-postgres:
+    image: postgres:16.1
+    restart: always
+    platform: linux/amd64
+    networks:
+      - primodium-indexer
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - /home/ubuntu/postgresql/data:/var/lib/postgresql/data
+
+  # @latticexyz/store-indexer
+  primodium-postgres-index-write:
+    image: ghcr.io/latticexyz/store-indexer:sha-735d957
+    restart: always
+    platform: linux/amd64
+    networks:
+      - primodium-indexer
+    environment:
+      RPC_HTTP_URL: https://primodium-bedrock.calderachain.xyz/replica-http
+      DEBUG: "mud:*"
+      DATABASE_URL: postgres://postgres:password@primodium-postgres/postgres
+    command: pnpm tsx bin/postgres-indexer
+
+  # @primodiumxyz/pg-indexer-read
+  primodium-postgres-query-read:
+    image: ghcr.io/primodiumxyz/pg-indexer-reader:sha-6ce624a
+    restart: always
+    platform: linux/amd64
+    networks:
+      - primodium-indexer
+    environment:
+      RPC_HTTP_URL: https://primodium-bedrock.calderachain.xyz/replica-http
+      DEBUG: "mud:*"
+      DATABASE_URL: postgres://postgres:password@primodium-postgres/postgres
+    ports:
+      - "3001:3001"
+    command: pnpm tsx bin/postgres-frontend
+
+networks:
+  primodium-indexer:
+    driver: bridge
+```
+
+After deploying a test or production indexer instance, the `@primodiumxyz/sync-stack` package can be used to hydrate and selectively query state from the new indexer. See its corresponding [`README.md`](https://github.com/primodiumxyz/mud-state-tools/blob/main/packages/sync-stack/README.md) for more information.
