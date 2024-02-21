@@ -7,7 +7,8 @@
     "type": "separator"
   },
   "project-structure": "Project Structure",
-  "delegation": "Delegation",
+  "client-console": "Client Console",
+  "delegation": "Contract Delegation",
 
   "extensions": {
     "title": "Extensions",
@@ -22,8 +23,8 @@
     "title": "Open Source",
     "type": "separator"
   },
-  "game-tools": "MUD Game Tools",
   "state-tools": "MUD State Tools",
+  "game-tools": "MUD Game Tools",
 
   "play": {
     "title": "Play Primodium",
