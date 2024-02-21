@@ -1,15 +1,46 @@
 {
-  "index": "Home",
-  "setup": "Setup",
-  "examples": "Examples",
-  "deploy": "Deploy",
-  "latest": "Version Info",
-  "hooks": "Hooks",
+  "index": "Introduction",
+  "latest": "Latest Release",
+
+  "overview": {
+    "title": "Overview",
+    "type": "separator"
+  },
   "project-structure": "Project Structure",
+  "delegation": "Delegation",
+
+  "extensions": {
+    "title": "Extensions",
+    "type": "separator"
+  },
+  "setup": "Setup",
+  "examples": "Contract Examples",
+
+  "deploy": "Deploy",
+
+  "open-source": {
+    "title": "Open Source",
+    "type": "separator"
+  },
+  "game-tools": "MUD Game Tools",
+  "state-tools": "MUD State Tools",
+
   "play": {
     "title": "Play Primodium",
     "type": "page",
     "href": "https://www.primodium.com",
+    "newWindow": true
+  },
+  "discord": {
+    "title": "Join Discord",
+    "type": "page",
+    "href": "https://discord.gg/fFFtwhTVWm",
+    "newWindow": true
+  },
+  "follow": {
+    "title": "Follow",
+    "type": "page",
+    "href": "https://www.x.com/primodiumgame",
     "newWindow": true
   }
 }

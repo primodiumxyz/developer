@@ -1,11 +1,10 @@
-# Primodium Contract Plugins
+# Primodium Contract Plugin Examples
 
 Source code for the following examples are available [here](https://github.com/primodiumxyz/developers/tree/main/examples/).
 
 ## Plugin Examples
 
 The following are example plugins that can be deployed alongside the existing Primodium world contracts.
-
 
 ## Framework for Plugins
 
@@ -21,7 +20,7 @@ The following are example plugins that can be deployed alongside the existing Pr
 
 A plugin that creates a bounty to upgrade a building for another player in exchange for a reward.
 
-Building upgrades cost resources, and it takes time to accumulate the necessary resources. 
+Building upgrades cost resources, and it takes time to accumulate the necessary resources.
 There are some advantages of accelerating resource accumulation when you upgrade a building as soon as possible.
 If Alice is going to be AFK and doesn't want to manage running a bot, she can create a building
 upgrade bounty and delegate the upgrade to another player, Bob, in exchange for a small reward.
@@ -38,7 +37,7 @@ upgrade bounty and delegate the upgrade to another player, Bob, in exchange for 
 A plugin that enables a player to delegate control of their orbiting fleet to another player.
 
 - Alice delegate plugin (delegate systems)
-- Bob delegate plugin  (delegate systems)
+- Bob delegate plugin (delegate systems)
 - Alice's actions (orbit her fleet around Bob's planet)
 - Additional actions made possible by the plugin for Bob to control Alice's fleet
 
@@ -50,7 +49,7 @@ temporal dependencies between incentives. For example, if Alice deployed a plugi
 to control her fleet for 10 minutes in exchange for 50 gold upfront, Bob would have no guarantee that Alice
 would not revoke the delegation after 1 minute.
 
-This could technically be circumvented by users with smart contract accounts, or we could instead create a 
+This could technically be circumvented by users with smart contract accounts, or we could instead create a
 new delegation module that enables credible commitments of not revoking delegation under certain conditions.
 This is in early conceptual stages and will be discussed as more complex plugins get developed.
 
