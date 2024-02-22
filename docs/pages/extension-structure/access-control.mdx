@@ -1,0 +1,28 @@
+## Access Control
+
+Access control can be likened to giving a unique passcode to each person who needs to access a door.
+You are acting on your own behalf.
+
+Within MUD, there are two different forms of access control worth considering:
+[System Access](https://mud.dev/world/systems#access-control) and
+[Namespace Access](https://mud.dev/world/namespaces-access-control#access-control-levels).
+You should use the prior links to learn more about each. 
+Technically you can add access to anything with a ResourceId (including tables),
+but these are not recommended.
+
+### Namespace Access Control
+
+Namespace Access is a more general and powerful form of access control. It should be used with
+caution, as someone given access to a namespace can directly write to a table within that namespace.
+They can also access all the private systems in the namespace, as well as withdraw any ETH
+in that namespace.
+
+Namespace Owners also have additional rights that should be used with caution. Review the [MUD
+documentation](https://mud.dev/world/namespaces-access-control#access-control-levels) for more information.
+
+
+### System Access Control
+
+System Access is a more granular form of access control. It allows you to give access to specific systems
+that are private and deployed in your namespace. This is useful for giving access to the functions that modify
+tables under specific conditional logic. 
