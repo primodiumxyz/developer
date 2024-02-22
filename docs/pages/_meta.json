@@ -14,10 +14,12 @@
     "title": "Contract Extensions",
     "type": "separator"
   },
+  "extension-structure": "Extension Structure",
   "setup": "Setup",
   "examples": "Contract Examples",
-
-  "deploy": "Deploy",
+  "testing": "Testing",
+  "deploy-extension": "Deploy",
+  "extension-footguns": "Footguns",
 
   "open-source": {
     "title": "Open Source",
