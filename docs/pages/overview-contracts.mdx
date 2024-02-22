@@ -1,4 +1,4 @@
-# Contract Design
+# Primodium Contracts
 
 Primodium follows a typical [MUD](mud.dev) structure: Primodium exists in a world. Logic is stored in systems and data is stored in tables.
 We have added some minor additions, which will be open sourced, to improve internal developer and game design experience.
@@ -56,8 +56,7 @@ To ease the process of map design, we have also created a terrain generation scr
 
 ## Subsystems and Hooks
 
-Primodium has a large amount of complex logic.
-[The limitiation on smart contract size](https://eips.ethereum.org/EIPS/eip-170) has blocked our ability to add key features.
+Primodium has a large amount of complex logic. The limitiation on smart contract size by [EIP-170](https://eips.ethereum.org/EIPS/eip-170) has blocked our ability to add key features.
 
 Mud currently doesn't allow public library functions, which is the standard way to avoid `contract size too big` errors.
 Our solution is subsystems, which are world systems only accessible internally.
