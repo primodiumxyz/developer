@@ -1,1 +1,88 @@
 # World Extension Structure
+
+We have adopted the world extension structure as dictated by MUD's standard, and have
+also included some optional access patterns to help you understand how to utilize the various
+forms of delegation and access control.
+
+Before starting to write your own world extension, we recommend you first follow the [MUD World Extension
+Tutorial](https://mud.dev/guides/extending-a-world). This will give you a good understanding of the
+structure and how to interact with the World.
+
+## Registering All World Extensions
+
+1. Register namespace
+    - This is where your world extension will live. It is the root of your
+    extension and is how access controls and tables are managed. Don't forget
+    that the namespace admin has the ability to modify any table or system in the
+    namespace, so be careful who you give namespace access to!
+2. Register new tables
+    - Any additional state not already included in the World should be added
+    as a new table. You can also read the tables outside of this namespace,
+    but you are still subject to their system constraints for writing to them.
+3. Register systems needed in your namespace
+    - Any system that you plan on using should be 
+    registered in to your namespace. Note that if the
+    system has already been deployed on the chain and used in another
+    namespace, you can use the same system! ([Don't forget](./extension-footguns.mdx) that systems are only
+    safe if they are stateless!)
+4. Register functions from your systems
+    - Functions are tied to the namespace, so you need to register each function
+    so that it is accessible through the World.
+    
+## Access Control
+
+Access control can be likened to giving a unique passcode to each person who needs to access a door.
+You are acting on your own behalf.
+
+Within MUD, there are two different forms of access control worth considering:
+[System Access](https://mud.dev/world/systems#access-control) and
+[Namespace Access](https://mud.dev/world/namespaces-access-control#access-control-levels).
+You should use the prior links to learn more about each. 
+Technically you can add access to anything with a ResourceId (including tables),
+but these are not recommended.
+
+### Namespace Access Control
+
+Namespace Access is a more general and powerful form of access control. It should be used with
+caution, as someone given access to a namespace can directly write to a table within that namespace.
+They can also access all the private systems in the namespace, as well as withdraw any ETH
+in that namespace.
+
+Namespace Owners also have additional rights that should be used with caution. Review the [MUD
+documentation](https://mud.dev/world/namespaces-access-control#access-control-levels) for more information.
+
+
+### System Access Control
+
+System Access is a more granular form of access control. It allows you to give access to specific systems
+that are private and deployed in your namespace. This is useful for giving access to the functions that modify
+tables under specific conditional logic. 
+
+## Delegation
+
+Delegation can be likened to giving a friend your passcode to access a door. You are still the owner
+of the passcode, but you have given it to someone else to use and act on your behalf.
+
+Delegations in MUD can also optionally be bound to specific time, systems, and calls as well. These are laid
+out in MUD's [StandardDelegationsModule](https://github.com/latticexyz/mud/blob/8193136a9511d066aeebce82155d3509aa760282/packages/world-modules/src/modules/std-delegations/StandardDelegationsModule.sol).
+
+Binding delegations to only the necessary systems, calls, and/or time is a good practice to follow, as it limits the
+surface area of a potentially malicious delegatee.
+
+With delegation, the delegator can revoke access from the delegatee at any point. If delegation is a part of
+an agreement with an outside party, the agreement should be carefully structured such that it is not heavily 
+dependent on the delegation to remain in the future! For now this is a [footgun](./extension-footguns.mdx), 
+but a future release will include credibly committed delegations that can only be revoked under specific conditions.
+
+Ex: Bob and Alice have an agreement where Bob gives Alice 10 gold today, and Alice delegates Bob the right to pull 30 gold
+from Alice a minimum of 3 days from now. Even if Alice delegated to Bob or a system to manage the agreement, there is nothing 
+stopping Alice from revoking the delegation before the 3 days pass.
+
+## Suggested Extension Patterns
+
+### P2P Agreements
+
+### Alliances
+
+
+
