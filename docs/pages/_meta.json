@@ -6,21 +6,14 @@
     "title": "Overview",
     "type": "separator"
   },
-  "project-structure": "Project Structure",
+  "overview-contracts": "Contracts",
+  "overview-client": "Client",
 
-  "game-client": "Game Client",
-
-  "extensions": {
-    "title": "World Extensions",
+  "protocol": {
+    "title": "Protocol",
     "type": "separator"
   },
-  "world-extension": "Intro",
-  "setup": "Setup",
-  "extension-structure": "Extension Structure",
-  "examples": "Examples",
-  "testing": "Testing",
-  "deploy-extension": "Deploy",
-  "extension-footguns": "Footguns",
+  "world-extension": "World Extensions",
 
   "open-source": {
     "title": "Open Source",
