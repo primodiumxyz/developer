@@ -11,12 +11,13 @@
   "game-client": "Game Client",
 
   "extensions": {
-    "title": "Contract Extensions",
+    "title": "World Extensions",
     "type": "separator"
   },
+  "world-extension": "Intro",
   "extension-structure": "Extension Structure",
+  "examples": "Examples",
   "setup": "Setup",
-  "examples": "Contract Examples",
   "testing": "Testing",
   "deploy-extension": "Deploy",
   "extension-footguns": "Footguns",

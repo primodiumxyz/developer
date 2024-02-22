@@ -1,11 +1,8 @@
-# Primodium Contract Plugins
+# Primodium World Extension Examples
 
 Source code for the following examples are available [here](https://github.com/primodiumxyz/developers/tree/main/examples/).
 
-## Plugin Examples
-
 The following are example plugins that can be deployed alongside the existing Primodium world contracts.
-
 
 ## Framework for Plugins
 
@@ -17,9 +14,10 @@ The following are example plugins that can be deployed alongside the existing Pr
 
 ![DelegatedAccess](../public/DelegatedAccess.png)
 
-### plugin-upgrade-bounty (WIP)
+### building-upgrade-bounty
 
-A plugin that creates a bounty to upgrade a building for another player in exchange for a reward.
+A world extension that enables the deployer to issue a private bounty for an outside party
+to upgrade the deployer's building on their behalf, in exchange for a reward.
 
 Building upgrades cost resources, and it takes time to accumulate the necessary resources. 
 There are some advantages of accelerating resource accumulation when you upgrade a building as soon as possible.
@@ -33,42 +31,23 @@ upgrade bounty and delegate the upgrade to another player, Bob, in exchange for 
 - Bob calls the private system to upgrade Alice's building
 - Bob receives the bounty reward from the private system
 
-### plugin-delegate-orbiting-fleet (backlog)
-
-A plugin that enables a player to delegate control of their orbiting fleet to another player.
-
-- Alice delegate plugin (delegate systems)
-- Bob delegate plugin  (delegate systems)
-- Alice's actions (orbit her fleet around Bob's planet)
-- Additional actions made possible by the plugin for Bob to control Alice's fleet
-
-## Current Delegation Constraints
-
-Delegation as standardized in `StandardDelegationsModule` enables a player to revoke delegation at any time.
-While convenient for player security, it also limits the ability to construct delegated systems that rely on
-temporal dependencies between incentives. For example, if Alice deployed a plugin that gave Bob the ability
-to control her fleet for 10 minutes in exchange for 50 gold upfront, Bob would have no guarantee that Alice
-would not revoke the delegation after 1 minute.
-
-This could technically be circumvented by users with smart contract accounts, or we could instead create a 
-new delegation module that enables credible commitments of not revoking delegation under certain conditions.
-This is in early conceptual stages and will be discussed as more complex plugins get developed.
-
 ## Plugin Ideas
 
 - Create a new poker game using existing Primodium resources, with the plugin serving as an escrow and systems for transferring resources
-- Enable other players to build buildings on your asteroids
-- Create additional fleet units with custom assets
-- Create and enforce borders across the galaxy
-- Mercenary-for-hire AMM
-- casinos and space pirate raids of the casinos
-- Alternative battle mechanics (ex: rock-paper-scissors)
-- escorts for trade ships
+- Casinos and space pirate raids of the casinos
+- Local trading posts
+- Escorts for trade ships
 - Trade ship insurance
+- lock-in non-aggression pacts
+- Sophisticated Alliances
+- Alliance taxes
+- Enable alliance to manage your asteroids
+- Create and enforce borders across the galaxy
+- Create additional fleet units with custom assets
 - bounty hunting
+- Mercenary-for-hire AMM/marketplace for borrowing fleets
+- Alternative battle mechanics (ex: rock-paper-scissors)
 - mineral rights for asteroids
 - Ajna-style lending and borrowing
-- lock-in non-aggression pacts
 - "space weather" that affects resource accumulation
 - "space weather" that affects battle mechanics
-- Alliance taxes
