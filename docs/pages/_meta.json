@@ -7,11 +7,11 @@
     "type": "separator"
   },
   "project-structure": "Project Structure",
-  "client-console": "Client Console",
-  "delegation": "Contract Delegation",
+
+  "game-client": "Game Client",
 
   "extensions": {
-    "title": "Extensions",
+    "title": "Contract Extensions",
     "type": "separator"
   },
   "extension-structure": "Extension Structure",
