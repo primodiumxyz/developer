@@ -1,38 +1,66 @@
-# Project Structure
+# Contract Design
 
-The Primodium contracts are organized as follows.
+Primodium follows a typical [MUD](mud.dev) structure: Primodium exists in a world. Logic is stored in systems and data is stored in tables.
+We have added some minor additions, which will be open sourced, to improve internal developer and game design experience.
 
-- Contracts
-  - Codegen
-  - Constants
-  - Types
-  - Keys
-  - Libraries
-    - Gameplay
-    - Collection
-  - Systems
-    - Internal
-    - Player Actions
-      - Spawn
-      - Buildings
-        - Build
-        - Destroy
-        - Activate
-        - Upgrade
-        - Train Units
-      - Upgrade Range
-      - Upgrade Unit
-      - Claim Objectives
-      - Fleets
-        - Create
-        - Transfer
-        - Send
-        - Recall
-        - Attack
-        - Stance
-    - [Subsystems](./project-structure/subsystems)
-      - Claim Resources
-      - Claim Units
-  - [Hooks](./project-structure/hooks)
-    - Table Hooks
-    - System Hooks
+## Solidity Generation
+
+### Prototypes
+
+Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templates, we have developed a prototype generation method that converts a JSON object into a [Foundry script](https://book.getfoundry.sh/tutorials/solidity-scripting) that is executed upon world deployment.
+This speeds up our game design iteration speed as compared to writing the same scripts in Solidity.
+
+#### An Example
+
+The following JSON object for the configuration of the marketplace
+
+```json
+  MarketplaceConfig: {
+    keys: [],
+    tables: {
+      P_MarketplaceConfig: {
+        feeThousandths: 3n,
+        lock: false,
+      },
+    },
+  }
+```
+
+Is automatically converted into the following Solidity code:
+
+```solidity
+bytes32 constant MarketplaceConfigPrototypeId = "MarketplaceConfig";
+
+function MarketplaceConfigPrototype(IStore store) {
+  bytes32[] memory keys = MarketplaceConfigKeys();
+  ResourceId[] memory tableIds = new ResourceId[](1);
+  bytes[] memory staticData = new bytes[](1);
+  PackedCounter[] memory encodedLengths = new PackedCounter[](1);
+  bytes[] memory dynamicData = new bytes[](1);
+
+  tableIds[0] = P_MarketplaceConfigTableId;
+
+  (staticData[0], encodedLengths[0], dynamicData[0]) = P_MarketplaceConfig.encode(3, false);
+
+  for (uint256 i = 0; i < tableIds.length; i++) {
+    ResourceId tableId = tableIds[i];
+    store.setRecord(tableId, key, staticData[i], encodedLengths[i], dynamicData[i]);
+  }
+}
+```
+
+### Terrain
+
+Primodium is played on a 2-dimensional map.
+To ease the process of map design, we have also created a terrain generation script that converts a csv file containing locations of resources into a solidity script which is also run on world deployment.
+
+## Subsystems and Hooks
+
+Primodium has a large amount of complex logic.
+[The limitiation on smart contract size](https://eips.ethereum.org/EIPS/eip-170) has blocked our ability to add key features.
+
+Mud currently doesn't allow public library functions, which is the standard way to avoid `contract size too big` errors.
+Our solution is subsystems, which are world systems only accessible internally.
+This allows us to split code into subsystems without exposing functionality to malicious actors.
+
+We call subsystems that are frequently called before or after our systems 'hooks'. The most common hook is the `claimResources` subsystem, which updates resource counts to their up-to-date values.
