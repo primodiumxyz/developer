@@ -1,0 +1,30 @@
+# Account Authorization
+
+## Why?
+
+Players should be able to play Primodium with their web3 identity, typically an account linked to ENS and stored in a high-security wallet like Metamask, Rainbow, or Ledger. But when a player wants to execute a transaction with this wallet, they face multiple steps of transaction confirmation, which makes gameplay laborious.
+
+Using MUD's integrated [callFrom](https://mud.dev/world/systems#calling-systems), we let players play with their account without needing to confirm every transaction. This is done by authorizing a locally stored session account to execute transactions on behalf of the player.
+
+## How to Authorize a Session Account
+
+_Note that upon spawning players automatically authorize a session account._
+
+1. Click the `MANAGE` button in the Account Widget
+
+   <img src="/authorize/authorize1.png" width="600" />
+
+2. Click the button to authorize a randomly generated session account. Its private key will be stored in the browser's local storage.
+   <img src="/authorize/authorize2.png" width="600" />
+3. Confirm with Metamask
+
+<img src="/authorize/authorize3.png" width="300" />
+
+4. You are now able to send transactions without confirming each time!
+   <img src="/authorize/authorize4.png" width="600" />
+
+## How does it work?
+
+When you authorize an account, you grant permission for it to perform transactions for you. When an authorized account calls the `callFrom` function, the MUD system being accessed will run using the player account as the msg.sender. (This is possible because MUD uses an abstracted `msgSender()` instead of the default Solidity `msg.sender`).
+
+Once the player account revokes authorization access, the session wallet can no longer use `callFrom` to impersonate the player.
