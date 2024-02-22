@@ -25,6 +25,8 @@ structure and how to interact with the World.
     system has already been deployed on the chain and used in another
     namespace, you can use the same system! ([Don't forget](./extension-footguns.mdx) that systems are only
     safe if they are stateless!)
+    - Systems can be set as either public or private. Public systems can be called by anyone, while private systems
+    can only be called by those with namespace access/admin or those who are given system access.
 4. Register functions from your systems
     - Functions are tied to the namespace, so you need to register each function
     so that it is accessible through the World.
@@ -80,10 +82,52 @@ stopping Alice from revoking the delegation before the 3 days pass.
 
 ## Suggested Extension Patterns
 
-### P2P Agreements
+The generic approach that we are suggesting for most cases is:
+- Highly restricting namespace access/admin
+- Using system access to gate access to sensitive private systems and their functions
+- If user delegation is needed, having users delegate to the systems so that systems can only act on their behalf under specified system logic
+    - If a user were to delegate directly to another user, the delegatee is not bound by any additional logic
+
+
+### Private P2P Agreements
+
+Admin:
+1. Complete the [necessary steps](./extension-structure#registering-all-world-extensions) to register your namespace, tables, systems, and functions
+    - Make systems default private unless otherwise necessary
+2. Give system access to agreement partners
+3. Transfer namespace ownership to timelock, multisig, or burn address
+
+All members:
+1. Necessary people give bounded delegation to the systems that require it (don't forget delegation [footguns](./extension-footguns.mdx))
+2. Members execute agreements via system calls
+
+### Open Public Agreements
+
+Admin:
+1. Complete the [necessary steps](./extension-structure#registering-all-world-extensions) to register your namespace, tables, systems, and functions
+    - Make the necessary systems publicly accessible
+2. Transfer namespace ownership to timelock, multisig, or burn address
+
+All members:
+1. Necessary people give bounded delegation to the systems that require it (don't forget delegation [footguns](./extension-footguns.mdx))
+2. Members execute agreements via system calls
 
 
 ### Alliances
 
+Admin:
+1. Complete the [necessary steps](./extension-structure#registering-all-world-extensions) to register your namespace, tables, systems, and functions
+    - Make systems default private unless otherwise necessary
+    - One system should be an alliance membership system
+2. Transfer namespace ownership to a multisig or alliance management system
 
+All members:
+1. Members register themselves in the alliance membership system
+2. Necessary people give bounded delegation to the systems that require it (don't forget delegation [footguns](./extension-footguns.mdx))
+3. Members execute alliance systems via system calls
 
+### Opt-in Physics 
+
+E.g. new ships, resources, etc.
+
+Likely not yet ready due to the lack of [credibly committed delegations](./extension-footguns.mdx).

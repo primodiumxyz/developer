@@ -1,7 +1,7 @@
 # World Extension Footguns & FAQ
 
 1. System names are limited to 16 bytes, anything beyond that will be truncated.
-    - If there are multiple systems with the same name (due to truncation), your systems may experience out-of-bound behavior.
+    - If there are multiple systems with the same name (due to truncation), your systems may experience divergent behavior.
 2. Namespace names are limited to 14 bytes, anything beyond that will be truncated.
 3. Systems should be stateless! If you need to store state, use a table in the namespace.
 If you do not follow this convention, adversaries may be able to exploit your system.
