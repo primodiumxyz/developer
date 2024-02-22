@@ -12,25 +12,25 @@ To access the hacker console, go to general settings and toggle the switch that 
 
 ## Reading Data
 
-There are a few ways to read data from the game.
+There are a few data sources in the hacker console: `priPlayerAccount`, `priComponents`, `priUtils`, and `priConstants`.
 
-### Player Account
+### `priPlayerAccount:` Player Account
 
 Use the player account to see your wallet address, delegate address and private key, and world address. It also includes information about the wagmi client.
 
-### Components
+### `priComponents`: Components
 
 Components store game data. Use them to grab pertinent information quickly.
 
-- **get**: Retrieve a value by providing an entity, which is a hex string.
-- **getWithKeys**: Fetch a component using raw keys that match the component's schema.
-- **getAll**: Obtain all values of a specific component.
-- **getAllWith**: Retrieve all entities of a component that have a specified value.
-- **getAllWithout**: Fetch all entities of a component that do not have a specified value.
-- **has**: Check if an entity has a specific component.
-- **hasWithKeys**: Verify if an entity has a component with given keys.
+- **get** - Retrieve a value by providing an entity, which is a hex string.
+- **getWithKeys** - Fetch a component using raw keys that match the component's schema.
+- **getAll** - Obtain all values of a specific component.
+- **getAllWith** - Retrieve all entities of a component that have a specified value.
+- **getAllWithout** - Fetch all entities of a component that do not have a specified value.
+- **has** - Check if an entity has a specific component.
+- **hasWithKeys** - Verify if an entity has a component with given keys.
 
-### Utilities
+### `priUtils`: Utilities
 
 There are a range of utilties that make it easy to fetch complex data from components. Some potentially helpful utilities include:
 
@@ -41,20 +41,74 @@ There are a range of utilties that make it easy to fetch complex data from compo
 
 Use these utilities and the others in the hacker pane to craft advanced strategies and have the edge on the opposition.
 
-## Calling Contract Systems
+## `priContractCalls`: Calling Contract Systems
 
-The console allows direct interaction with contract functions, enabling advanced game mechanics and world interactions:
+The console allows direct interaction with contract functions, enabling advanced game mechanics and world interactions.
 
-## Accessing Utilities
+#### Access control
 
-Utility functions provide helpful shortcuts and tools for common tasks and calculations within the game:
+- **grantAccess** - Grants access to a delegate account.
+- **switchDelegate** - Switches the delegation for this session.
+- **revokeAccess** - Revokes previously granted delegated account.
+- **revokeAllAccess** - Revokes all access from all delegates.
 
-- **priUtils**: A collection of utility functions to simplify common tasks.
-- **calcDims**: Calculate the dimensions of a building, useful for planning and optimization.
-- **relCoordToAbs**: Convert relative coordinates to absolute, aiding in navigation and positioning.
-- **entityToColor**, **entityToPlayerName**, **entityToRockName**: Convert game entities to various representations like color or names for easier identification.
+#### Alliance management
 
-### Constants
+- **createAlliance** - Creates a new alliance.
+
+- **leaveAlliance** - Leaves the current alliance.
+
+- **joinAlliance** - Joins an existing alliance.
+
+- **declineInvite** - Declines an invitation to join an alliance.
+
+- **requestToJoin** - Requests to join an alliance.
+
+- **kickPlayer** - Removes a player from the alliance.
+
+- **grantRole** - Grants a role within the alliance.
+
+- **acceptJoinRequest** - Accepts a player's request to join the alliance.
+
+- **rejectJoinRequest** - Rejects a player's request to join the alliance.
+
+- **invite** - Invites a player to join the alliance.
+
+#### Building management
+
+- **buildBuilding** - Initiates the construction of a building.
+
+- **demolishBuilding** - Demolishes a building.
+
+- **upgradeBuilding** - Upgrades a building.
+
+- **moveBuilding** - Moves a building to a new location.
+
+- **toggleBuilding** - Toggles a building's active state.
+
+#### Fleet management
+
+- **disbandFleet** - Disbands a fleet and sets its owner to its current destination.
+- **landFleet** - Lands a fleet on the current destination.
+- **setFleetStance** - Sets a fleet's stance to either defending its current asteroid or blocking.
+- **clearFleetStance** - Removes a fleet's stance, allowing it to attack and move.
+- **transferFleet** - Transfer units and resources from one fleet to its current asteroid or another fleet orbiting the same asteroid.
+
+#### Military actions
+
+- **claimObjective** - Claims an objective.
+
+- **claimUnits** - Claims units.
+
+- **sendFleet** - Sends fleet
+
+- **train** - Trains units.
+
+- **upgradeRange** - Upgrades the range of a building or unit.
+
+- **upgradeUnit** - Upgrades a unit.
+
+## `priConstants`: Constants
 
 Use constants and enums to convert the names of elements into indicies and entities. Constants include
 
@@ -63,5 +117,3 @@ Use constants and enums to convert the names of elements into indicies and entit
 - **EnumLookup/EntityLookup** Use lookups to convert between raw entity IDs and their corresponding enumerated values, used primary with resources in smart contracts.
 
 Each of these functions can be accessed through the hacker console, providing players with a versatile toolset for exploring and interacting with the game's underlying systems.
-
-# GOOD LUCK!
