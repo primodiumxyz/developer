@@ -94,12 +94,7 @@ Primodium systems can also be called from the CLI with the publicly-available AB
 
 ## Subsystems
 
-Subsystems in Primodium are created for reusable logic that can be called by multiple systems, prefixed by `S_`. There are two subsystems in the Primodium contracts:
-
-- `S_BattleSystem`: Initiates and updates battles between players.
-- `S_SpawnPirateAsteroidSystem`: Spawns a pirate asteroid around a player's asteroid.
-
-While all systems can be directly called externally, Primodium subsystems are written to be called by other systems, and are not intended to be called directly by the `World` contract. This is to ensure that the subsystems are only called in the context of a system that has been delegated control of an asteroid by the owner.
+Subsystems in Primodium are created for reusable logic that can be called by multiple systems, prefixed by `S_`. While all systems can be directly called externally, Primodium subsystems are written to be called by other systems, and are not intended to be called directly by the `World` contract. This is to ensure that the subsystems are only called in the context of a system that has been delegated control of an asteroid by the owner.
 
 The following is an example of a system calling the `S_BattleSystem` subsystem via the `SystemCall` MUD `SystemCallcallWithHooksOrRevert` API defined [here](https://github.com/latticexyz/mud/blob/main/packages/world/src/SystemCall.sol#L123).
 
