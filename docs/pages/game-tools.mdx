@@ -2,9 +2,7 @@
 
 **MUD Game Tools** is a collection of tools for game developers to interact with MUD-complicant smart contract state via a react component sidebar. It supports custom cheat codes and a table editor.
 
-TODO for Hank: Add better screenshot once CSS and editor are updated.
-
-![Screenshot](../public/mud-game-tools.png)
+![Screenshot](../public/game-tools-cheatcodes.png)
 
 ## Installation
 
@@ -15,3 +13,61 @@ pnpm install @primodiumxyz/mud-game-tools
 ```
 
 The source is released under the MIT License [here](https://github.com/primodiumxyz/mud-game-tools). See its corresponding [`README.md`](https://github.com/primodiumxyz/mud-game-tools/blob/main/README.md) for more information.
+
+### Browser
+
+To integate the development browser, add the following to your file:
+
+```jsx
+import { Browser } from "mud-game-tools";
+<Browser
+  layers={{ react: { world, components: mud.components } }}
+  world={world}
+/>;
+```
+
+### CheatcodesList
+
+To add the Cheatcodes list to the browser, create a Cheatcodes object with the following interface:
+
+```jsx
+export type Cheatcodes = Record<string, Cheatcode>;
+
+// NOTE: the params field must match the names and types of function arguments
+export type Cheatcode = {
+  function: (...args: any[]) => any,
+  params: { name: string, type: "number" | "string" | "boolean" }[],
+};
+```
+
+To use it, add the cheatcodes as a parameter to the Browser:
+
+```jsx
+import { Browser } from "mud-game-tools";
+<Browser
+  layers={{ react: { world, components: mud.components } }}
+  world={world}
+  cheatcodes={cheatcodes}
+/>;
+```
+
+Access via the browser's `Cheatcodes` tab.
+
+![Screenshot](../public/game-tools-cheatcodes.png)
+
+### Editor
+
+Access via the browser's `Editor` tab. This allows you to:
+
+- View game state
+- Modify components
+- Execute queries
+
+![Screenshot](../public/game-tools-editor.png)
+
+## Development
+
+1. Run the local development server:
+   ```bash
+   pnpm run dev
+   ```
