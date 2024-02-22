@@ -7,11 +7,11 @@
     "type": "separator"
   },
   "project-structure": "Project Structure",
-  "client-hacker-console": "Client Hacker Console",
-  "delegation": "Contract Delegation",
+
+  "game-client": "Game Client",
 
   "extensions": {
-    "title": "Extensions",
+    "title": "Contract Extensions",
     "type": "separator"
   },
   "setup": "Setup",
