@@ -4,16 +4,6 @@ Source code for the following examples are available [here](https://github.com/p
 
 The following are example plugins that can be deployed alongside the existing Primodium world contracts.
 
-## Framework for Plugins
-
-- Base world must have a delegation module installed (ex: MUD's existing `StandardDelegationsModule.sol`)
-- A plugin with maximum customizability requires new namespaces and systems
-- General flow involves delegating control of a base system to a private system in a new namespace, then giving others access to the namespace
-
-![Initialization](../public/Initialization.png)
-
-![DelegatedAccess](../public/DelegatedAccess.png)
-
 ### building-upgrade-bounty
 
 A world extension that enables the deployer to issue a private bounty for an outside party
@@ -26,8 +16,8 @@ upgrade bounty and delegate the upgrade to another player, Bob, in exchange for 
 
 - Alice deploys and registers namespace and private systems for extending game logic
 - Alice delegates UpgradeBuildingSystem control to the private system
-- Alice deposits escrow (ETH) for the bounty in the private system
 - Alice registers namespace access to Bob, Charlie, etc. to enable their participation in the bounty
+- Alice deposits escrow (ETH) for the bounty in the private system
 - Bob calls the private system to upgrade Alice's building
 - Bob receives the bounty reward from the private system
 
@@ -43,11 +33,11 @@ upgrade bounty and delegate the upgrade to another player, Bob, in exchange for 
 - Alliance taxes
 - Enable alliance to manage your asteroids
 - Create and enforce borders across the galaxy
-- Create additional fleet units with custom assets
-- bounty hunting
+- Create new fleet units with custom assets
+- Bounty hunting
 - Mercenary-for-hire AMM/marketplace for borrowing fleets
 - Alternative battle mechanics (ex: rock-paper-scissors)
-- mineral rights for asteroids
+- Mineral rights for asteroids
 - Ajna-style lending and borrowing
-- "space weather" that affects resource accumulation
-- "space weather" that affects battle mechanics
+- "Space weather" that affects resource accumulation
+- "Space weather" that affects battle mechanics

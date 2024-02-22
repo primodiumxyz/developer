@@ -16,7 +16,16 @@ eth_rpc_url = "https://primodium-sepolia.rpc.caldera.xyz/http"
 chain_id = 10017
 ```
 
-TODO for Cometshock: add instructions for specifying the Primodium World Address.
+If you haven't already, set the Primodium world address for the following locations:
+1. Set the `WORLD_ADDRESS` in your `.env` file and to the live Primodium world contract address.
+1. Set the `worlds.json` file to the following "10017" chainID and substitute in the world address:
+```json copy
+{
+  "10017": {
+    "address": "PRIMODIUM_WORLD_ADDRESS_HERE"
+  }
+}
+```
 
 ## Links
 

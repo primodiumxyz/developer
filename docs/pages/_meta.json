@@ -15,9 +15,9 @@
     "type": "separator"
   },
   "world-extension": "Intro",
+  "setup": "Setup",
   "extension-structure": "Extension Structure",
   "examples": "Examples",
-  "setup": "Setup",
   "testing": "Testing",
   "deploy-extension": "Deploy",
   "extension-footguns": "Footguns",
