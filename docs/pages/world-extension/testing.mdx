@@ -1,14 +1,12 @@
 # Testing Your World Extension
 
-Given that the Primodium core contracts are not yet released as
-open source (coming soon!), there are limited methods for testing
-your world extension at this time. Currently the best way to test
-your world extension is by forking the Primodium live testnet using
-Foundry.
+Since the Primodium core contracts are not open source yet (coming soon!), there are limited methods for testing
+your world extensions at this time. Currently, the best way is to fork the Primodium live testnet using
+[Foundry](https://github.com/foundry-rs/foundry).
 
 ### Forking the Primodium Testnet
 
-You can use [Foundry](https://github.com/foundry-rs/foundry) to [fork](https://book.getfoundry.sh/cheatcodes/create-select-fork)
+You can use Foundry to [fork](https://book.getfoundry.sh/cheatcodes/create-select-fork)
 the Primodium testnet to use for your own internal testing prior to deploying your world
 extension to the live Primodium testnet.
 
@@ -16,4 +14,4 @@ extension to the live Primodium testnet.
 function createSelectFork(string calldata urlOrAlias) external returns (uint256);
 ```
 
-As also seen in [Deploy Extension](./deploy-extension.mdx), the current Primodium testnet URL is `https://primodium-sepolia.rpc.caldera.xyz/http`.
+As also seen in the [deploy extension guide](./deploy.mdx), the current Primodium testnet URL is `https://primodium-sepolia.rpc.caldera.xyz/http`.
