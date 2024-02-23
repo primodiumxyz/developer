@@ -1,27 +1,26 @@
 # Setup Your World Extension
 
-Primodium is a fully onchain application with a supported set of delegation and extension methods for 
-player world extensions. Our contracts are built and compliant with the open-source [MUD standard](https://www.mud.dev) 
-for large-scale Ethereum applications.
+Because all Primodium contracts are built and compliant with the open [MUD standard](https://www.mud.dev) for large-scale Ethereum applications, all smart contracts that interface directly with the Primodium world contract should also implement the open MUD standard for a better developer experience.
 
 ## Initialize
 
-All smart contracts that interface directly with the Primodium world contract should also implement the MUD standard
-for better DevEx. To start developing with Primodium, you will need to create a MUD project.
+To start developing with Primodium, you will need to create a MUD project.
 
 1. Ensure you have [`node`](https://nodejs.org/en/download/package-manager#macos), [`pnpm`](https://pnpm.io/installation) and [`foundry`](https://getfoundry.sh/) installed.
 1. Complete the [MUD world extension tutorial](https://mud.dev/guides/extending-a-world).
-1. Use the following command at the root of your project to initialize your extension's 
-MUD version to the same as Primodium's MUD version:
+1. Use the following command at the root of your project to initialize your extension's
+   MUD version to the same as Primodium's MUD version:
 
 ```bash copy
 pnpm mud set-version --version 2.0.0-main-9ef3f9a7 && pnpm i && pnpm build
 ```
+
 4. Any time you have used the `<namespace>__<function>` pattern in your code, replace it with the
- `<namespace>_<system>_<function>` pattern.
+   `<namespace>_<system>_<function>` pattern.
    - This is due to our current MUD version being slightly older than the extension tutorial's MUD version.
 5. Set the `WORLD_ADDRESS` in your `.env` file and to the live Primodium world contract address.
-6. Set the `worlds.json` file to the following "10017" chainID and substitute in the world address:
+6. Set the `worlds.json` file to the following `10017` chainID and substitute in the world address:
+
 ```json copy
 {
   "10017": {

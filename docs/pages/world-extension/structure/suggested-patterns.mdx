@@ -1,0 +1,54 @@
+# Suggested Extension Patterns
+
+The generic approach that we are suggesting for most cases is:
+
+- Highly restricting namespace access/admin.
+- Using system access to gate access to sensitive private systems and their functions.
+- If user delegation is needed, having users delegate to the systems so that systems can only act on their behalf under specified system logic.
+  - If a user were to delegate directly to another user, the delegatee is not bound by any additional logic.
+
+See extension [examples](../examples.mdx) for an implementation of the following patterns and further diagrams.
+
+## Private P2P Agreements
+
+### Admin:
+
+1. Complete the [necessary steps](../structure.mdx#registering-all-world-extensions) to register your namespace, tables, systems, and functions. Make systems **default private** unless otherwise necessary.
+2. Give system access to agreement partners.
+3. Transfer namespace ownership to timelock, multisig, or burn address.
+
+### All members:
+
+1. Necessary people give bounded delegation to the systems that require it (don't forget delegation [footguns](../footguns.mdx)).
+2. Members execute agreements via system calls.
+
+## Open Public Agreements
+
+### Admin:
+
+1. Complete the [necessary steps](../extension-structure#registering-all-world-extensions) to register your namespace, tables, systems, and functions. Make the necessary systems **publicly accessible**.
+2. Transfer namespace ownership to timelock, multisig, or burn address.
+
+### All members:
+
+1. Necessary people give bounded delegation to the systems that require it (don't forget delegation [footguns](../footguns.mdx)).
+2. Members execute agreements via system calls.
+
+## Alliances
+
+### Admin:
+
+1. Complete the [necessary steps](../extension-structure#registering-all-world-extensions) to register your namespace, tables, systems, and functions.
+   - Make systems default private unless otherwise necessary.
+   - One system should be an alliance membership system.
+2. Transfer namespace ownership to a multisig or alliance management system.
+
+### All members:
+
+1. Members register themselves in the alliance membership system.
+2. Necessary people give bounded delegation to the systems that require it (don't forget delegation [footguns](../footguns.mdx)).
+3. Members execute alliance systems via system calls.
+
+## Opt-in Physics
+
+For example, creating new ships, resources, etc. These patterns are likely not yet ready due to the lack of [credibly committed delegations](../footguns.mdx). Let us know if you find a possible use case!

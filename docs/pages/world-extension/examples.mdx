@@ -1,43 +1,30 @@
-# World Extension Examples
+# World Extension Example
 
 Source code for the following example is available [here](https://github.com/primodiumxyz/developers/tree/main/examples/).
 
-## building-upgrade-bounty
+## Building Upgrade Bounty
 
-A world extension that enables the deployer to issue a private bounty for an outside party
+**`building-upgrade-bounty`** is a world extension that enables the deployer to issue a private bounty for an outside party
 to upgrade the deployer's building on their behalf, in exchange for a reward.
 
 Building upgrades cost resources, and it takes time to accumulate the necessary resources.
 There are some advantages of accelerating resource accumulation when you upgrade a building as soon as possible.
-If Alice is going to be AFK and doesn't want to manage running a bot, she can create a building
-upgrade bounty and delegate the upgrade to another player, Bob, in exchange for a small reward.
+
+Let's look at two players, Alice and Bob. If Alice is going to be AFK and doesn't want to manage running a bot, she can create a building upgrade bounty and delegate the upgrade to another player, Bob, in exchange for a small reward.
 
 - Alice deploys and registers namespace and private systems for extending game logic
-- Alice delegates UpgradeBuildingSystem control to the private system
+- Alice delegates `UpgradeBuildingSystem` control to the private system
 - Alice registers namespace access to Bob, Charlie, etc. to enable their participation in the bounty
 - Alice deposits escrow (ETH) for the bounty in the private system
 - Bob calls the private system to upgrade Alice's building
 - Bob receives the bounty reward from the private system
 
-## More Plugin Ideas
+## Diagrams
 
-The following are more plugin ideas that can be deployed alongside the existing Primodium world contracts.
+For the above example, the delegation flow begins with Alice delegating the `UpgradeBuildingSystem` control to the private system and then registering namespace access to Bob.
 
-- Create a new poker game using existing Primodium resources, with the plugin serving as an escrow and systems for transferring resources
-- Casinos and space pirate raids of the casinos
-- Local trading posts
-- Escorts for trade ships
-- Trade ship insurance
-- Lock-in non-aggression pacts
-- Sophisticated Alliances
-- Alliance taxes
-- Enable alliance to manage your asteroids
-- Create and enforce borders across the galaxy
-- Create new fleet units with custom assets
-- Bounty hunting
-- Mercenary-for-hire AMM/marketplace for borrowing fleets
-- Alternative battle mechanics (ex: rock-paper-scissors)
-- Mineral rights for asteroids
-- Ajna-style lending and borrowing
-- "Space weather" that affects resource accumulation
-- "Space weather" that affects battle mechanics
+![Alice delegates](../../public/delegation/delegate-alice.svg)
+
+Then, Bob calls the private system to upgrade Alice's building through the external system in the external namespace.
+
+![Bob calls](../../public/delegation/delegate-bob.svg)

@@ -1,8 +1,8 @@
-# MUD State Tools
+# Primodium MUD State Tools
 
-**MUD State Tools** is a off-chain indexer implementation compliant with the [MUD standard](https://mud.dev/). Instead of fetching state directly from MUD-compliant contracts, this package suite always assumes the availability of a schemaful Postgres database that contains MUD-compliant state with no RPC fallback.
+**MUD State Tools** is a off-chain indexer implementation compliant with the open [MUD standard](https://mud.dev/). Instead of fetching state directly from MUD-compliant contracts, this package suite always assumes the availability of a schemaful Postgres database that contains MUD-compliant state with no RPC fallback.
 
-All game state Primodium is stored fully on-chain within smart contracts structured around the MUD standard. While state can be entirely fetched from an Ethereum node for the chain that Primodium is deployed on, the state cannot be efficiently queried. For context, in `v0.10.0`, querying the full state of the two-month-long round directly from the node via an RPC endpoint could take upwards of an hour.
+All game state Primodium is stored fully on-chain within smart contracts structured around the open MUD standard. While state can be entirely fetched from an Ethereum node for the chain that Primodium is deployed on, the state cannot be efficiently queried. For context, in `v0.10.0`, querying the full state of the two-month-long round directly from the node via an RPC endpoint could take upwards of an hour.
 
 Previous versions of Primodium used a hosted [off-chain indexer](https://mud.dev/services/indexer) implemented by Lattice. Since state in Primodium is global across all players instead of round-based, initializing the Primodium client requires fetching the entire state from the off-chain indexer.
 
@@ -21,7 +21,7 @@ The latest version of Primodium implements this off-chain indexer to address the
 
 See the [Github Container Registry](https://github.com/primodiumxyz/mud-state-tools/pkgs/container/pg-indexer-reader) for the latest Docker builds of `@primodiumxyz/pg-indexer-read`.
 
-Additionally, `@primodiumxyz/pg-indexer-read` requires an existing schemaful Postgres database that conforms to the MUD standard in production. Therefore, this package is best paired with the [`postgres-indexer`](https://mud.dev/services/indexer#schemaful-indexing-with-postgresql-via-npx) in `@latticexyz/store-indexer`, with its latest Docker builds available [here](https://github.com/latticexyz/mud/pkgs/container/store-indexer).
+Additionally, `@primodiumxyz/pg-indexer-read` requires an existing schemaful Postgres database that conforms to the open MUD standard in production. Therefore, this package is best paired with the [`postgres-indexer`](https://mud.dev/services/indexer#schemaful-indexing-with-postgresql-via-npx) in `@latticexyz/store-indexer`, with its latest Docker builds available [here](https://github.com/latticexyz/mud/pkgs/container/store-indexer).
 
 The following is a sample YAML deployment of the above indexer architecture.
 

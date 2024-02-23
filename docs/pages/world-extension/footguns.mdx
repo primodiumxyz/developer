@@ -1,19 +1,21 @@
 # World Extension Footguns & FAQ
 
-- System names are limited to 16 bytes, anything beyond that will be truncated.
-    - If there are multiple systems with the same registered name (due to truncation), your systems may experience divergent behavior.
-- Namespace names are limited to 14 bytes, anything beyond that will be truncated.
+- System names are limited to 16 bytes; anything beyond that will be truncated.
+  - If there are multiple systems with the same registered name (due to truncation), your systems may experience divergent behavior.
+- Namespace names are limited to 14 bytes; anything beyond that will be truncated.
 - Systems should be stateless! If you need to store state, use a table in the namespace.
-If you do not follow this convention, adversaries may be able to exploit your system.
+  If you do not follow this convention, adversaries may be able to exploit your system.
 - Delegation in its current form can be revoked by the delegator
-at any time. A future release will include credibly committed delegations that can
-only be revoked under specific conditions.
-- System access gives someone the ability to call *any* function in the system. If this is undesirable, either use proper
-checks in your functions or break apart your system into multiple systems.
-- If something in MUD isn't working properly, double check that your MUD version is set to "2.0.0-main-9ef3f9a7". 
-If not, run the following command in the root of your directory:
+  at any time. A future release will include credibly committed delegations that can
+  only be revoked under specific conditions.
+- System access gives someone the ability to call _any_ function in the system. If this is undesirable, either use proper
+  checks in your functions or break apart your system into multiple systems.
+- If something in MUD isn't working properly, double check that your MUD version is set to `2.0.0-main-9ef3f9a7`.
+  If not, run the following command in the root of your directory:
+
 ```bash copy
 pnpm mud set-version --version 2.0.0-main-9ef3f9a7 && pnpm i && pnpm build
 ```
+
 - If you recently changed some configuration, double check that you have run `pnpm i` and `pnpm build` in the root of your directory.
 - Any time you have used the `<namespace>__<function>` pattern from a MUD example, replace it with the `<namespace>_<system>_<function>` pattern.

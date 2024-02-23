@@ -1,11 +1,9 @@
 # Primodium World Extensions
 
-World Extension is a concept [introduced by MUDv2](https://mud.dev/guides/extending-a-world) to allow third parties
-to extend the world with new commands, logic, and data while still
-being subject to the same rules and restrictions (aka onchain physics)
-as the core game.
+Primodium supports a set of delegation and extension methods for user-generated extensions.
 
-If this is a confusing concept, you can think of World Extension
-as "Contract Plugins" to the Primodium world.
+**World extension** is a concept introduced by [MUD](https://mud.dev/guides/extending-a-world) that allows third parties to extend a core world contract with new commands, logic, and data while still being subject to the same rules and restrictions (aka on-chain physics) as the core game.
 
-[insert namespace and world diagram here, TBD]
+If this is a confusing concept, you can think of World Extension as "Contract Plugins" to the Primodium world. These extensions occupy an extended namespace separate from the core namespace, whose systems can interact with Primodium systems after [delegation](./world-extension/structure/delegation.mdx).
+
+![Delegation Diagram](../public/delegation/delegation.svg)
