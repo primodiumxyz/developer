@@ -1,9 +1,19 @@
-# Primodium v0.11.0
+# Primodium v0.10.0
 
-[Play Primodium](https://www.primodium.com)
+[**Play Primodium on testnet**](https://www.primodium.com)
 
-TODO: information on the latest release
+The latest version of Primodium was released on February 29, 2024 on the [Primodium testnet](./world-extension/deploy.mdx) with the address `0x<insert here>`. The compiled source and ABIs are available in the [block explorer](https://primodium-sepolia.explorer.caldera.xyz/address/0x7Bd472fC101d3A7caf3064B7C5788965CB34685F?tab=contract).
 
-The latest version of Primodium was released on January 31, 2024 on the [Primodium Testnet](./deploy) with the address `0x<insert here>`.
+**(TODO: update above when latest version is publicly released)**
 
-The compiled source and ABIs are available in the [Block Explorer](https://primodium-sepolia.explorer.caldera.xyz/address/0x7Bd472fC101d3A7caf3064B7C5788965CB34685F?tab=contract). Official documentation on the ABIs and contract hook structure will be available on the later date.
+## Changelog
+
+v0.10.0 is our biggest update to date. We’ve changed and added the following:
+
+- Motherlode asteroids are now colonizable and buildable.
+- All asteroids have an `Encryption` attribute to them that prevents colonization.
+- Units are now organized into `Fleets`, which are groups of units that stay in orbit.
+- Fleets can be used to attack other fleets in orbit or defend an asteroid from orbit.
+- Added miners for kimberlite, titanium, iridium, and platinum for use on other asteroids.
+- Resources are transferrable between motherlodes and are tied to fleet cargo.
+- You can now build contract-side plugins for player coordination.
