@@ -9,8 +9,12 @@ out in MUD's [StandardDelegationsModule](https://github.com/latticexyz/mud/blob/
 Binding delegations to only the necessary systems, calls, and/or time is a good practice to follow, as it limits the
 surface area of a potentially malicious delegatee.
 
+## Revoking Practices
+
 With delegation, the delegator can revoke access from the delegatee at any point. If delegation is a part of
 an agreement with an outside party, the agreement should be carefully structured such that it is not heavily
-dependent on the delegation to remain in the future! For now this is a [footgun](../footguns.mdx), but a future release will include credibly committed delegations that can only be revoked under specific conditions.
+dependent on the delegation to remain in the future!
 
-Ex: Bob and Alice have an agreement where Bob gives Alice 10 gold today, and Alice delegates Bob the right to pull 30 gold from Alice a minimum of 3 days from now. Even if Alice delegated to Bob or a system to manage the agreement, there is nothing stopping Alice from revoking the delegation before the 3 days pass.
+For example, suppose we have two Primodium players named Alice and Bob. Bob and Alice have an agreement where Bob gives Alice 10 gold today, and Alice delegates Bob the right to pull 30 gold from Alice a minimum of 3 days from now. Even if Alice delegated to Bob or a system to manage the agreement, there is nothing stopping Alice from revoking the delegation before the 3 days pass.
+
+While this is currently a [footgun](../footguns.mdx), but a future release will include credibly committed delegations that can only be revoked under specific conditions.
