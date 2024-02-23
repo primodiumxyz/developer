@@ -1,10 +1,10 @@
 # Hacker Console
 
-The hacker console is a tool that enables players to interact directly with the client game's data and functionality.
+The **hacker console** included in the Primodium client is a tool that enables players to interact directly with the client game's data and functionality.
 
 ![HackerConsole](../../public/hacker-console.png)
 
-## How to access
+## Access
 
 To access the hacker console, go to general settings and toggle the switch that reads `PRESS ~ TO OPEN HACKER PANE`. Now when you press `~` the hacker console opens. Press `~` again to close it.
 
@@ -16,7 +16,7 @@ There are a few data sources in the hacker console: `priPlayerAccount`, `priComp
 
 ### `priPlayerAccount:` Player Account
 
-Use the player account to see your wallet address, delegate address and private key, and world address. It also includes information about the wagmi client.
+Use the player account to see your wallet address, delegate address and private key, and world address. It also includes information about the [wagmi](https://github.com/wevm/wagmi) client use for connecting external wallets in the client.
 
 ### `priComponents`: Components
 
@@ -32,7 +32,7 @@ Components store game data. Use them to grab pertinent information quickly.
 
 ### `priUtils`: Utilities
 
-There are a range of utilties that make it easy to fetch complex data from components. Some potentially helpful utilities include:
+There are a range of utilities that make it easy to fetch complex data from components. Some potentially helpful utilities include:
 
 - **getFullResourceCount(spaceRockEntity, resource)** - Get the current resource count of some resource on an asteroid
 - **getUnitStats(unitEntity, spaceRockEntity)** - See relevant stats about a unit

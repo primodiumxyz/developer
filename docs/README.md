@@ -4,12 +4,9 @@ Primodium developer docs for plugin and asset builders.
 
 ## Local Development
 
-First, run `pnpm i` to install the dependencies. Then, run `pnpm dev` to start the development server and visit localhost:3000.
-
-## TODO
-
-- Custom theme with Primodium font `@fontsource/space-mono`
-- Component templates with Primodium headers instead of boilerplate Nextra
+- `pnpm i` to install dependencies.
+- `pnpm dev` to start the development server.
+- Visit [http://localhost:3000](http://localhost:3000).
 
 ## Credits
 
