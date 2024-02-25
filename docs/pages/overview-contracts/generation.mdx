@@ -1,8 +1,8 @@
 # Prototype Generation Example
 
-Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templates, we developed a prototype generation method that converts a JSON object into a [Foundry script](https://book.getfoundry.sh/tutorials/solidity-scripting) that is executed upon world deployment. Our scripts increases our iteration speed compared to re-writing Solidity scripts during our design and balancing process.
+**Prototype Generation** is Primodium's internal process for populating [prototype tables](./tables.mdx#prototype-tables) with game configuration data. During our game design and balancing processes, we needed to frequently change game data such as resource prices, building costs, and ore distribution.
 
-This page describing an example workflow used internally for creating a new ore distribution map and writing to a terrain [prototype table](./tables.mdx#prototype-tables).
+Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templates, we developed internal scripts to generate [Foundry scripts](https://book.getfoundry.sh/tutorials/solidity-scripting) from JSON objects and CSV files. This allows us to quickly iterate between playtests. This page describing an example workflow used internally for creating a new ore distribution map and writing to a terrain [prototype table](./tables.mdx#prototype-tables).
 
 ## Creating a Terrain Map
 
