@@ -1,0 +1,66 @@
+# Source for Primodium System Interfaces
+
+- [`/contract-source/codegen/world`](https://github.com/primodiumxyz/developers/blob/main/contract-source/codegen/world): Generated Solidity interfaces for each publicly-accessible system.
+
+## Primodium Systems in World Extensions
+
+The example [`building-upgrade-bounty`](../world-extension/examples.mdx) world extension requires a reference to functions in the Primodium `UpgradeBuildingSystem`, which handles building upgrades. This is done as follows:
+
+First, locate the [`IUpgradeBuildingSystem`](https://github.com/primodiumxyz/developers/blob/main/contract-source/codegen/world/IUpgradeBuildingSystem.sol) interface in the `codegen/world` directory. Locate the function signature of the function you want to use, which is `upgradeBuilding()`, and add to both a contract with the same function signature and an interface in the world extension.
+
+```solidity filename="/contract-source/codegen/world/IUpgradeBuildingSystem.sol" showLineNumbers {6}
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.21;
+import { PositionData } from "codegen/index.sol";
+
+interface IUpgradeBuildingSystem {
+  function upgradeBuilding(PositionData memory coord) external returns (bytes32 buildingEntity);
+  // ...
+}
+```
+
+```solidity filename="/contract-source/codegen/world/interfaces.sol" showLineNumbers {5}
+pragma solidity >=0.8.21;
+import { PositionData } from "../codegen/index.sol";
+
+interface WorldWithUpgradeBuilding {
+  function upgradeBuilding(PositionData memory coord) external returns (bytes32 buildingEntity);
+  // ...
+}
+```
+
+Run `pnpm run build` in the `building-upgrade-bounty` world extension.
+
+The `upgradeBuilding()`function in `BuildSystem` can then be called as follows, with `UpgradeBuildingS` being the system ID of the Primodium `UpgradeBuildingSystem` cut off at 16 bytes. See [footguns](../world-extension/footguns.mdx) for more details.
+
+```solidity copy filename="/examples/building-upgrade-bounty/packages/contracts/src/systems/UpgrBounSystem.sol" showLineNumbers {19-25}
+pragma solidity >=0.8.21;
+import { WorldResourceIdLib, ROOT_NAMESPACE } from "@latticexyz/world/src/WorldResourceId.sol";
+import { RESOURCE_SYSTEM } from "@latticexyz/world/src/worldResourceTypes.sol";
+import { IWorldWithUpgradeBuilding } from "../interfaces/IWorldWithUpgradeBuilding.sol";
+
+contract UpgrBounSystem is System {
+  /**
+   * @dev Upgrades the building at the specified coordinate using the bounty published by the given address.
+   * @param bountyPublisherAddress The address of the bounty publisher.
+   * @param coord The coordinate of the building to upgrade.
+   * @return newBuildingEntity The new building entity.
+   */
+  function upgradeForBounty(
+    address bountyPublisherAddress,
+    PositionData memory coord
+  ) public returns (bytes memory newBuildingEntity) {
+    // ...
+    // Call the upgradeBuilding function from the World contract
+    ResourceId upgradeBuildingSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, ROOT_NAMESPACE, "UpgradeBuildingS");
+
+    newBuildingEntity = IWorldWithUpgradeBuilding(_world()).callFrom(
+      bountyPublisherAddress,
+      upgradeBuildingSystemId,
+      abi.encodeWithSignature("upgradeBuilding((int32,int32,bytes32))", (coord))
+    );
+    // ...
+  }
+}
+
+```

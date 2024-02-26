@@ -1,0 +1,24 @@
+# Primodium Source
+
+Primodium contracts will be open-sourced in their entirety once the game design and balancing are finalized.
+
+Before then, the source code for Primodium tables and interfaces for systems are available, with their role in developing [world extensions](./world-extension.mdx) described in the following pages.
+
+## Quickstart
+
+Contract [Tables](./overview-contracts/tables.mdx):
+
+- [`/contract-source/codegen/tables`](https://github.com/primodiumxyz/developers/blob/main/contract-source/codegen/tables): Generated Solidity contracts for each table.
+- [`/contract-source/mud.config.ts`](https://github.com/primodiumxyz/developers/blob/main/contract-source/mud.config.ts): Configuration file that defines each table compliant with the open MUD standard.
+
+Contract [Systems](./overview-contracts/systems.mdx):
+
+- [`/contract-source/codegen/world`](https://github.com/primodiumxyz/developers/blob/main/contract-source/codegen/world): Generated Solidity interfaces for each publicly-accessible system.
+
+Contract [Prototype Table](./overview-contracts/./tables.mdx#prototype-tables) Data:
+
+- [`/contract-source/codegen/prototypes/AllPrototype.sol`](https://github.com/primodiumxyz/developers/blob/main/contract-source/codegen/prototypes/AllPrototype.sol): Data populated in prototype tables that store game configuration data such as resource requirements and building costs.
+
+Contract [Scripts](./overview-contracts/generation.mdx):
+
+- [`/contract-source/codegen/scripts/CreateTerrain.sol`](https://github.com/primodiumxyz/developers/blob/main/contract-source/codegen/scripts/CreateTerrain.sol): [Foundry script](https://book.getfoundry.sh/tutorials/solidity-scripting) for populating terrain ore distribution.

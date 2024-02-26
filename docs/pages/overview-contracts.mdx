@@ -1,59 +1,7 @@
 # Primodium Contracts
 
-Primodium contracts conform to the open [MUD standard](https://mud.dev). The entry point of all other contracts is a single [`World`](https://mud.dev/world/introduction) contract, with logic stored in [`System`](https://mud.dev/world/systems) contracts and data stored in [`Table`](https://mud.dev/world/tables) contracts.
+**Primodium contracts** conform to the open [MUD standard](https://mud.dev). The entry point to all smart contracts is a single [**world**](https://mud.dev/world/introduction) contract, with logic stored in [**system**](https://mud.dev/world/systems) contracts and data stored in [**table**](https://mud.dev/world/tables) contracts. The following pages provide a high-level overview of the Primodium contracts and their structure.
 
-Primodium contracts will be open-sourced in their entirety once the design and balancing are finalized. In the meantime, we added supplements to the open MUD standard to improve Primodium's internal design and developer experience. Our commitment to open source means that these improvements will be shared as development progresses.
+In our development process, we also added supplements to the open MUD standard to improve Primodium's internal design and developer experience. Our commitment to open source means that these improvements will be shared as development progresses, such as [Primodium World Extensions](./world-extension.mdx) and [Prototype Generation](./overview-contracts/.mdx) scripts.
 
-The following pages provide a high-level overview of the Primodium contracts and their structure. Below, we provide an improvement to our workflow that allows us to generate Solidity code from JSON objects, which will be open-sourced in a future Primodium round.
-
-## Solidity Generation
-
-### Prototypes
-
-Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templates, we have developed a prototype generation method that converts a JSON object into a [Foundry script](https://book.getfoundry.sh/tutorials/solidity-scripting) that is executed upon world deployment.
-This speeds up our game design iteration speed as compared to writing the same scripts in Solidity.
-
-#### An Example
-
-The following JSON object for the configuration of the marketplace
-
-```ts
-{
-  MarketplaceConfig: {
-    keys: [],
-    tables: {
-      P_MarketplaceConfig: {
-        feeThousandths: 3n,
-        lock: false,
-      },
-    },
-  }
-}
-```
-
-Is automatically converted into the following Solidity code:
-
-```solidity
-bytes32 constant MarketplaceConfigPrototypeId = "MarketplaceConfig";
-
-function MarketplaceConfigPrototype(IStore store) {
-  bytes32[] memory keys = MarketplaceConfigKeys();
-  ResourceId[] memory tableIds = new ResourceId[](1);
-  bytes[] memory staticData = new bytes[](1);
-  PackedCounter[] memory encodedLengths = new PackedCounter[](1);
-  bytes[] memory dynamicData = new bytes[](1);
-
-  tableIds[0] = P_MarketplaceConfigTableId;
-
-  (staticData[0], encodedLengths[0], dynamicData[0]) = P_MarketplaceConfig.encode(3, false);
-
-  for (uint256 i = 0; i < tableIds.length; i++) {
-    ResourceId tableId = tableIds[i];
-    store.setRecord(tableId, key, staticData[i], encodedLengths[i], dynamicData[i]);
-  }
-}
-```
-
-### Terrain
-
-Primodium is played on a 2-dimensional map. To ease the process of map design, we have also created a terrain generation script that converts a csv file containing locations of resources into a solidity script which is also run on world deployment.
+Primodium contracts are primarily written in [Solidity](https://soliditylang.org/) and deployable to any environment compatible with the [Ethereum virtual machine](https://ethereum.org/developers/docs/evm).
