@@ -1,12 +1,12 @@
 # Source for Primodium System Interfaces
 
-- [`/contract-source/codegen/world`](https://github.com/primodiumxyz/developers/blob/main/contract-source/codegen/world): Generated Solidity interfaces for each publicly-accessible system.
+- [`/contract-source/codegen/world`](https://github.com/primodiumxyz/developer/blob/main/contract-source/codegen/world): Generated Solidity interfaces for each publicly-accessible system.
 
 ## Primodium Systems in World Extensions
 
 The example [`building-upgrade-bounty`](../world-extension/examples.mdx) world extension requires a reference to functions in the Primodium `UpgradeBuildingSystem`, which handles building upgrades. This is done as follows:
 
-First, locate the [`IUpgradeBuildingSystem`](https://github.com/primodiumxyz/developers/blob/main/contract-source/codegen/world/IUpgradeBuildingSystem.sol) interface in the `codegen/world` directory. Locate the function signature of the function you want to use, which is `upgradeBuilding()`, and add to both a contract with the same function signature and an interface in the world extension.
+First, locate the [`IUpgradeBuildingSystem`](https://github.com/primodiumxyz/developer/blob/main/contract-source/codegen/world/IUpgradeBuildingSystem.sol) interface in the `codegen/world` directory. Locate the function signature of the function you want to use, which is `upgradeBuilding()`, and add to both a contract with the same function signature and an interface in the world extension.
 
 ```solidity filename="/contract-source/codegen/world/IUpgradeBuildingSystem.sol" showLineNumbers {6}
 // SPDX-License-Identifier: MIT

@@ -1,7 +1,7 @@
 # Source for Primodium Tables
 
-- [`/contract-source/codegen/tables`](https://github.com/primodiumxyz/developers/blob/main/contract-source/codegen/tables): Generated Solidity contracts for each table.
-- [`/contract-source/mud.config.ts`](https://github.com/primodiumxyz/developers/blob/main/contract-source/mud.config.ts): Configuration file that defines each table compliant with the open MUD standard.
+- [`/contract-source/codegen/tables`](https://github.com/primodiumxyz/developer/blob/main/contract-source/codegen/tables): Generated Solidity contracts for each table.
+- [`/contract-source/mud.config.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/mud.config.ts): Configuration file that defines each table compliant with the open MUD standard.
 
 ## Building Contracts from JSON
 
@@ -54,7 +54,7 @@ library AsteroidCount {
 
 When developing a [world extension](../world-extension.mdx) as a MUD-compliant project that modifies Primodium tables, the templates of such tables must be included in the extension's `mud.config.ts`.
 
-For example, in the `mud-config.ts` of the [`building-upgrade-bounty`](../world-extension/examples.mdx) world extension, the core `Position` and `OwnedBy` tables are [referenced](https://github.com/primodiumxyz/developers/blob/bca59e31bce35ce3b9feada4ee42b0259b5e371a/examples/building-upgrade-bounty/packages/contracts/mud.config.ts#L21-L35) as follows:
+For example, in the `mud-config.ts` of the [`building-upgrade-bounty`](../world-extension/examples.mdx) world extension, the core `Position` and `OwnedBy` tables are [referenced](https://github.com/primodiumxyz/developer/blob/bca59e31bce35ce3b9feada4ee42b0259b5e371a/examples/building-upgrade-bounty/packages/contracts/mud.config.ts#L21-L35) as follows:
 
 ```js copy filename="/examples/building-upgrade-bounty/packages/contracts/mud.config.ts#L21-L35" showLineNumbers
 {
