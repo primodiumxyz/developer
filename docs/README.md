@@ -6,7 +6,7 @@ Primodium developer docs for plugin and asset builders.
 
 - `pnpm i` to install dependencies.
 - `pnpm dev` to start the development server.
-- Visit [http://localhost:3000](http://localhost:3000).
+- Visit [http://localhost:3001](http://localhost:3001).
 
 ## Credits
 

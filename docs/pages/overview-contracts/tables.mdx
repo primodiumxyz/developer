@@ -8,7 +8,7 @@ There are two main types of on-chain tables used in Primodium.
 
 Prototype tables store game configuration data such as building costs, unit stats, and other game constants. These tables are used to define the game's rules and are not expected to change during the game's lifecycle. Prototype tables are prefixed with `P_` and are populated during the `PostDeploy` step.
 
-In MUD-compliant projects, tables are defined in a file named `mud.config.ts` and generated before [compilation](https://mud.dev/templates/typescript/contracts#mudconfigts) into solidity. The following json string encodes a table that stores key game configuration named `P_GameConfig`.
+The following json string in `mud.config.ts` encodes a table that stores key game configuration named `P_GameConfig`.
 
 ```js copy
 {

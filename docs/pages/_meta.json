@@ -1,4 +1,5 @@
 {
+  "quickstart": "Quickstart",
   "index": "Introduction",
   "latest": "Latest Release",
   "game-guide": "Game Guide",
@@ -7,6 +8,7 @@
     "title": "Overview",
     "type": "separator"
   },
+  "overview-source": "Source",
   "overview-contracts": "Contracts",
   "overview-client": "Client",
 
@@ -20,8 +22,8 @@
     "title": "Open Source",
     "type": "separator"
   },
-  "state-tools": "MUD State Tools",
-  "game-tools": "MUD Game Tools",
+  "state-tools": "Primodium Indexer",
+  "game-tools": "Primodium Game Tools",
 
   "play": {
     "title": "Play Primodium",
