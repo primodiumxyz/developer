@@ -1,0 +1,35 @@
+{
+  "name": "contracts-source",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "@latticexyz/cli": "2.0.0-main-9ef3f9a7",
+    "@latticexyz/common": "2.0.0-main-9ef3f9a7",
+    "@latticexyz/config": "2.0.0-main-9ef3f9a7",
+    "@latticexyz/protocol-parser": "2.0.0-main-9ef3f9a7",
+    "@latticexyz/schema-type": "2.0.0-main-9ef3f9a7",
+    "@latticexyz/store": "2.0.0-main-9ef3f9a7",
+    "@latticexyz/world": "2.0.0-main-9ef3f9a7",
+    "@latticexyz/world-modules": "2.0.0-main-9ef3f9a7",
+    "dotenv": "^16.3.1",
+    "tsx": "^3.12.8",
+    "viem": "1.14.0"
+  },
+  "devDependencies": {
+    "@typechain/ethers-v5": "^10.2.0",
+    "@types/node": "^18.15.11",
+    "abdk-libraries-solidity": "^3.2.0",
+    "ds-test": "https://github.com/dapphub/ds-test.git#e282159d5170298eb2455a6c05280ab5a73a4ef0",
+    "forge-std": "https://github.com/foundry-rs/forge-std.git#74cfb77e308dd188d2f58864aaf44963ae6b88b1",
+    "prettier": "^2.6.2",
+    "prettier-plugin-solidity": "^1.0.0-beta.19",
+    "solhint": "^3.3.7",
+    "solhint-config-mud": "2.0.0-main-9ef3f9a7",
+    "solhint-plugin-mud": "2.0.0-main-9ef3f9a7",
+    "solidity-trigonometry": "https://github.com/mds1/solidity-trigonometry.git",
+    "typechain": "^8.1.1"
+  }
+}

@@ -1,8 +1,6 @@
 # Prototype Generation Example
 
-**Prototype Generation** is Primodium's internal process for populating [prototype tables](./tables.mdx#prototype-tables) with game configuration data. During our game design and balancing processes, we needed to frequently change game data such as resource prices, building costs, and ore distribution.
-
-Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templates, we developed internal scripts to generate [Foundry scripts](https://book.getfoundry.sh/tutorials/solidity-scripting) from JSON objects and CSV files. This allows us to quickly iterate between playtests. This page describing an example workflow used internally for creating a new ore distribution map and writing to a terrain [prototype table](./tables.mdx#prototype-tables).
+**Prototype Generation** is Primodium's internal process for populating [prototype tables](./tables.mdx#prototype-tables) with [prototype configuration](./configuration.mdx) data. This page describing an example workflow used internally for creating a new ore distribution map and writing to a terrain [prototype table](./tables.mdx#prototype-tables).
 
 ## Creating a Terrain Map
 
@@ -130,7 +128,7 @@ import { EResource } from "codegen/common.sol";
 
 The generated Foundry script populates the `P_Terrain` table with the ore distribution, which is a [prototype table](./tables.mdx#prototype-tables). The following is the generated script for the Iron ore distribution:
 
-```solidity filename="/contract-source/codegen/scripts/CreateTerrain.sol" copy showLineNumbers
+```solidity filename="/contract-source/src/codegen/scripts/CreateTerrain.sol" copy showLineNumbers
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
