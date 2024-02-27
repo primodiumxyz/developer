@@ -1,3 +1,4 @@
 packages:
+  - contract-source
   - docs
   - examples/*

@@ -3,16 +3,16 @@ import { DocsThemeConfig } from "nextra-theme-docs";
 import { useRouter } from "next/router";
 
 const config: DocsThemeConfig = {
-  logo: <span className="logo">Primodium Developers</span>,
+  logo: <span className="logo">Primodium Developer</span>,
   useNextSeoProps() {
     const { asPath } = useRouter();
     return {
       titleTemplate:
-        asPath === "/" ? "Primodium Developers" : "%s – Primodium Developers",
+        asPath === "/" ? "Primodium Developer" : "%s – Primodium Developer",
     };
   },
   project: {
-    link: "https://github.com/primodiumxyz/docs",
+    link: "https://github.com/primodiumxyz/developer",
   },
   head: (
     <>
@@ -21,7 +21,7 @@ const config: DocsThemeConfig = {
     </>
   ),
   docsRepositoryBase:
-    "https://github.com/primodiumxyz/developers/tree/main/docs",
+    "https://github.com/primodiumxyz/developer/tree/main/docs",
   footer: {
     text: "© 2024 Primodium",
   },
