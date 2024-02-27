@@ -4,14 +4,125 @@
 
 Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templates, we developed internal scripts to generate [Foundry scripts](https://book.getfoundry.sh/tutorials/solidity-scripting) from JSON objects and CSV files with TypeScript scripts. This allows us to quickly iterate between play tests without needing to manually update Solidity contracts.
 
-## Game Configuration
+## Prototype Config Data
 
-The following are configuration files that define game prototype data in Primodium.
+- [`/contract-source/config/prototypeConfig.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/prototypeConfig.ts): The main configuration file that defines game prototype data in Primodium. For example, the following defines the prototype data for `CopperMine`, a building that mines copper on an asteroid.
 
-- [`/contract-source/config/prototypeConfig.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/prototypeConfig.ts): The main configuration file that defines game prototype data in Primodium.
-- [`/contract-source/config/enums.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/enums.ts): Solidity Enums that define each building, resource, units, objectives, and related enumerated prototype data.
+```ts filename="/contract-source/config/prototypeConfig.ts" showLineNumbers
+{
+  CopperMine: {
+    tables: {
+      P_Blueprint: { value: getBlueprint(1, 1) },
+      P_MaxLevel: { value: 7n },
+      P_RequiredTile: { value: MUDEnums.EResource.indexOf("Iron") },
+    },
+    levels: {
+      1: { P_RequiredBaseLevel: { value: 1n }, P_Production: getResourceValues({ Copper: 0.25 }) },
+      2: {
+        P_RequiredBaseLevel: { value: 1n },
+        P_RequiredResources: getResourceValues({ Iron: 1000 }),
+        P_Production: getResourceValues({ Copper: 0.35 }),
+      },
+      3: {
+        P_RequiredBaseLevel: { value: 2n },
+        P_RequiredResources: getResourceValues({ Iron: 10000 }),
+        P_Production: getResourceValues({ Copper: 0.45 }),
+      },
+      4: {
+        P_RequiredBaseLevel: { value: 3n },
+        P_RequiredResources: getResourceValues({ Iron: 30000 }),
+        P_Production: getResourceValues({ Copper: 0.55 }),
+      },
+      5: {
+        P_RequiredBaseLevel: { value: 4n },
+        P_RequiredResources: getResourceValues({ Iron: 100000 }),
+        P_Production: getResourceValues({ Copper: 0.65 }),
+      },
+      6: {
+        P_RequiredBaseLevel: { value: 5n },
+        P_RequiredResources: getResourceValues({ Iron: 200000 }),
+        P_Production: getResourceValues({ Copper: 0.75 }),
+      },
+      7: {
+        P_RequiredBaseLevel: { value: 6n },
+        P_RequiredResources: getResourceValues({ Iron: 500000 }),
+        P_Production: getResourceValues({ Copper: 0.9 }),
+      },
+      8: {
+        P_RequiredBaseLevel: { value: 7n },
+        P_RequiredResources: getResourceValues({ Iron: 1000000 }),
+        P_Production: getResourceValues({ Copper: 1.2 }),
+      },
+    },
+  }
+}
+```
 
-The following are TypeScript scripts that generate Solidity contracts, including scripts that populate prototype tables.
+- [`/contract-source/config/enums.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/enums.ts): Solidity Enums that define each building, resource, units, objectives, and related enumerated prototype data. For example, the following enum describes all resources that can be associated with an asteroid in Primodium.
 
-- [`/contract-source/ts/prototypes/prototypeGenUtils.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/ts/prototypes/prototypeGenUtils.ts): Utility functions for generating prototype data.
+```ts filename="/contract-source/config/enums.ts" showLineNumbers
+export enum EResource {
+  Iron = 1,
+  Copper,
+  Lithium,
+
+  Titanium,
+  Iridium,
+  Kimberlite,
+  Platinum,
+
+  // Crafted Items
+  IronPlate,
+  Alloy,
+  PVCell,
+  RocketFuel,
+
+  // Utilities
+  U_Electricity,
+  U_Housing,
+  U_CapitalShipCapacity,
+  U_MaxMoves,
+  U_Defense,
+  U_Unraidable,
+  U_AdvancedUnraidable,
+  R_HP,
+  R_Encryption,
+
+  // Multipliers
+  M_DefenseMultiplier,
+}
+```
+
+## Prototype Config Scripts
+
+- [`/contract-source/ts/prototypes/prototypeGenUtils.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/ts/prototypes/prototypeGenUtils.ts): Utility functions for generating prototype data. For example, the `getResourceValue()` function also referenced above converts a resource key and amount into a `EResource` enum and a `BigInt`, values that can be written to a Solidity contract.
+
+```ts filename="/contract-source/ts/prototypes/prototypeGenUtils.ts" showLineNumbers
+export const getResourceValue = (resourceValue: { [x: string]: number }) => {
+  const [resource, amount] = Object.entries(resourceValue)[0];
+  return {
+    resource: MUDEnums.EResource.indexOf(resource),
+    amount: BigInt(amount * SCALE),
+  };
+};
+```
+
+- [`/contract-source/config/util/blueprints.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/util/blueprints.ts): Contains the utility function `getBlueprint()` that takes in a building width and height measured in tiles and returns a building blueprint value stored in the `P_Blueprint` prototype table.
+
+```ts filename="/contract-source/config/util/blueprints.ts" showLineNumbers
+export function getIntArray(coords: { x: number; y: number }[]) {
+  return coords.reduce((prev: number[], { x, y }) => [...prev, x, y], []);
+}
+
+export function getBlueprint(width: number, height: number) {
+  const blueprint = [];
+  for (let x = 0; x < width; x++) {
+    for (let y = 0; y < height; y++) {
+      blueprint.push({ x: -x, y: -y });
+    }
+  }
+  return getIntArray(blueprint);
+}
+```
+
 - [`/contract-source/ts/terrain/terraingen.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/ts/terrain/terraingen.ts): Generates a Foundry script for populating terrain ore distribution, described in detail in the [prototype generation example](./generation.mdx).
