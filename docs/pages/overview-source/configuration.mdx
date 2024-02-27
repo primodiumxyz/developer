@@ -2,8 +2,16 @@
 
 **Prototype Configuration** files in Primodium are used to define the game's configuration data. During our game design and balancing processes, we needed to frequently change game data such as resource prices, building costs, and factory production.
 
-Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templates, we developed internal scripts to generate [Foundry scripts](https://book.getfoundry.sh/tutorials/solidity-scripting) from JSON objects and CSV files. This allows us to quickly iterate between play tests.
+Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templates, we developed internal scripts to generate [Foundry scripts](https://book.getfoundry.sh/tutorials/solidity-scripting) from JSON objects and CSV files with TypeScript scripts. This allows us to quickly iterate between play tests without needing to manually update Solidity contracts.
 
 ## Game Configuration
 
-The prototype generation utilities are listed below.
+The following are configuration files that define game prototype data in Primodium.
+
+- [`/contract-source/config/prototypeConfig.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/prototypeConfig.ts): The main configuration file that defines game prototype data in Primodium.
+- [`/contract-source/config/enums.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/enums.ts): Solidity Enums that define each building, resource, units, objectives, and related enumerated prototype data.
+
+The following are TypeScript scripts that generate Solidity contracts, including scripts that populate prototype tables.
+
+- [`/contract-source/ts/prototypes/prototypeGenUtils.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/ts/prototypes/prototypeGenUtils.ts): Utility functions for generating prototype data.
+- [`/contract-source/ts/terrain/terraingen.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/ts/terrain/terraingen.ts): Generates a Foundry script for populating terrain ore distribution, described in detail in the [prototype generation example](./generation.mdx).

@@ -33,7 +33,7 @@ which is exported into the following .csv file, with commas as separators.
 
 The following script creates a Solidity script from the CSV file that encodes the ore distribution. The script reads the CSV file and converts the ore distribution into a Foundry script that sets the ore distribution on the world contract.
 
-```ts copy showLineNumbers
+```ts filename="/contract-source/ts/terrain/terraingen.ts" showLineNumbers
 import { formatAndWriteSolidity } from "@latticexyz/common/codegen";
 import fs from "fs";
 import path from "path";
