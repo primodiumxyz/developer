@@ -1,6 +1,6 @@
 # Primodium Game Guide
 
-The mechanisms for fleet creation, PvP, and mining are overhauled in v0.10. We also made a plugin system for players to build different coordination mechanisms.
+The mechanisms for fleet creation, PvP, and mining are overhauled in v0.10. We also made a [plugin system](./world-extension.mdx) for players to build different coordination mechanisms.
 
 ## Accounts
 
