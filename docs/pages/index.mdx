@@ -24,8 +24,6 @@ For example, the following code block from the above file defines the prototype 
 - `P_RequiredDependency` denotes the existing production rate required for the building to produce.
 - `P_Production` specifies the production resources and denotes its production rate.
 
-See [`/contract-source/config/enums.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/enums.ts#L34) for the resource types available in Primodium.
-
 ```ts filename="/contract-source/config/prototypeConfig.ts#L510-L560" showLineNumbers {10-17}
 {
   // ...
@@ -48,6 +46,27 @@ See [`/contract-source/config/enums.ts`](https://github.com/primodiumxyz/develop
       // ...
     },
   }
+  // ...
+}
+```
+
+See [`/contract-source/config/enums.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/enums.ts#L34-L63) for the resource types available in Primodium. The following [prototype config](./overview-source/configuration.mdx) in TypeScript is [generated](./overview-source/generation.mdx) into Solidity on compilation.
+
+```ts filename="/contract-source/config/enums.ts#L34-L48" showLineNumbers
+export enum EResource {
+  Iron = 1,
+  Copper,
+  Lithium,
+
+  Titanium,
+  Iridium,
+  Kimberlite,
+  Platinum,
+
+  IronPlate,
+  Alloy,
+  PVCell,
+  RocketFuel,
   // ...
 }
 ```
