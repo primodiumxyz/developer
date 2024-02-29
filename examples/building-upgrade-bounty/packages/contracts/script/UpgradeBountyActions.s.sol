@@ -11,9 +11,9 @@ import { PositionData } from "../src/codegen/index.sol";
 
 contract UpgradeBountyActions is Script {
   function run() external {
-    address deployerAddress = address(uint160(vm.envUint("ADDRESS_ALICE")));
+    address deployerAddress = vm.envAddress("ADDRESS_ALICE");
     uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY_ALICE");
-    address delegateeAddress = address(uint160(vm.envUint("ADDRESS_BOB")));
+    address delegateeAddress = vm.envAddress("ADDRESS_BOB");
     uint256 delegateePrivateKey = vm.envUint("PRIVATE_KEY_BOB");
     address worldAddress = vm.envAddress("WORLD_ADDRESS");
 

@@ -14,10 +14,9 @@ import { IWorld } from "../codegen/world/IWorld.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { WorldResourceIdLib, ROOT_NAMESPACE } from "@latticexyz/world/src/WorldResourceId.sol";
 import { RESOURCE_SYSTEM } from "@latticexyz/world/src/worldResourceTypes.sol";
-import { IWorldWithUpgradeBuilding } from "../interfaces/IWorldWithUpgradeBuilding.sol";
+import { IWorld as IPrimodiumWorld } from "../primodium-codegen/world/IWorld.sol";
 import { LibHelpers } from "../libraries/LibHelpers.sol";
 import { BuildingTileKey } from "../libraries/Keys.sol";
-import { LibHelpers } from "../libraries/LibHelpers.sol";
 
 /**
  * @dev A contract that handles upgrade bounties for buildings in a world system.
@@ -100,7 +99,7 @@ contract UpgrBounSystem is System {
 
     // Call the upgradeBuilding function from the World contract
     ResourceId upgradeBuildingSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, ROOT_NAMESPACE, "UpgradeBuildingS");
-    newBuildingEntity = IWorldWithUpgradeBuilding(_world()).callFrom(
+    newBuildingEntity = IPrimodiumWorld(_world()).callFrom(
       bountyPublisherAddress,
       upgradeBuildingSystemId,
       abi.encodeWithSignature("upgradeBuilding((int32,int32,bytes32))", (coord))
