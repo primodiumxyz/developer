@@ -114,10 +114,40 @@ Once you’ve successfully taken over an asteroid, your capital ship will be des
 
 ## Getting rare resources
 
-#### Method 1:
+#### Method 1
 
 Raiding motherlode asteroids. These asteroids often have stashed resources that are slowly being replenished. Beware, as there may be droids guarding these treasures.
 
-#### Method 2:
+#### Method 2
 
 To get a permanent supply of motherlode resources, you can colonize one. This would take significantly more effort, but will secure your supply.
+
+## Manage Widgets
+
+Introducing Aura, your personal companion that helps manage your widgets and provides useful tips(soon). Here you can see the main Aura hub that contains your widgets, the star map, and other related game information. We will focus on the `Widgets` for this section:
+
+![Untitled](../public/game-guide/Aura.gif)
+
+Click on a widget or use the keybinds to open/close it.
+
+### Unlocking/Locking
+
+Widgets can be locked into the original position on the HUD or unlocked to be freely moved around:
+
+![Untitled](../public/game-guide/Lock.gif)
+
+### Pinning to Asteroid
+
+Widgets can also be pinned to the asteroid allowing you to save some screen space and have the info right where you need it:
+
+![Untitled](../public/game-guide/Pin.gif)
+
+### Reducing UI Scale
+
+Are the widgets too big or covering too much of your screen? Don't worry we got you covered with the UI scale option in the settings:
+
+![Untitled](../public/game-guide/Scale.gif)
+
+### Resetting a Widget
+
+You can reset a single widget by double-clicking the top-bar.
