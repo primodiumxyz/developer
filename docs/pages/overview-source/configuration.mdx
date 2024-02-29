@@ -8,8 +8,9 @@ Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templ
 
 - [`/contract-source/config/prototypeConfig.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/prototypeConfig.ts): The main configuration file that defines game prototype data in Primodium. For example, the following defines the prototype data for `CopperMine`, a building that mines copper on an asteroid.
 
-```ts filename="/contract-source/config/prototypeConfig.ts" showLineNumbers
+```ts filename="/contract-source/config/prototypeConfig.ts#L419-L463" showLineNumbers
 {
+  // ...
   CopperMine: {
     tables: {
       P_Blueprint: { value: getBlueprint(1, 1) },
@@ -55,12 +56,13 @@ Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templ
       },
     },
   }
+  // ...
 }
 ```
 
 - [`/contract-source/config/enums.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/enums.ts): Solidity Enums that define each building, resource, units, objectives, and related enumerated prototype data. For example, the following enum describes all resources that can be associated with an asteroid in Primodium.
 
-```ts filename="/contract-source/config/enums.ts" showLineNumbers
+```ts filename="/contract-source/config/enums.ts#L34-L63" showLineNumbers
 export enum EResource {
   Iron = 1,
   Copper,
@@ -97,7 +99,7 @@ export enum EResource {
 
 - [`/contract-source/ts/prototypes/prototypeGenUtils.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/ts/prototypes/prototypeGenUtils.ts): Utility functions for generating prototype data. For example, the `getResourceValue()` function also referenced above converts a resource key and amount into a `EResource` enum and a `BigInt`, values that can be written to a Solidity contract.
 
-```ts filename="/contract-source/ts/prototypes/prototypeGenUtils.ts" showLineNumbers
+```ts filename="/contract-source/ts/prototypes/prototypeGenUtils.ts#L91-L97" showLineNumbers
 export const getResourceValue = (resourceValue: { [x: string]: number }) => {
   const [resource, amount] = Object.entries(resourceValue)[0];
   return {
