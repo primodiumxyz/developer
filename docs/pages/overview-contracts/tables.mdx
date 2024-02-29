@@ -8,10 +8,11 @@ There are two main types of on-chain tables used in Primodium.
 
 Prototype tables store game configuration data such as building costs, unit stats, and other game constants. These tables are used to define the game's rules and are not expected to change during the game's lifecycle. Prototype tables are prefixed with `P_` and are populated during the `PostDeploy` step.
 
-The following json string in `mud.config.ts` encodes a table that stores key game configuration named `P_GameConfig`.
+The following json string in [`mud.config.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/mud.config.ts#L85-L97) encodes a table that stores key game configuration named `P_GameConfig`.
 
-```js copy
+```js copy filename="/contract-source/mud.config.ts#L85-L97" showLineNumbers
 {
+  // ...
   P_GameConfig: {
     keySchema: {},
     valueSchema: {
@@ -25,14 +26,15 @@ The following json string in `mud.config.ts` encodes a table that stores key gam
       tax: "uint256",
     },
   }
+  // ...
 }
 ```
 
 ## Tables
 
-All other tables store in-game data associated with players, space rocks, alliances, and other game entities. These tables are expected to change during the game's lifecycle. The following json string encodes a table that stores the position of a building named `Position`.
+All other tables store in-game data associated with players, space rocks, alliances, and other game entities. These tables are expected to change during the game's lifecycle. The following json string encodes a table that stores the position of a building named [`Position`](https://github.com/primodiumxyz/developer/blob/main/contract-source/mud.config.ts#L107-L114).
 
-```js copy
+```js copy filename="/contract-source/mud.config.ts#L107-L114" showLineNumbers
 {
   Position: {
     keySchema: { entity: "bytes32" },
