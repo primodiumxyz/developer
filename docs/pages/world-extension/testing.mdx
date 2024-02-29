@@ -9,7 +9,7 @@ We will use [Foundry](https://book.getfoundry.sh/cheatcodes/create-select-fork)'
 
 1. Copy `/examples/building-upgrade-bounty/packages/contracts/.env.example` and paste it in the same directory, while renaming it to `.env`.
 2. Change the `PRIMODIUM_RPC_URL` to the appropriate URL. Our current testnet is `https://primodium-sepolia.rpc.caldera.xyz/http`
-3. Change the `WORLD_ADDRESS` to the appropriate contract address. Our current Primodium world address is `0xd5d9aad645671a285d1cadf8e68aef7d74a8a7d0`.
+3. Change the `WORLD_ADDRESS` to the appropriate contract address. Our current Primodium world address is available on the [latest release page](../latest.mdx).
 4. Change the `BLOCK_NUMBER` to the your desired block. The current Primodium world was deployed at block number `3007935`, however you may want to use the most recent block given that we may be updating the chain and it will represent the most recent state of the world.
 5. If you haven't already, make a new test file in the test folder, like `packages/contracts/test/[YOUR_TEST_FILE_NAME].t.sol`
 6. As seen in `/examples/building-upgrade-bounty/packages/contracts/test/UpgradeBountyExtension.t.sol`, use `vm.createSelectFork(vm.envString("PRIMODIUM_RPC_URL"), vm.envUint("BLOCK_NUMBER"));` to fork the chain and run Foundry tests against it.
