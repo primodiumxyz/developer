@@ -22,7 +22,7 @@
     "title": "Open Source",
     "type": "separator"
   },
-  "state-tools": "Primodium Indexer",
+  "indexer": "Primodium Indexer",
   "game-tools": "Primodium Game Tools",
 
   "play": {
