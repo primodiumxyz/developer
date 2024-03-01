@@ -18,6 +18,10 @@
     "newWindow": true
   },
 
+  "topics": {
+    "title": "Topics",
+    "type": "separator"
+  },
   "about": "Introduction",
   "index": "Quickstart",
   "latest": "Latest Release",
