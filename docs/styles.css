@@ -46,16 +46,18 @@ h6 {
   box-shadow: none !important;
 }
 
-.nextra-sidebar-container .nx-sticky {
-  background: linear-gradient(to bottom, #f8f8f8, #f8f8f8);
-}
+@media (min-width: 768px) {
+  .nextra-sidebar-container .nx-sticky {
+    background: linear-gradient(to bottom, #f8f8f8, #f8f8f8);
+  }
 
-.dark .nextra-sidebar-container .nx-sticky {
-  background: linear-gradient(to bottom, #191a23, #191a23);
+  .dark .nextra-sidebar-container .nx-sticky {
+    background: linear-gradient(to bottom, #191a23, #191a23);
+  }
 }
 
 /* Hide background and shadow of Questions? container */
-.nextra-toc {
+.nextra-toc * {
   background: none !important;
   box-shadow: none !important;
 }
