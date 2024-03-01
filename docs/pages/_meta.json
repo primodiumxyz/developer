@@ -1,4 +1,23 @@
 {
+  "play": {
+    "title": "Play Primodium",
+    "type": "page",
+    "href": "https://www.primodium.com",
+    "newWindow": true
+  },
+  "discord": {
+    "title": "Join Discord",
+    "type": "page",
+    "href": "https://discord.gg/fFFtwhTVWm",
+    "newWindow": true
+  },
+  "follow": {
+    "title": "Follow",
+    "type": "page",
+    "href": "https://www.x.com/primodiumgame",
+    "newWindow": true
+  },
+
   "about": "Introduction",
   "index": "Quickstart",
   "latest": "Latest Release",
@@ -23,24 +42,5 @@
     "type": "separator"
   },
   "indexer": "Primodium Indexer",
-  "game-tools": "Primodium Game Tools",
-
-  "play": {
-    "title": "Play Primodium",
-    "type": "page",
-    "href": "https://www.primodium.com",
-    "newWindow": true
-  },
-  "discord": {
-    "title": "Join Discord",
-    "type": "page",
-    "href": "https://discord.gg/fFFtwhTVWm",
-    "newWindow": true
-  },
-  "follow": {
-    "title": "Follow",
-    "type": "page",
-    "href": "https://www.x.com/primodiumgame",
-    "newWindow": true
-  }
+  "game-tools": "Primodium Game Tools"
 }
