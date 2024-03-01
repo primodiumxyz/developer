@@ -8,7 +8,7 @@ Get started as a Primodium developer by cloning the example [`building-upgrade-b
 
 ```bash
 git clone https://github.com/primodiumxyz/developer
-cd examples/building-upgrade-bounty
+cd developer/examples/building-upgrade-bounty
 ```
 
 **World extensions** refer to player smart contracts that extend the functionality of Primodium's core contracts, which are documented in the [world extensions guide](./world-extension.mdx).
@@ -23,8 +23,6 @@ For example, the following code block from the above file defines the prototype 
 - `P_RequiredResources` denotes the resources required to construct or upgrade the building.
 - `P_RequiredDependency` denotes the existing production rate required for the building to produce.
 - `P_Production` specifies the production resources and denotes its production rate.
-
-See [`/contract-source/config/enums.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/enums.ts#L34) for the resource types available in Primodium.
 
 ```ts filename="/contract-source/config/prototypeConfig.ts#L510-L560" showLineNumbers {10-17}
 {
@@ -48,6 +46,27 @@ See [`/contract-source/config/enums.ts`](https://github.com/primodiumxyz/develop
       // ...
     },
   }
+  // ...
+}
+```
+
+See [`/contract-source/config/enums.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/enums.ts#L34-L63) for the resource types available in Primodium. The following [prototype config](./overview-source/configuration.mdx) in TypeScript is [generated](./overview-source/generation.mdx) into Solidity on compilation.
+
+```ts filename="/contract-source/config/enums.ts#L34-L48" showLineNumbers
+export enum EResource {
+  Iron = 1,
+  Copper,
+  Lithium,
+
+  Titanium,
+  Iridium,
+  Kimberlite,
+  Platinum,
+
+  IronPlate,
+  Alloy,
+  PVCell,
+  RocketFuel,
   // ...
 }
 ```
