@@ -1,6 +1,6 @@
 # Primodium Game Guide
 
-The mechanisms for fleet creation, PvP, and mining are overhauled in v0.10. We also made a [plugin system](./world-extension.mdx) for players to build different coordination mechanisms.
+The mechanisms for fleet creation, PvP, and mining are overhauled in v0.10. We also made a [contract plugin system](./world-extension.mdx) for players to build different coordination mechanisms.
 
 ## Accounts
 
@@ -9,8 +9,7 @@ The mechanisms for fleet creation, PvP, and mining are overhauled in v0.10. We a
 In v0.10, you can now link your wallet with a saved session. Connecting to your wallet lets you play across devices by saving progress to your wallet. We currently support all of the wallets in the screenshot below.
 
 ![The intro screen for Primodium v0.10 ](../public/game-guide/Untitled.png)
-
-The intro screen for Primodium v0.10
+<small>_Intro screen for Primodium v0.10_</small>
 
 When connected to a wallet, you’ll be able to delegate actions to an in-browser wallet, allowing you to play the game without signing repeatedly to confirm every new action. This option should be automatically applied when you’re connected to your external wallet. If it isn’t, you can reconnect it in the **_manage account_** tab on the top left:
 
@@ -23,8 +22,7 @@ When connected to a wallet, you’ll be able to delegate actions to an in-browse
 Alternatively, you can play as a guest if you don’t want to use an external wallet. We don’t recommend doing this because you might lose your game progress if your session is accidentally cleared.
 
 ![The warning message when your choose to play as a guest.](../public/game-guide/Untitled%203.png)
-
-The warning message when your choose to play as a guest.
+<small>_The warning message when your choose to play as a guest._</small>
 
 ## Fleets
 
@@ -124,11 +122,11 @@ To get a permanent supply of motherlode resources, you can colonize one. This wo
 
 ## Manage Widgets
 
-Introducing Aura, your personal companion that helps manage your widgets and provides useful tips(soon). Here you can see the main Aura hub that contains your widgets, the star map, and other related game information. We will focus on the `Widgets` for this section:
+Introducing Aura, your personal companion that helps manage your widgets and provides useful tips(soon). Here you can see the main Aura hub that contains your widgets, the star map, and other related game information. We will focus on the `Widgets` for this section.
+
+Click on a widget or use the keybinds to open/close it:
 
 ![Untitled](../public/game-guide/Aura.gif)
-
-Click on a widget or use the keybinds to open/close it.
 
 ### Unlocking/Locking
 
