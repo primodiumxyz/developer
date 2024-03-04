@@ -1,4 +1,15 @@
 import { mudConfig } from "@latticexyz/world/register";
+import { MUDEnums } from "./config/enums";
+import { prototypeConfig } from "./config/prototypeConfig";
+
+// Exclude dev systems if not in dev PRI_DEV
+let dev: string[] = [];
+if (typeof process != undefined && typeof process != "undefined") {
+  import("dotenv").then((dotenv) => {
+    dotenv.config({ path: "../../.env" });
+    dev = process.env.PRI_DEV === "true" ? [] : ["DevSystem"];
+  });
+}
 
 const DUMMY_ADDRESS = "0x1234567890AbcdEF1234567890aBcdef12345678";
 /* -------------------------------------------------------------------------- */
@@ -6,6 +17,7 @@ const DUMMY_ADDRESS = "0x1234567890AbcdEF1234567890aBcdef12345678";
 /* -------------------------------------------------------------------------- */
 export type Config = typeof config;
 export const config = mudConfig({
+  excludeSystems: [...dev],
   systems: {
     S_SpawnPirateAsteroidSystem: {
       openAccess: false,
@@ -101,6 +113,8 @@ export const config = mudConfig({
       valueSchema: {
         resource: "uint8",
         initialCost: "uint256",
+        decryption: "uint256",
+        cooldownExtension: "uint256",
       },
     },
 
@@ -198,16 +212,18 @@ export const config = mudConfig({
     },
 
     /* -------------------------------- Resources ------------------------------- */
-    P_IsAdvancedResource: {
+    P_IsResource: {
       keySchema: { id: "uint8" }, // EResource
-      valueSchema: "bool",
+      valueSchema: {
+        isResource: "bool",
+        isAdvanced: "bool",
+      },
     },
 
     P_IsUtility: {
       keySchema: { id: "uint8" }, // EResource
       valueSchema: "bool",
     },
-
     //when the storage for this resources is provided it is full
     P_IsRecoverable: {
       keySchema: { id: "uint8" }, // EResource
@@ -401,7 +417,6 @@ export const config = mudConfig({
         cargo: "uint256",
         trainingTime: "uint256",
         hp: "uint256",
-        decryption: "uint256",
       },
     },
 
@@ -475,6 +490,12 @@ export const config = mudConfig({
       valueSchema: "bool",
     },
 
+    IsFleetEmpty: {
+      keySchema: { entity: "bytes32" },
+      valueSchema: "bool",
+      offchainOnly: true,
+    },
+
     /* ------------------------------ Battle Result ----------------------------- */
     BattleResult: {
       keySchema: { battleId: "bytes32" },
@@ -485,6 +506,8 @@ export const config = mudConfig({
         targetDamage: "uint256", //can be fleet or space rock
         winner: "bytes32",
         rock: "bytes32", // place where battle took place
+        player: "bytes32", // player who initiated the battle
+        targetPlayer: "bytes32", // player who was attacked
         timestamp: "uint256", // timestamp of battle
         aggressorAllies: "bytes32[]", //only fleets
         targetAllies: "bytes32[]", //only fleets
@@ -733,6 +756,11 @@ export const config = mudConfig({
       keySchema: { entity: "bytes32" },
       valueSchema: "uint256",
     },
+
+    CooldownEnd: {
+      keySchema: { entity: "bytes32" },
+      valueSchema: "uint256",
+    },
     /* ------------------------------ Alliance ----------------------------- */
 
     P_AllianceConfig: {
@@ -802,6 +830,16 @@ export const config = mudConfig({
       },
     },
 
+    Swap: {
+      keySchema: { entity: "bytes32" },
+      valueSchema: {
+        resourceIn: "uint8",
+        resourceOut: "uint8",
+        amountIn: "uint256",
+        amountOut: "uint256",
+      },
+      offchainOnly: true,
+    },
     /* ------------------------------- Colony ------------------------------ */
 
     MapColonies: {
@@ -821,4 +859,5 @@ export const config = mudConfig({
 
 export default {
   ...config,
+  prototypeConfig,
 };
