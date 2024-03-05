@@ -21,8 +21,8 @@ When connected to a wallet, you’ll be able to delegate actions to an in-browse
 
 Alternatively, you can play as a guest if you don’t want to use an external wallet. We don’t recommend doing this because you might lose your game progress if your session is accidentally cleared.
 
-![The warning message when your choose to play as a guest.](../public/game-guide/Untitled%203.png)
-<small>_The warning message when your choose to play as a guest._</small>
+![The warning message when you choose to play as a guest.](../public/game-guide/Untitled%203.png)
+<small>_The warning message when you choose to play as a guest._</small>
 
 ## Fleets
 
@@ -67,7 +67,7 @@ With fleets, you can:
 - Transfer resources
 - Defend or blockade an asteroid
 
-Each of these actions are done by clicking on the fleet and selecting it. For example, to move an asteroid, select the move button after selecting the fleet:
+Each of these actions is done by clicking on the fleet and selecting it. For example, to move an asteroid, select the move button after selecting the fleet:
 
 ![Untitled](../public/game-guide/Untitled.gif)
 
