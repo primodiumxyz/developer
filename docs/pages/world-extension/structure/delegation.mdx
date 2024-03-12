@@ -1,19 +1,14 @@
 # Delegation to Extended Systems
 
-**Delegation** can be likened to giving a friend your passcode to access a door. You are still the owner
-of the passcode, but you have given it to someone else to use and act on your behalf.
+**Delegation** can be likened to giving a friend your passcode to access a door. You are still the owner of the passcode, but you have given it to someone else to use and act on your behalf.
 
-Delegations in MUD can also optionally be bound to specific time, systems, and calls as well. These are laid
-out in MUD's [StandardDelegationsModule](https://github.com/latticexyz/mud/blob/8193136a9511d066aeebce82155d3509aa760282/packages/world-modules/src/modules/std-delegations/StandardDelegationsModule.sol).
+Delegations in MUD can also optionally be bound to specific time, systems, and calls as well. These are laid out in MUD's [StandardDelegationsModule](https://github.com/latticexyz/mud/blob/8193136a9511d066aeebce82155d3509aa760282/packages/world-modules/src/modules/std-delegations/StandardDelegationsModule.sol).
 
-Binding delegations to only the necessary systems, calls, and/or time is a good practice to follow, as it limits the
-surface area of a potentially malicious delegatee.
+Binding delegations to only the necessary systems, calls, and/or time is a good practice to follow, as it limits the surface area of a potentially malicious delegatee.
 
 ## Revoking Practices
 
-With delegation, the delegator can revoke access from the delegatee at any point. If delegation is a part of
-an agreement with an outside party, the agreement should be carefully structured such that it is not heavily
-dependent on the delegation to remain in the future!
+With delegation, the delegator can revoke access from the delegatee at any point. If delegation is a part of an agreement with an outside party, the agreement should be carefully structured such that it is not heavily dependent on the delegation to remain in the future!
 
 For example, suppose we have two Primodium players named Alice and Bob. Bob and Alice have an agreement where Bob gives Alice 10 gold today, and Alice delegates Bob the right to pull 30 gold from Alice a minimum of 3 days from now. Even if Alice delegated to Bob or a system to manage the agreement, there is nothing stopping Alice from revoking the delegation before the 3 days pass.
 

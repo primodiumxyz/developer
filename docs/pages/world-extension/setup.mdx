@@ -9,13 +9,12 @@ To start developing with Primodium, you will need to create a MUD project.
 1. Ensure you have [`node`](https://nodejs.org/en/download/package-manager#macos), [`pnpm`](https://pnpm.io/installation) and [`foundry`](https://getfoundry.sh/) installed.
 1. Complete the [MUD world extension tutorial](https://mud.dev/guides/extending-a-world).
 1. Use the following command at the root of your project to initialize your extension's
-   MUD version to the same as Primodium's MUD version:
+MUD version to the same as Primodium's MUD version:
 
 ```bash copy
 pnpm mud set-version --version 2.0.0-main-9ef3f9a7 && pnpm i && pnpm build
 ```
-
-4. Any time you have used the `<namespace>__<function>` pattern in your code, replace it with the
+4. Any time you have used the `<namespace>__<function>` pattern in your code to call a function, replace it with the
    `<namespace>_<system>_<function>` pattern.
    - This is due to our current MUD version being slightly older than the extension tutorial's MUD version.
 5. Set the `WORLD_ADDRESS` in your `.env` file and to the live Primodium world contract address, available on the [latest release page](../latest.mdx).
@@ -28,3 +27,5 @@ pnpm mud set-version --version 2.0.0-main-9ef3f9a7 && pnpm i && pnpm build
   }
 }
 ```
+7. When you eventually want to test and/or deploy your extension, the namespace name for your extension must be unique and not already used within the Primodium world contract. To see if your namespace name is available, use the tool in this [MUD Discord forum post](https://discord.com/channels/865335009915961364/1210703982079639647). When you plan on testing, follow the [testing guide](./testing.mdx) so that you don't unnecessarily consume a namespace name in the live Primodium world.
+    - If you need to change your namespace name, make sure to do so both in your `mud.config.ts` file and any function calls that use that namespace name (like what is mentioned in step 4).
