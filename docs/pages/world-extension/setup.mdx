@@ -28,3 +28,4 @@ pnpm mud set-version --version 2.0.0-main-9ef3f9a7 && pnpm i && pnpm build
 }
 ```
 7. When you eventually want to test and/or deploy your extension, the namespace name for your extension must be unique and not already used within the Primodium world contract. To see if your namespace name is available, use the tool in this [MUD Discord forum post](https://discord.com/channels/865335009915961364/1210703982079639647). When you plan on testing, follow the [testing guide](./testing.mdx) so that you don't unnecessarily consume a namespace name in the live Primodium world.
+    - If you need to change your namespace name, make sure to do so both in your `mud.config.ts` file and any function calls that use that namespace name (like what is mentioned in step 4).
