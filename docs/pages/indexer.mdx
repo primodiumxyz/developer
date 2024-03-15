@@ -7,7 +7,7 @@ The **Primodium Indexer** is a off-chain indexer implementation compliant with t
 
 ## Overview
 
-All game state Primodium is stored fully on-chain within smart contracts structured around the open MUD standard. While state can be entirely fetched from an Ethereum node for the chain that Primodium is deployed on, the state cannot be efficiently queried. For context, in `v0.10.0`, querying the full state of the two-month-long round directly from the node via an RPC endpoint could take upwards of an hour.
+All game state Primodium is stored fully on-chain within smart contracts structured around the open MUD standard. While state can be entirely fetched from an Ethereum node for the chain that Primodium is deployed on, the state cannot be efficiently queried. For context, in `v0.9.0`, querying the full state of the two-month-long round directly from the node via an RPC endpoint could take upwards of an hour.
 
 Previous versions of Primodium used a hosted [off-chain indexer](https://mud.dev/services/indexer) implemented by Lattice. Since state in Primodium is global across all players instead of round-based, initializing the Primodium client requires fetching the entire state from the off-chain indexer.
 
