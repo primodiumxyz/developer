@@ -1,17 +1,13 @@
 import { StaticAbiType } from "@latticexyz/schema-type";
 import { Hex } from "viem";
-import { DECIMALS } from "../../config/constants";
+import { BASE_RESERVE, RESERVE_RESOURCE, SCALE } from "../../config/constants";
 import { EResource, MUDEnums } from "../../config/enums";
 import encodeBytes32 from "../../config/util/encodeBytes32";
-
-export const SCALE = 10 ** DECIMALS;
 
 export const encodeArray = (names: string[]) => names.map(encodeBytes32);
 
 export const indexifyResourceArray = (resources: string[]) =>
   resources.map((resource) => MUDEnums.EResource.indexOf(resource));
-const BASE_RESERVE = 10000000;
-const RESERVE_RESOURCE = EResource.Kimberlite;
 
 /**
  * Generates a supply table for a marketplace given a resource and its ratio to the reserve currency.
@@ -41,7 +37,7 @@ export const marketplaceSupplyTable = (
       : [RESERVE_RESOURCE, resource];
 
   // calculate the reserve amounts based on the ratio
-  const inputResourceAmount = BigInt(reserve * ratio);
+  const inputResourceAmount = BigInt(Math.round(reserve * ratio));
   const reserveResourceAmount = BigInt(reserve);
 
   const [reserveA, reserveB] =
@@ -65,14 +61,21 @@ export const upgradesByLevel = (
     const name32 = encodeBytes32(name);
     const upgradesObject = Object.entries(upgrades).reduce(
       (prev, [resource, max]) => {
+        const resourceIndex = MUDEnums.EResource.indexOf(resource);
         prev[`${name}${resource}L${level}Upgrade`] = {
           keys: [
             { [name32]: "bytes32" },
-            { [MUDEnums.EResource.indexOf(resource)]: "uint8" },
+            { [resourceIndex]: "uint8" },
             { [level]: "uint32" },
           ],
           tables: {
-            P_ByLevelMaxResourceUpgrades: { value: BigInt(max * SCALE) },
+            P_ByLevelMaxResourceUpgrades: {
+              value: BigInt(
+                Math.round(
+                  max * (unscaledResources.has(resourceIndex) ? 1 : SCALE)
+                )
+              ),
+            },
           },
         };
         return prev;
@@ -92,13 +95,12 @@ export const getResourceValue = (resourceValue: { [x: string]: number }) => {
   const [resource, amount] = Object.entries(resourceValue)[0];
   return {
     resource: MUDEnums.EResource.indexOf(resource),
-    amount: BigInt(amount * SCALE),
+    amount: BigInt(Math.round(amount * SCALE)),
   };
 };
 
 export const getPUnitData = (data: {
   hp: number;
-  decryption: number;
   attack: number;
   defense: number;
   cargo: number;
@@ -107,12 +109,11 @@ export const getPUnitData = (data: {
 }) => {
   return {
     hp: BigInt(data.hp * SCALE),
-    decryption: BigInt(data.decryption * SCALE),
     attack: BigInt(data.attack * SCALE),
     defense: BigInt(data.defense * SCALE),
     cargo: BigInt(data.cargo * SCALE),
     speed: BigInt(data.speed),
-    trainingTime: BigInt(data.speed),
+    trainingTime: BigInt(data.trainingTime),
   };
 };
 /**
@@ -124,8 +125,9 @@ export const getPUnitData = (data: {
 
 const unscaledResources = new Set([
   EResource.U_Housing,
-  EResource.U_MaxMoves,
+  EResource.U_MaxFleets,
   EResource.U_CapitalShipCapacity,
+  EResource.M_DefenseMultiplier,
 ]);
 export const getResourceValues = (resourceValues: Record<string, number>) => {
   // unzip the array
@@ -134,7 +136,11 @@ export const getResourceValues = (resourceValues: Record<string, number>) => {
       const resourceIndex = MUDEnums.EResource.indexOf(resource);
       acc[0].push(resourceIndex);
       acc[1].push(
-        BigInt(amount * (unscaledResources.has(resourceIndex) ? 1 : SCALE))
+        BigInt(
+          Math.round(
+            amount * (unscaledResources.has(resourceIndex) ? 1 : SCALE)
+          )
+        )
       );
       return acc;
     },

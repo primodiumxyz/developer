@@ -6,6 +6,11 @@ export enum EBuilding {
   IronMine,
   CopperMine,
 
+  KimberliteMine,
+  IridiumMine,
+  TitaniumMine,
+  PlatinumMine,
+
   // Factories
   IronPlateFactory,
   AlloyFactory,
@@ -45,13 +50,12 @@ export enum EResource {
   IronPlate,
   Alloy,
   PVCell,
-  RocketFuel,
 
   // Utilities
   U_Electricity,
   U_Housing,
   U_CapitalShipCapacity,
-  U_MaxMoves,
+  U_MaxFleets,
   U_Defense,
   U_Unraidable,
   U_AdvancedUnraidable,
@@ -147,19 +151,6 @@ export enum EObjectives {
   TrainStingerDrone2,
   TrainStingerDrone3,
 
-  RaidRawResources1,
-  RaidRawResources2,
-  RaidRawResources3,
-  RaidFactoryResources1,
-  RaidFactoryResources2,
-  RaidFactoryResources3,
-
-  DestroyEnemyUnits1,
-  DestroyEnemyUnits2,
-  DestroyEnemyUnits3,
-  DestroyEnemyUnits4,
-  DestroyEnemyUnits5,
-
   ExpandBase1,
   ExpandBase2,
   ExpandBase3,
@@ -207,5 +198,9 @@ export const MUDEnums = {
 };
 
 function enumToArray(enumObj: object): string[] {
-  return ["NULL", ...Object.keys(enumObj).filter((key) => isNaN(Number(key))), "LENGTH"];
+  return [
+    "NULL",
+    ...Object.keys(enumObj).filter((key) => isNaN(Number(key))),
+    "LENGTH",
+  ];
 }
