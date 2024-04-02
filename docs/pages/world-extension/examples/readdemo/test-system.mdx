@@ -13,7 +13,7 @@ A detailed explanation of most of the imports can be found here: https://mud.dev
 
 We will highlight some specific additional details in the Explanation below.
 
-```typescript
+```ts filename="ReadDemoSystem.t.sol"
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
@@ -104,46 +104,46 @@ contract ReadDemoTest is MudTest {
 <details>
 <summary>Explanation</summary>
 
-```typescript
+```ts
 import { ReadDemoSystem } from "../src/systems/ReadDemoSystem.sol";
 ```
 We need to import our `System` to use it.
 
-```typescript
+```ts
 import { IWorld } from "../src/codegen/world/IWorld.sol";
 import { IWorld as IPrimodiumWorld } from "../src/primodium/world/IWorld.sol";
 ```
 We need the import specific features and types to our World Extension. These are found in `../src/codegen/`.  We also need to specific features of Primodium world.
 
-```typescript
+```ts
 contract ReadDemoTest is MudTest {
 ```
 We will be using the `MudTest` library, which extends the standard forge `Test` with some additional supporting functionality.
 
-```typescript
+```ts
 address extensionDeployerAddress = vm.envAddress("ADDRESS_ALICE");
 address playerAddressActive = vm.envAddress("ADDRESS_PLAYER_ACTIVE");
 address playerAddressInactive = vm.envAddress("ADDRESS_PLAYER_INACTIVE");
 ```
 Foundry Cheatcodes allows us quick access to `.env` parameters using `vm.envAddress`, `vm.Uint`, etc.  https://book.getfoundry.sh/cheatcodes/external
 
-```typescript
+```ts
 function setUp() public override {
   super.setUp();
 ```
 We need some of the background setUp that occurs in MudTest.
 
-```typescript
+```ts
 vm.createSelectFork(vm.envString("PRIMODIUM_RPC_URL"), vm.envUint("BLOCK_NUMBER"));
 ```
 For these tests, we create a local temporary copy of the live Primodium blockchain, at a specific block number.  Changes to this blockchain are not sent back to the real one, so we can do thorough testing without danger of unintended consequences.
 
-```typescript
+```ts
 WorldRegistrationSystem world = WorldRegistrationSystem(worldAddress);
 ```
 This is our primary interface to Primodium world for the duration of the test.
 
-```typescript
+```ts
 ResourceId namespaceResource = WorldResourceIdLib.encodeNamespace(bytes14(namespace));
 ResourceId systemResource = WorldResourceIdLib.encode(RESOURCE_SYSTEM, namespace, system);
 ```
@@ -151,12 +151,12 @@ ResourceId systemResource = WorldResourceIdLib.encode(RESOURCE_SYSTEM, namespace
 
 `encodeNamespace()` and `encode()` handle the messy bitshifting into appropriate `ResourceId` formats for interfacing with `Table`s and `Systems`s.
 
-```typescript
+```ts
 world.registerSystem(systemResource, readDemoSystem, true);
 ```
 This line associates the derived `ResourceId` to a `System` address, and sets access permissions.  https://mud.dev/world/reference/world-external#registersystem
 
-```typescript
+```ts
 world.registerFunctionSelector(systemResource, "readMainBaseLevel()");
 ```
 The `System` may be registered, but we also need to tell the `World` what functions are provided by the `System`. This handles that. The function text is a function signature, and needs to include all the input parameters, e.g. `"transfer(address,uint256)"`.  No spaces.

@@ -12,7 +12,7 @@ Every plugin will need a mudConfig, which is stored in `mud.config.ts`. Plugins 
 
 Since this demo only deploys a system for reading data, we will not need any new `Tables`, but we will need to declare a `Namespace` and `System`.
 
-```typescript
+```ts filename="mud.config.ts"
 import { defineWorld } from "@latticexyz/world";
 
 export default defineWorld({
