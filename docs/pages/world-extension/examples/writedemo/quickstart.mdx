@@ -1,0 +1,29 @@
+# Quickstart
+
+## The demo includes four important files:
+
+- System Contract: `src/WriteDemoSystem.sol`
+- System Tests: `test/WriteDemoSystem.t.sol`
+- Deployment Script: `scripts/RegisterWriteDemoSystem.s.sol`
+- Interaction Script: `scripts/BuildIronMine.s.sol`
+
+## Actions
+
+- Change your active directory:
+  - `cd examples/WriteDemo/packages/contracts`
+- Install the necessary packages:
+  - `pnpm i`
+- Build the project:
+  - `pnpm build`
+- Test the project:
+  - `forge test`
+- Update namespaces in scripts (choose your own to avoid collision).
+- Update addresses and private keys in `.env`
+- Do a dry-run of deployment:
+  - `forge script script/RegisterWriteDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http`
+- Deploy the System:
+  - `forge script script/RegisterWriteDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast`
+- Delegate authority to the system:
+  - `forge script script/DelegateToWriteDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast`
+- Use a script to interact with the system:
+  - `forge script script/BuildIronMine.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast`

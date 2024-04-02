@@ -1,0 +1,28 @@
+The commented code can be found in `packages/contracts/src/systems/WriteDemoSystem.sol`
+
+The code should compile with `pnpm build`.
+
+This system is quite a bit more involved.
+
+We start by finding out home asteroid, as seen in the ReadDemo.
+
+### Enumerations
+
+Next we need to select the building we want to build. Primodium stores lits of entity lookup keys in `common.sol`. Here we can find buildings, resources, units, etc. The enums are used to lookup prototypes and blueprints later, in their specific `System`s. We're going to build an `EBuilding.IronMine` for now.
+
+### Map Interactions
+
+Each asteroid has a bounded set of tiles where buildings can be placed. We need to find the bounds for this specific map (our Home Base in this case). These bounds change as you increase your expansion level, so we get the level, and save the `DimensionData` range. From there, we use an `P_AsteroidData` struct to manage the data, calculate the bounds, and return them.
+
+Finally, we step through each tile and check if it is the correct type. Next we check if it is empty, and we use a `P_Blueprint` to check if the building fits within the bounds. If all of this is successful, we return the tile position.
+
+### Calling a Game System
+
+We want our expansion system to call a system on the Primodium world. If all of this is successful, we return the `buildingEntity`.
+
+Unlike the ReadDemo, the WriteDemo acts on behalf of the user. Our system needs to have permission to do so. This is allowed through a Delegation that needs to occur before the system it called. You can find documentation and example code for delegations at:
+
+- https://mud.dev/world/account-delegation
+- `WriteDemoSystem.t.sol:100`
+
+Normally we would get the system `ResourceId`, and the use `abi.encodeWithSignature` to call the function. However, there is currently a bug in MUD, and we need to retrieve the internal function selector from the `FunctionSelectors` table, and then use that with `abi.encodeWithSelector`. Example code is provided; we expect the normal usage to return in future MUD versions.
