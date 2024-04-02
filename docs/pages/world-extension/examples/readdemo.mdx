@@ -1,1 +1,220 @@
 # Read Demo
+https://github.com/primodiumxyz/developer/tree/main/examples/ReadDemo
+
+This demo introduced you to the basics of reading data from Primodium tables using the MUD World Extension system.
+
+It's a good idea to start by getting familiar with the MUD documentation here: https://mud.dev/guides/extending-a-world. There may be some differences due to some breaking changes in their latest release.  This Demo was built with MUD v2.0.1.
+
+There are detailed line-by-line comments in the README.md included with the source code.
+
+## Tables
+MUD stores all data in `Table`s.  Some are core to MUD, some are specific to Primodium, and some can be specific to your Extension.  MUD automatically generates solidity libraries for tables that handle setters, getters, and decoding.
+
+More information on Tables here: https://mud.dev/store/tables
+
+## MUD Config
+The first we modify when creating an extension is to define it in `packages\contracts\mud.config.ts`
+
+Here, we specify the `namespace`, the `systems`, and the extension specific `tables`.  Technically, the extension is a new `World` that interacts with another world.
+
+```typescript
+import { defineWorld } from "@latticexyz/world";
+
+export default defineWorld({
+  namespace: "PluginExamples",
+  systems: {
+    ReadDemoSystem: {
+      name: "ReadDemoSystem",
+      openAccess: true,
+    },
+  },
+  tables: {},
+});
+```
+
+The `namespace` is where the `system` will live.  They can be up to 16 characters long, and every namespace must be unique. If you run into a collision, choose a different name.
+
+For this demo, we do not need to create any new `tables`. We will be reading tables that live in the `Primodium` namespace. However, the extension still needs it's own namespace.
+
+More details on MUD Config can be found here: https://mud.dev/config
+
+## ReadDemoSystem.sol
+The actual system is fairly straightforward.
+
+```typescript
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.24;
+
+import { System } from "@latticexyz/world/src/System.sol";
+import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
+
+import { Home } from "../primodium/tables/Home.sol";
+import { Level } from "../primodium/tables/Level.sol";
+
+
+contract ReadDemoSystem is System {
+  function readMainBaseLevel() public returns (uint32) {
+
+    StoreSwitch.setStoreAddress(_world());
+
+    bytes32 playerEntity = bytes32(uint256(uint160(_msgSender())));
+    bytes32 asteroidEntity = Home.get(playerEntity);
+    bytes32 baseEntity = Home.get(asteroidEntity);
+
+    return uint32(Level.get(baseEntity));
+  }
+}
+```
+<details>
+<summary>Explanation</summary>
+
+```typescript
+import { System } from "@latticexyz/world/src/System.sol";
+import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
+```
+All systems need to import `System` to interface correctly with MUD.
+
+```typescript
+import { Home } from "../primodium/tables/Home.sol";
+import { Level } from "../primodium/tables/Level.sol";
+```
+Here we include the Primodium `Table`s we want to talk to.  These libraries made available in the source code at `packages/contracts/src/primodium`, and potentially in an npm package at a later date.
+
+```typescript
+contract ReadDemoSystem is System {
+```
+Make sure this matches what you specified in `mud.config.ts`
+
+```typescript
+    StoreSwitch.setStoreAddress(_world());
+```
+`StoreSwitch` allows us to choose the data source for our extension.  `_world()` is inherited from `System`, and resolves to the world that called this system.  Since our systems will be registered to the Primodium world, this tells us to use the Primodium tables.
+
+https://mud.dev/world/reference/world-context#_world
+
+```typescript
+    bytes32 playerEntity = bytes32(uint256(uint160(_msgSender())));
+```
+
+Every player has an ID generated from their address for interacting with the world.  This is the raw form; usually we use a helper function like `addressToEntity()` to make this cleaner.
+
+`_msgSender()` allows us to find the address of the player calling this system. `msg.sender` won't work since that will be the Primodium world address.
+
+https://mud.dev/world/reference/world-context#_msgsender
+
+```typescript
+    bytes32 asteroidEntity = Home.get(playerEntity);
+    bytes32 baseEntity = Home.get(asteroidEntity);
+```
+This can be a little confusing at first.  In Primodium, `Home.get` is dual purpose. Using it on a player ID returns their home asteroid ID. Using it on an asteroid ID returns the base building ID of that asteroid.  Combined, we get the building ID of the main base building.
+
+Most tables are not multipurpose like this, but it is common to need to drill down through parent-child entity ID layers.
+
+```typescript
+    return uint32(Level.get(baseEntity));
+```
+And we're done.  A simple call to the Level table to get the level of the main base for the player.
+</details>
+
+## Tests
+
+We've included three tests in this example, to highlight a couple different situations.
+
+The test file can be intimidating, especially the imports.  Most of these are boilerplate for tests and scripts that interact with MUD worlds.
+
+A detailed explanation of most of the imports can be found here: https://mud.dev/guides/extending-a-world#deploy-to-the-blockchain
+
+We will highlight some specific additional details in the Explanation below, and again, the included source code has line-by-line explanations in the comments.
+
+```typescript
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.24;
+
+import { MudTest } from "@latticexyz/world/test/MudTest.t.sol";
+import { console2 } from "forge-std/Test.sol";
+
+import { WorldRegistrationSystem } from "@latticexyz/world/src/modules/init/implementations/WorldRegistrationSystem.sol";
+import { System } from "@latticexyz/world/src/System.sol";
+
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
+import { WorldResourceIdLib } from "@latticexyz/world/src/WorldResourceId.sol";
+import { RESOURCE_SYSTEM } from "@latticexyz/world/src/worldResourceTypes.sol";
+import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
+
+import { ReadDemoSystem } from "../src/systems/ReadDemoSystem.sol";
+
+import { IWorld } from "../src/codegen/world/IWorld.sol";
+import { IWorld as IPrimodiumWorld } from "../src/primodium/world/IWorld.sol";
+
+contract ReadDemoTest is MudTest {
+
+  address extensionDeployerAddress = vm.envAddress("ADDRESS_ALICE");
+  address playerAddressActive = vm.envAddress("ADDRESS_PLAYER_ACTIVE");
+  address playerAddressInactive = vm.envAddress("ADDRESS_PLAYER_INACTIVE");
+
+  bytes14 PRIMODIUM_NAMESPACE = bytes14("Primodium");
+  bytes14 namespace = bytes14("PluginExamples");
+  bytes16 system = bytes16("ReadDemoSystem");
+
+  function setUp() public override {
+    super.setUp();
+
+    worldAddress = vm.envAddress("WORLD_ADDRESS");
+    StoreSwitch.setStoreAddress(worldAddress);
+
+    vm.createSelectFork(vm.envString("PRIMODIUM_RPC_URL"), vm.envUint("BLOCK_NUMBER"));
+    console2.log("\nForkLivePrimodium is running.");
+
+    WorldRegistrationSystem world = WorldRegistrationSystem(worldAddress);
+
+    ResourceId namespaceResource = WorldResourceIdLib.encodeNamespace(bytes14(namespace));
+    ResourceId systemResource = WorldResourceIdLib.encode(RESOURCE_SYSTEM, namespace, system);
+
+    vm.startPrank(extensionDeployerAddress);
+
+    world.registerNamespace(namespaceResource);
+
+    ReadDemoSystem readDemoSystem = new ReadDemoSystem();
+    world.registerSystem(systemResource, readDemoSystem, true);
+
+    world.registerFunctionSelector(systemResource, "readMainBaseLevel()");
+
+    vm.stopPrank();
+  }
+
+  function test_ReadMainBaseLevel_Inactive() public {
+    vm.startPrank(playerAddressInactive);
+
+    uint32 baseLevel = IWorld(worldAddress).PluginExamples__readMainBaseLevel();
+
+    vm.stopPrank();
+    assertEq(baseLevel, 0, "The base level should be 0 for an Inactive player.");
+  }
+
+  function test_ReadMainBaseLevel_Active() public {
+    vm.startPrank(playerAddressActive);
+
+    uint32 baseLevel = IWorld(worldAddress).PluginExamples__readMainBaseLevel();
+
+    vm.stopPrank();
+    assertEq(baseLevel, 1, "The base level should be 1 for an Active player.");
+  }
+
+  function test_SpawnAndReadMainBaseLevel() public {
+    vm.startPrank(playerAddressInactive);
+
+    uint32 baseLevel = IWorld(worldAddress).PluginExamples__readMainBaseLevel();
+
+    IPrimodiumWorld(worldAddress).Primodium__spawn();
+    baseLevel = IWorld(worldAddress).PluginExamples__readMainBaseLevel();
+
+    vm.stopPrank();
+    assertEq(baseLevel, 1, "The base level should be 1 for a freshly spawned player.");
+  }
+}
+```
+
+<details>
+<summary>Explanation</summary>
+
+</details>
