@@ -1,0 +1,10 @@
+{
+  "quickstart": "Quickstart",
+  "getting-started": "Getting Started",
+  "mud-config": "MUD Config",
+  "create-system": "Create",
+  "test-system": "Test",
+  "test-deploy": "Test Deploy",
+  "deploy": "Deploy",
+  "use": "Interact"
+}
