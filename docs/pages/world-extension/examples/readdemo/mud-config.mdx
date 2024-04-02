@@ -1,0 +1,32 @@
+# MUD Config
+
+## Tables
+MUD stores all data in `Table`s.  Some are core to MUD, some are specific to Primodium, and some can be specific to your Extension.  MUD automatically generates solidity libraries for tables that handle setters, getters, and decoding.
+
+More information on Tables here: https://mud.dev/store/tables
+
+## MUD Config
+The code can be found in `packages/contracts/mud.config.ts`
+
+Every plugin will need a mudConfig, which is stored in `mud.config.ts`. Plugins must exist in a `Namespace`. Multiple `Systems` can exist in a namespace.
+
+Since this demo only deploys a system for reading data, we will not need any new `Tables`, but we will need to declare a `Namespace` and `System`.
+
+```typescript
+import { defineWorld } from "@latticexyz/world";
+
+export default defineWorld({
+  namespace: "PluginExamples",
+  systems: {
+    ReadDemoSystem: {
+      name: "ReadDemoSystem",
+      openAccess: true,
+    },
+  },
+  tables: {},
+});
+```
+
+The `Namespace` is where the `System` will live.  They can be up to 16 characters long, and every namespace must be unique. If you run into a collision, choose a different name.  The revert should say something like `World_ResourceAlreadyExists()` if there is a namespace collision.
+
+More details on MUD Config can be found here: https://mud.dev/config

@@ -1,0 +1,39 @@
+# Quickstart
+
+## The demo includes four important files:
+
+- System Contract: `src/ReadDemoSystem.sol`
+- System Tests: `test/ReadDemoSystem.t.sol`
+- Deployment Script: `scripts/RegisterReadDemoSystem.s.sol`
+- Interaction Script: `scripts/ReadMainBaseLevel.s.sol`
+
+## Actions
+
+1. Change your active directory:
+```bash 
+cd examples/ReadDemo/packages/contracts
+```
+2. Install the necessary packages:
+```bash
+`pnpm i`
+```
+3. Build the project:
+```bash
+`pnpm build`
+```
+4. Test the project:
+```bash
+`forge test`
+```
+5. Do a dry-run of deployment:
+```bash
+`forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http`
+```
+6. Deploy the System:
+```bash
+`forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast`
+```
+7. Use a script to interact with the system:
+```bash
+`forge script script/ReadMainBaseLevel.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast`
+```
