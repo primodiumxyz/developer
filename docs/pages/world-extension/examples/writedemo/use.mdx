@@ -1,0 +1,40 @@
+# Using the World Extension
+The commented code can be found in `packages/contracts/scripts/WriteMainBaseLevel.s.sol`
+
+Nothing new here, except the system uses gas, so we call from a Private Key instead of an Address.
+
+```ts filename="BuildIronMine.s.sol"
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.24;
+
+import { Script } from "forge-std/Script.sol";
+import { console2 } from "forge-std/Test.sol";
+
+import { IWorld } from "../src/codegen/world/IWorld.sol";
+
+contract BuildIronMine is Script {
+  function run() external {
+    address worldAddress = vm.envAddress("WORLD_ADDRESS");
+    console2.log("World Address: %x", worldAddress);
+    uint256 playerPrivateKeyBob = vm.envUint("PRIVATE_KEY_BOB");
+    console2.log("Player Private Key: %x", playerPrivateKeyBob);
+
+    vm.startBroadcast(playerPrivateKeyBob);
+
+    IWorld iworld = IWorld(worldAddress);
+
+    world.registerDelegation(address(writeDemoSystem), UNLIMITED_DELEGATION, new bytes(0));
+
+    iworld.PluginExamples__buildIronMine();
+
+    vm.stopBroadcast();
+    console2.log("Iron Mine Built on Main Base");
+  }
+}
+```
+
+Execute the script with this command:
+
+```bash
+forge script script/BuildIronMine.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
+```
