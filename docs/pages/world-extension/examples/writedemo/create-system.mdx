@@ -1,10 +1,153 @@
+# Create the World Extension
 The commented code can be found in `packages/contracts/src/systems/WriteDemoSystem.sol`
 
 The code should compile with `pnpm build`.
 
-This system is quite a bit more involved.
+We want our expansion system to call a system on the Primodium world. If all of this is successful, we return the `buildingEntity`.
 
-We start by finding out home asteroid, as seen in the ReadDemo.
+Unlike the ReadDemo, the WriteDemo acts on behalf of the user. Our system needs to have permission to do so. This is allowed through a Delegation that needs to occur before the system it called. You can find documentation and example code for delegations at:
+
+- https://mud.dev/world/account-delegation
+- `WriteDemoSystem.t.sol:100`
+
+This system is quite a bit more involved.  We'll break this system down by function.
+
+### Imports
+
+```ts filename="WriteDemoSystem.sol"
+import { Asteroid, Home, Level, Dimensions, DimensionsData, PositionData, Spawned, UsedTiles, P_AsteroidData, P_Asteroid, P_Blueprint, P_EnumToPrototype, P_MaxLevel, P_RequiredTile, P_Terrain } from "../primodium/index.sol";
+
+import {EBuilding} from "../primodium/common.sol";
+
+import {Bounds, EResource} from "src/Types.sol";
+import {BuildingKey, ExpansionKey} from "src/Keys.sol";
+
+import {FunctionSelectors} from "@latticexyz/world/src/codegen/tables/FunctionSelectors.sol";
+```
+<details>
+<summary>Explanation</summary>
+
+```ts
+import { Asteroid, Home, Level, Dimensions, DimensionsData, PositionData, Spawned, UsedTiles, P_AsteroidData, P_Asteroid, P_Blueprint, P_EnumToPrototype, P_MaxLevel, P_RequiredTile, P_Terrain } from "../primodium/index.sol";
+```
+Previously we imported `Table`s directly, one at a time. However, MUD collects and exposes them in index.sol automatically, so we're just going to use that now.
+
+```ts
+import {EBuilding} from "../primodium/common.sol";
+```
+Primodium stores lists of entity lookup keys in `common.sol` as enumerations. Here we can find buildings, resources, units, etc.
+
+```ts
+import {Bounds, EResource} from "src/Types.sol";
+import {BuildingKey, ExpansionKey} from "src/Keys.sol";
+```
+We use `struct`s to pass around collections of related data; these can be found in `Types.sol`.  Similarly, we have some internal keys we used look up data, and those can be found in `Keys.sol`.
+
+```ts
+import {FunctionSelectors} from "@latticexyz/world/src/codegen/tables/FunctionSelectors.sol";
+```
+Normally we won't need this. However, there is a bug in how MUD v2.0.1 handles function selectors when using `callFrom`. We need to use `callFrom` to interact with systems that take action for the user, so we're going to use this to workaround the bug until it is resolved in future versions.
+
+</details>
+
+### Top Level Function
+```ts filename="WriteDemoSystem.sol"
+  function buildIronMine() public returns (bytes32 buildingEntity) {
+
+    StoreSwitch.setStoreAddress(_world());
+
+    bytes32 playerEntity = addressToEntity(_msgSender());
+
+    bool playerIsSpawned = Spawned.get(playerEntity);
+    require(playerIsSpawned, "[WriteDemoSystem] Player is not spawned");
+
+    bytes32 asteroidEntity = Home.get(playerEntity);
+
+    EBuilding building = EBuilding.IronMine;
+
+    PositionData memory position = getTilePosition(asteroidEntity, building);
+
+    bytes4 worldFunctionSelector = bytes4(keccak256(bytes("Primodium__build(uint8,(int32,int32,bytes32))")));
+
+    (ResourceId buildSystemId, bytes4 buildSystemFunctionSelector) = FunctionSelectors.get(worldFunctionSelector);
+
+    bytes memory result = IPrimodiumWorld(_world()).callFrom(
+      _msgSender(),
+      buildSystemId,
+      abi.encodeWithSelector(
+        bytes4(buildSystemFunctionSelector),
+        building,
+        position.x,
+        position.y,
+        position.parentEntity
+      )
+    );
+
+    buildingEntity = abi.decode(result, (bytes32));
+  }
+```
+
+<details>
+<summary>Explanation</summary>
+
+```ts
+bool playerIsSpawned = Spawned.get(playerEntity);
+```
+`Spawned` is a Primodium `Table` we can call to check if a player has started playing. You can examine the imported contract, and see what types to expect in return, and any other functionality it provides.  Most of the time we will only be using `get()` and `set()`.
+
+```ts
+EBuilding building = EBuilding.IronMine;
+```
+Enumerations let us use clear names instead of magic numbers to represent data.  It makes the code much more readable.
+
+```ts
+PositionData memory position = getTilePosition(asteroidEntity, building);
+```
+This function gets pretty complex.  We will walk through it in detail later, but at the high level, the map on each asteroid is broken into a tile grid, and this function walks the map and looks for an appropriate tile for the building passed in.
+
+```ts
+    // ResourceId buildSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, PRIMODIUM_NAMESPACE, "BuildSystem");
+    // bytes memory buildingEntity = IPrimodiumWorld(_world()).callFrom(
+    //     _msgSender(),
+    //     buildSystemId,
+    //     abi.encodeWithSignature("Primodium__build(uint8,(int32,int32,bytes32))", building, (position))
+    // );
+
+```
+This is normally how we would call a `System` that is going to take action for the user.  Find the ResourceId for the system, and execute a `callFrom` using `_msgSender()` to identify the user, with the signature of the of the function being called.  The target `System` needs to have received delegation permission from the user in advance.  We'll discuss delegation later.
+
+The parameters of the function signature deconstruct the struct into its internal native types, to match the abi.  Note the extra () around `position` to indicate that the struct is a tuple.
+
+```ts
+bytes4 worldFunctionSelector = bytes4(keccak256(bytes("Primodium__build(uint8,(int32,int32,bytes32))")));
+
+(ResourceId buildSystemId, bytes4 buildSystemFunctionSelector) = FunctionSelectors.get(worldFunctionSelector);
+
+bytes memory result = IPrimodiumWorld(_world()).callFrom(
+  _msgSender(),
+  buildSystemId,
+  abi.encodeWithSelector(
+    bytes4(buildSystemFunctionSelector),
+    building,
+    position.x,
+    position.y,
+    position.parentEntity
+  )
+);
+```
+This is our workaround for the MUD function selector bug.  The function selector used by the `World` is different from the original function selector derived from the function signature.
+
+We start in the same place, and find the original signature.  Then we check the `FunctionSelectors` table to retrieve the actual function selector we need to use in `callFrom`.
+
+Finally, we execute the `callFrom` using manually built calldata.
+
+```ts
+buildingEntity = abi.decode(result, (bytes32));
+```
+`callFrom` returns `bytes memory`, so we convert it to the `bytes32` we expect and return.
+
+</details>
+
 
 ### Enumerations
 
