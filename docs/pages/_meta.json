@@ -17,7 +17,6 @@
     "href": "https://www.x.com/primodiumgame",
     "newWindow": true
   },
-
   "topics": {
     "title": "Topics",
     "type": "separator"
@@ -26,7 +25,6 @@
   "index": "Quickstart",
   "latest": "Latest Release",
   "game-guide": "Game Guide",
-
   "overview": {
     "title": "Overview",
     "type": "separator"
@@ -34,13 +32,12 @@
   "overview-source": "Source",
   "overview-contracts": "Contracts",
   "overview-client": "Client",
-
   "protocol": {
     "title": "Protocol",
     "type": "separator"
   },
   "world-extension": "World Extensions",
-
+  "examples": "Examples",
   "open-source": {
     "title": "Open Source",
     "type": "separator"
