@@ -1,0 +1,69 @@
+## Primodium GraphQL
+Endpoint:
+```
+https://graphql.primodium.ai/v1/graphql
+```
+
+We have added a graphql endpoint for easy querying of our indexer data built on top of Hasura.
+
+## Getting started
+
+This section assumes knowledge of graphql and its related technologies.
+
+It is recommended to use a graphql playground to introspect the schema and get understanding of our data model and look at the [hasura docs for further info on advance querying](https://hasura.io/docs/latest/queries/postgres/index/):
+
+> NOTE: Currently, tables and its fields are exposed; however, full data type support and relations are missing due to the nature of how are decoded data is stored.
+
+- [Apollo Studio](https://studio.apollographql.com/sandbox/explorer)
+- [GraphiQL Online](https://lucasconstantino.github.io/graphiql-online/)
+
+For this quide, we will use *Apollo Studio*:
+
+1. Go to [Apollo Studio](https://studio.apollographql.com/sandbox/explorer)
+2. Set the sandbox url to our endpoint `https://graphql.primodium.ai/v1/graphql`
+
+  > <img src="/tooling/graphql/apollo_studio.png" width="600" />
+
+3. Query away!
+
+
+## Query Decoded Data
+
+For this example we will query the top 10 scores of the current round:
+```gql
+query Top10Score {
+  viewScore(limit: 10, orderBy: { value: DESC}) {
+    entity
+    value
+  }
+}
+```
+
+## Query Encoded Data
+
+For this example we will query mud records between a block range:
+```gql
+query MudRecords($where: MudRecordsBoolExp = {
+  blockNumber: {
+       _lte: 4824475,
+      _gte: 4823475
+    }
+}, $limit: Int = 1000) {
+  mudRecords(where: $where, limit: $limit) {
+    address
+    blockNumber
+    dynamicData
+    encodedLengths
+    isDeleted
+    key0
+    key1
+    keyBytes
+    logIndex
+    staticData
+    tableId
+  }
+}
+```
+
+## Start with one of our templates integrating Graphql
+- [react-client-lite](../react-client-lite.mdx): Minimal setup to start creating read-only clients utilizing primodium graphql endpoint.
