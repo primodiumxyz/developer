@@ -35,11 +35,19 @@
   "overview-contracts": "Contracts",
   "overview-client": "Client",
 
+  "tooling": {
+    "title": "Tooling",
+    "type": "separator"
+  },
+  "creating-dashboards": "Creating Dashboards",
+  "templates": "Templates",
+
   "protocol": {
     "title": "Protocol",
     "type": "separator"
   },
   "world-extension": "World Extensions",
+  
 
   "open-source": {
     "title": "Open Source",
