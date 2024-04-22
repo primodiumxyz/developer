@@ -6,23 +6,23 @@ We glossed over this line in the previous section, but the majority of the work 
 PositionData memory position = getTilePosition(asteroidEntity, building);
 ```
 
-This function dives progressively deeper into helper functions.  Many of these will be included in a future Primodium library package, but they are a good source of insight as well.
+This function dives progressively deeper into helper functions. Many of these will be included in a future Primodium library package, but they are a good source of insight as well.
 
-- getTilePosition()
-  - P_EnumToPrototype.get()
-  - getAsteroidBounds()
-    - Dimensions.get()
-    - P_Asteroid.get()
-  - canBuildOnTile()
-    - P_RequiredTile.get()
-    - Asteroid.getMapId()
-    - P_Terrain.get()
-  - canPlaceBuildingTiles()
-    - P_Blueprint.get()
-    - allTilesAvailable()
-
+- `getTilePosition()`
+  - `P_EnumToPrototype.get()`
+  - `getAsteroidBounds()`
+    - `Dimensions.get()`
+    - `P_Asteroid.get()`
+  - `canBuildOnTile()`
+    - `P_RequiredTile.get()`
+    - `Asteroid.getMapId()`
+    - `P_Terrain.get()`
+  - `canPlaceBuildingTiles()`
+    - `P_Blueprint.get()`
+    - `allTilesAvailable()`
 
 ## getAsteroidBounds()
+
 Before we search the asteroid for a suitable tile, we need to know the x/y tile boundaries. This function finds them
 
 ### P_EnumToPrototype.get()
@@ -30,63 +30,79 @@ Before we search the asteroid for a suitable tile, we need to know the x/y tile 
 ```ts filename="WriteDemoSystem.sol:108"
 bytes32 buildingPrototype = P_EnumToPrototype.get(BuildingKey, uint8(buildingType));
 ```
+
 We use EBuilding to track our list of building. The actual building data is stored in a Prototype table.
 The `P_EnumToPrototype` table allows us to convert these enums to prototypes, using a type key and an index.
 
 ### Dimensions.get() / P_Asteroid.get()
+
 ```ts filename="WriteDemoSystem.sol:142"
 DimensionsData memory range = Dimensions.get(ExpansionKey, asteroidLevel);
 ```
+
 Each asteroid map has an allowed build area based on its current expansion level. This lookup table returns a `DimensionsData` object with the expansion related width and height parameters.
 
 ```ts filename="WriteDemoSystem.sol:145"
 P_AsteroidData memory asteroidDims = P_Asteroid.get();
 ```
+
 `P_Asteroid` tables stores the basic asteroid bounds, returned as a `P_AsteroidData` object.
 
 Both of these are then combined to tell us the current bounded build range for the asteroid.
 
 ```ts filename="WriteDemoSystem.sol:148"
-return
-  Bounds({
-    maxX: (asteroidDims.xBounds + range.width) / 2 - 1,
-    maxY: (asteroidDims.yBounds + range.height) / 2 - 1,
-    minX: (asteroidDims.xBounds - range.width) / 2,
-    minY: (asteroidDims.yBounds - range.height) / 2
-  });
+return;
+Bounds({
+  maxX: (asteroidDims.xBounds + range.width) / 2 - 1,
+  maxY: (asteroidDims.yBounds + range.height) / 2 - 1,
+  minX: (asteroidDims.xBounds - range.width) / 2,
+  minY: (asteroidDims.yBounds - range.height) / 2,
+});
 ```
 
 ## canBuildOnTile()
-After we have the `Bounds` details, we loop until we find a suitable tile.  This function specifically checks the type of each tile coordinate, and if it matches the building we intend to build there.
+
+After we have the `Bounds` details, we loop until we find a suitable tile. This function specifically checks the type of each tile coordinate, and if it matches the building we intend to build there.
 
 ```ts filename="WriteDemoSystem.sol:163"
 EResource resource = EResource(P_RequiredTile.get(prototype));
 ```
+
 `P_RequiredTile` tells us the tile type we need for the specific building we're attempting to build.
 
 ```ts filename="WriteDemoSystem.sol:166"
 uint8 mapId = Asteroid.getMapId(coord.parentEntity);
 ```
-Different asteroids have different maps.  The `PositionData` struct contains both x/y parameters, as well as the ResourceId of the parent object.  We can use that to retrieve the relavent map.
+
+Different asteroids have different maps. The `PositionData` struct contains both x/y parameters, as well as the ResourceId of the parent object. We can use that to retrieve the relavent map.
 
 ```ts filename="WriteDemoSystem.sol:169"
-return resource == EResource.NULL || uint8(resource) == P_Terrain.get(mapId, coord.x, coord.y);
+return (
+  resource == EResource.NULL ||
+  uint8(resource) == P_Terrain.get(mapId, coord.x, coord.y)
+);
 ```
-`P_Terrain` is another lookup table to retrieve tile details from a specific map.  The rest of the comparison is checking if the tile is of the appropriate type: e.g. empty for most buildings, or a mine tile for mines.
+
+`P_Terrain` is another lookup table to retrieve tile details from a specific map. The rest of the comparison is checking if the tile is of the appropriate type: e.g. empty for most buildings, or a mine tile for mines.
 
 ## canPlaceBuildingTiles()
-Most buildings cover more than one tile.  This function checks for collision and interference across the entire intended building location.
+
+Most buildings cover more than one tile. This function checks for collision and interference across the entire intended building location.
 
 ### P_Blueprint.get()
+
 ```ts filename="WriteDemoSystem.sol:179"
 int32[] memory blueprint = P_Blueprint.get(buildingPrototype);
 ```
+
 `Prototype`s are translated to `Blueprint`s for the purpose of placement. This function retrieves those `Blueprint` details.
 
 The rest of this function is checking the full building size stays within the asteroid bounds.
 
 ### allTilesAvailable()
+
 ```ts filename="WriteDemoSystem.sol:194"
 return allTilesAvailable(asteroidEntity, tileCoords);
 ```
+
 This function loops through all the building tiles, and does the actual collision checking.

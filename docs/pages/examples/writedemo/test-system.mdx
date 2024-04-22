@@ -1,9 +1,10 @@
 # Testing the World Extension
+
 The commented code can be found in `packages/contracts/test/WriteDemoSystem.t.sol`
 
 The test should execute by running `forge test` within the `packages/contracts/` folder. If you want to see additional details, you can run `forge test -vvvv` with 1-5 `v`s to increase verbosity. I generally recommend 4 or 5 for debug.
 
-Not much changes from ReadDemo.  We need an addition step in setUp() to delegate permission for the system to act on behalf of the user, but the rest is largely the same.
+Not much changes from ReadDemo. We need an addition step in setUp() to delegate permission for the system to act on behalf of the user, but the rest is largely the same.
 
 We will highlight the key differences in the Explanation below.
 
@@ -100,16 +101,23 @@ contract WriteDemoTest is MudTest {
 <summary>Explanation</summary>
 
 ```ts
-import {UNLIMITED_DELEGATION} from "@latticexyz/world/src/constants.sol";
+import { UNLIMITED_DELEGATION } from "@latticexyz/world/src/constants.sol";
 ```
+
 This is a new import related to delegations. Aside from `UNLIMITED_DELEGATION`, there are also more restrictive options such as `CALLBOUND_DELEGATION`, `SYSTEMBOUND_DELEGATION`, and `TIMEBOUND_DELEGATION`.
 
 ```ts
-world.registerDelegation(address(writeDemoSystem), UNLIMITED_DELEGATION, new bytes(0));
+world.registerDelegation(
+  address(writeDemoSystem),
+  UNLIMITED_DELEGATION,
+  new bytes(0)
+);
 ```
-Here we execute the delegation.  Note that we need to prank from a private key instead of an address, since this will normally cost gas.
+
+Here we execute the delegation. Note that we need to prank from a private key instead of an address, since this will normally cost gas.
 
 </details>
 
 ![Example final output ](../../../public/examples/writedemo/writedemodone.png)
+
 <small>_Example Final Output_</small>

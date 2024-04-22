@@ -1,9 +1,9 @@
 {
   "quickstart": "Quickstart",
   "getting-started": "Getting Started",
-  "mud-config": "MUD Config",
-  "create-system": "Create",
-  "test-system": "Test",
+  "create-table": "Create Tables",
+  "create-system": "Create Systems",
+  "test-system": "Test Systems",
   "test-deploy": "Test Deploy",
   "deploy": "Deploy",
   "use": "Interact"

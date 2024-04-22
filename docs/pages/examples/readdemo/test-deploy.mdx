@@ -1,4 +1,5 @@
-# Simulating Deployment of the World Extension
+# Simulating World Extension Deployment
+
 The commented code can be found in `packages/contracts/scripts/RegisterReadDemoSystem.s.sol`
 
 ## Code
@@ -50,7 +51,7 @@ contract RegisterReadDemoSystem is Script {
 }
 ```
 
-This should look incredibly familiar.  Most of the code is identical to the setUp() function of our tests.
+This should look incredibly familiar. Most of the code is identical to the `setUp()` function of our tests.
 
 Deploying your extension looks much like testing your extension, but occurs in a script. Most of the code is identical to the test, which is kind of the point. Test thoroughly before deploying; deployments are permanent.
 
@@ -62,8 +63,7 @@ Key differences are:
 - We must declare and specify the `WORLD_ADDRESS` variable; it is not inherited from `MudTest`.
 - When deploying, you must use a `PRIVATE_KEY` in `.env`, since this action will cost gas.
 - Writing to the chain requires startBroadcast() instead of startPrank()
-- 
-You can do a simulation of a deployment with the following command:
+- You can do a simulation of a deployment with the following command:
 
 ```bash
 forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http
