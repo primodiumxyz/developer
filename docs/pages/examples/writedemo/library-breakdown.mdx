@@ -23,7 +23,7 @@ The [`getTilePosition()`](https://github.com/primodiumxyz/developer/tree/main/ex
 
 ## `getAsteroidBounds()`
 
-Before we search the asteroid for a suitable tile, we need to know the x/y tile boundaries. This function finds them
+Before we search the asteroid for a suitable tile, we need to know the x/y tile boundaries. This function finds them.
 
 ### `P_EnumToPrototype.get()`
 
@@ -68,13 +68,13 @@ After we have the `Bounds` details, we loop until we find a suitable tile. This 
 EResource resource = EResource(P_RequiredTile.get(prototype));
 ```
 
-`P_RequiredTile` tells us the tile type we need for the specific building we're attempting to build.
+`P_RequiredTile` tells us the tile type require by the specific building we're attempting to build.
 
 ```ts filename="WriteDemoSystem.sol:166"
 uint8 mapId = Asteroid.getMapId(coord.parentEntity);
 ```
 
-Different asteroids have different maps. The `PositionData` struct contains both x/y parameters, as well as the ResourceId of the parent object. We can use that to retrieve the relavent map.
+Different asteroids have different maps. The `PositionData` struct contains both x/y parameters, as well as the ResourceId of the parent object. We can use that to retrieve the relevant map.
 
 ```ts filename="WriteDemoSystem.sol:169"
 return (

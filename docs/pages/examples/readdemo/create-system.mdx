@@ -11,8 +11,8 @@ pragma solidity >=0.8.24;
 import { System } from "@latticexyz/world/src/System.sol";
 import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
 
-import { Home } from "../primodium/tables/Home.sol";
-import { Level } from "../primodium/tables/Level.sol";
+import { Home } from "primodium/tables/Home.sol";
+import { Level } from "primodium/tables/Level.sol";
 
 
 contract ReadDemoSystem is System {
@@ -34,7 +34,7 @@ contract ReadDemoSystem is System {
 
 [**Primodium systems**](../../overview-contracts/systems.mdx) are smart contracts that execute on-chain logic to modify state stored in Primodium [tables](../../overview-contracts/tables.mdx). Systems exist in both the core Primodium contracts and in world extensions.
 
-In the ReadDemo, system contracts are created in `packages/contracts/src/systems`. They are fairly standard smart contracts that only need to import the critical functionality from MUD or the `World` you are interacting with.
+In the ReadDemo, system contracts are created in `packages/contracts/src/systems`. They are fairly standard smart contracts that only need to import the critical functionality from MUD or the `World` they are interacting with.
 
 ```ts
 import { System } from "@latticexyz/world/src/System.sol";
@@ -44,13 +44,13 @@ import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
 The contract itself is a `System` so we need to import that MUD library. We also need to tell the contract our `Store` target. `StoreSwitch` allows us to specify the `World` address where our target `Table`s reside.
 
 ```ts
-import { Home } from "../primodium/tables/Home.sol";
-import { Level } from "../primodium/tables/Level.sol";
+import { Home } from "primodium/tables/Home.sol";
+import { Level } from "primodium/tables/Level.sol";
 ```
 
 We import the necessary `Table` libraries from the target `World`. These libraries are constructed by MUD scripts during `pnpm build`, and include the specific `tableId`s and `fieldLayout`s, with appropriate setters and getters. They handle the encoding and decoding of the underlying storage records for us.
 
-These libraries are available in the source code at `packages/contracts/src/primodium`, and potentially in an npm package at a later date.
+These libraries are imported from the `@primodiumxyz/contracts` npm package.
 
 ```ts
 contract ReadDemoSystem is System {

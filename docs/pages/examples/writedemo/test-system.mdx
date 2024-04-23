@@ -4,7 +4,7 @@ The commented code can be found in [`packages/contracts/test/WriteDemoSystem.t.s
 
 The test should execute by running `forge test` within the `packages/contracts/` folder. If you want to see additional details, you can run `forge test -vvvv` with 1-5 `v`s to increase verbosity. I generally recommend 4 or 5 for debug.
 
-Not much changes from ReadDemo. We need an addition step in setUp() to delegate permission for the system to act on behalf of the user, but the rest is largely the same.
+Not much changes from [ReadDemo](../readdemo/test-system.mdx) . We need an addition step in setUp() to delegate permission for the system to act on behalf of the user, but the rest is largely the same.
 
 We will highlight the key differences in the Explanation below.
 
@@ -27,9 +27,9 @@ import {UNLIMITED_DELEGATION} from "@latticexyz/world/src/constants.sol";
 import {WriteDemoSystem} from "../src/systems/WriteDemoSystem.sol";
 
 import {IWorld} from "../src/codegen/world/IWorld.sol";
-import {IWorld as IPrimodiumWorld} from "../src/primodium/world/IWorld.sol";
+import {IWorld as IPrimodiumWorld} from "primodium/world/IWorld.sol";
 
-import {Home, PositionData, Spawned} from "../src/primodium/index.sol";
+import {Home, PositionData, Spawned} from "primodium/index.sol";
 
 contract WriteDemoTest is MudTest {
     address extensionDeployerAddress = vm.envAddress("ADDRESS_ALICE");
