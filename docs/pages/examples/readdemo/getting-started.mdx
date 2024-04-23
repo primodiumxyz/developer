@@ -1,0 +1,15 @@
+# Getting Started (Walkthrough)
+
+## MUD Versions
+
+This tutorial was built against MUD version `2.0.1`. If needed, the command to update to the latest MUD version is:
+
+```bash
+pnpm mud set-version --mudVersion 2.0.1 && pnpm i && pnpm build
+```
+
+The world address for the extension developer testnet v0.11.x is `0x46c1e9dd144fcf5477a542d3152d28bc0cfba0b6`.
+
+The `WORLD_ADDRESS` and `BLOCK_NUMBER` are pre-configured in the `.env.example`. You should copy this to `.env`, and make any desired changes there. Note that this guide was written before the world was deployed, so the `BLOCK_NUMBER` will need to be updated.
+
+The `.gitignore` is already configured to not upload your `.env`, but it is always good practice to confirm the ignores in your `.gitignore` for yourself. Anything pushed to Git lives there forever and can be retrieved by anyone even if you delete it in later commits. Check twice (maybe 3 times), push once. NEVER push live private keys or .env files to Git.

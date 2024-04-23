@@ -1,0 +1,11 @@
+{
+  "quickstart": "Quickstart",
+  "getting-started": "Getting Started",
+  "create-table": "Create Tables",
+  "create-system": "Create Systems",
+  "library-breakdown": "Libraries",
+  "test-system": "Test Systems",
+  "test-deploy": "Test Deploy",
+  "deploy": "Deploy",
+  "use": "Interact"
+}

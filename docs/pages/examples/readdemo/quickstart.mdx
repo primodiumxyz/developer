@@ -1,0 +1,60 @@
+# Quickstart
+
+The following is a summary of the walkthrough in the following pages.
+
+1. Clone the Primodium Developer repository:
+
+```bash
+git clone https://github.com/primodiumxyz/developer.git
+```
+
+2. Change your active directory:
+
+```bash
+cd developer/examples/ReadDemo/packages/contracts
+```
+
+3. Install the necessary packages:
+
+```bash
+pnpm i
+```
+
+4. Build the project:
+
+```bash
+pnpm build
+```
+
+5. Test the project:
+
+```bash
+forge test
+```
+
+6. Do a dry-run of deployment:
+
+```bash
+forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http
+```
+
+7. Deploy the System:
+
+```bash
+forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
+```
+
+8. Use a script to interact with the system:
+
+```bash
+forge script script/ReadMainBaseLevel.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
+```
+
+## File Structure
+
+The ReadDemo consists of four main files:
+
+- System Contract: `src/ReadDemoSystem.sol`
+- System Tests: `test/ReadDemoSystem.t.sol`
+- Deployment Script: `scripts/RegisterReadDemoSystem.s.sol`
+- Interaction Script: `scripts/ReadMainBaseLevel.s.sol`

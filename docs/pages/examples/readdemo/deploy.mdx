@@ -1,0 +1,19 @@
+# Deploying the World Extension
+
+Now it's time to write something to the chain.
+
+Before deploying your Primodium world extension, you will need to bridge ETH from Sepolia to the Primodium testnet. After obtaining Sepolia ETH from a faucet, you can bridge to the Primodium testnet using the following [bridge](https://primodium-sepolia.calderabridge.xyz/).
+
+Note that the caldera-sepolia network has the following configuration.
+
+```toml
+[profile.caldera-sepolia]
+eth_rpc_url = "https://primodium-sepolia.rpc.caldera.xyz/http"
+chain_id = 10017
+```
+
+To deploy the world extension, We can use the same command and script we used for the simulation, but append `--broadcast` to broadcast the transaction.
+
+```bash
+forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
+```

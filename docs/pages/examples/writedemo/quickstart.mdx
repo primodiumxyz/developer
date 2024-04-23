@@ -1,0 +1,60 @@
+# Quickstart
+
+The demo includes four important files:
+
+- System Contract: [`src/systems/WriteDemoSystem.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol)
+- System Tests: [`test/WriteDemoSystem.t.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/test/WriteDemoSystem.t.sol)
+- Deployment Script: [`script/RegisterWriteDemoSystem.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/script/RegisterWriteDemoSystem.s.sol)
+- Interaction Script: [`script/BuildIronMine.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/script/BuildIronMine.s.sol)
+
+## Actions
+
+1. After cloning the [Primodium Developer repository](https://github.com/primodiumxyz/developer), change your active directory:
+
+```bash
+cd developer/examples/WriteDemo/packages/contracts
+```
+
+2. Install the necessary packages:
+
+```bash
+pnpm i
+```
+
+3. Build the project:
+
+```bash
+pnpm build
+```
+
+4. Test the project:
+
+```bash
+forge test
+```
+
+5. Update namespaces in scripts (choose your own to avoid collision).
+6. Update addresses and private keys in `.env`
+7. Do a dry-run of deployment:
+
+```bash
+forge script script/RegisterWriteDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http
+```
+
+8. Deploy the System:
+
+```bash
+forge script script/RegisterWriteDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
+```
+
+9. Delegate authority to the system:
+
+```bash
+forge script script/DelegateToWriteDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
+```
+
+10. Use a script to interact with the system:
+
+```bash
+forge script script/BuildIronMine.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
+```

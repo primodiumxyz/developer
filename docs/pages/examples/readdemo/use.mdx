@@ -1,0 +1,42 @@
+# Using the World Extension
+
+The commented code can be found in [`packages/contracts/scripts/ReadMainBaseLevel.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/ReadDemo/packages/contracts/script/ReadMainBaseLevel.s.sol)
+
+Congratulations! Your world extension is onchain and ready to be used.
+
+Now that the code is live, we can use a script that largely replicates the function we wrote in the test.
+
+```ts filename="ReadMainBaseLevel.s.sol"
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.24;
+
+import { Script } from "forge-std/Script.sol";
+import { console2 } from "forge-std/Test.sol";
+
+import { ReadDemoSystem } from "../src/systems/ReadDemoSystem.sol";
+import { IWorld } from "../src/codegen/world/IWorld.sol";
+
+contract ReadMainBaseLevel is Script {
+  function run() external {
+    address worldAddress = vm.envAddress("WORLD_ADDRESS");
+    console2.log("World Address: %x", worldAddress);
+    address playerAddress = vm.envAddress("ADDRESS_PLAYER");
+    console2.log("Player Address: %x", playerAddress);
+
+    vm.startBroadcast(playerAddress);
+
+    IWorld iworld = IWorld(worldAddress);
+
+    uint32 baseLevel = iworld.PluginExamples__readMainBaseLevel();
+
+    vm.stopBroadcast();
+    console2.log("baseLevel: ", baseLevel);
+  }
+}
+```
+
+Execute the script with this command:
+
+```bash
+forge script script/ReadMainBaseLevel.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
+```

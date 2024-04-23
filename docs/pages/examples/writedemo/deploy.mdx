@@ -1,0 +1,11 @@
+# Deploying the World Extension
+
+We can use the same command and script we used for the simulation, but append `--broadcast`.
+
+When you are certain you are ready to deploy, you can use this command. This will cost ETH on `caldera-sepolia`.
+
+```bash
+forge script script/RegisterWriteDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
+```
+
+Refer to the ReadDemo [deploy guide](../readdemo/deploy.mdx) for more details.

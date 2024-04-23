@@ -1,0 +1,60 @@
+# Simulating Deployment of the World Extension
+
+The commented code is here: [`packages/contracts/script/RegisterWriteDemoSystem.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/script/RegisterWriteDemoSystem.s.sol).
+
+## Code
+
+```ts mud.config.ts
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.24;
+
+import { Script } from "forge-std/Script.sol";
+import { console2 } from "forge-std/Test.sol";
+
+import { WorldRegistrationSystem } from "@latticexyz/world/src/modules/init/implementations/WorldRegistrationSystem.sol";
+import { System } from "@latticexyz/world/src/System.sol";
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
+import { WorldResourceIdLib } from "@latticexyz/world/src/WorldResourceId.sol";
+import { RESOURCE_SYSTEM } from "@latticexyz/world/src/worldResourceTypes.sol";
+import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
+
+import { WriteDemoSystem } from "../src/systems/WriteDemoSystem.sol";
+
+contract RegisterWriteDemoSystem is Script {
+
+  address worldAddress = vm.envAddress("WORLD_ADDRESS");
+  uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY_ALICE");
+  address playerAddress = vm.envAddress("ADDRESS_PLAYER");
+
+  bytes14 namespace = bytes14("PluginExamples");
+  bytes16 system = bytes16("WriteDemoSystem");
+
+  function run() external {
+    StoreSwitch.setStoreAddress(worldAddress);
+
+    WorldRegistrationSystem world = WorldRegistrationSystem(worldAddress);
+
+    ResourceId namespaceResource = WorldResourceIdLib.encodeNamespace(bytes14(namespace));
+    ResourceId systemResource = WorldResourceIdLib.encode(RESOURCE_SYSTEM, namespace, system);
+
+    vm.startBroadcast(deployerPrivateKey);
+
+    world.registerNamespace(namespaceResource);
+
+    WriteDemoSystem writeDemoSystem = new WriteDemoSystem();
+
+    world.registerSystem(systemResource, writeDemoSystem, true);
+    world.registerFunctionSelector(systemResource, "buildIronMine()");
+
+    vm.stopBroadcast();
+  }
+}
+```
+
+This is basically identical to the ReadDemo.
+
+You can do a simulation of a deployment with the following command:
+
+```bash
+forge script script/RegisterWriteDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http
+```

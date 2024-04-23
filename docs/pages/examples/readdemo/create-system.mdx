@@ -1,0 +1,94 @@
+# Create Extension Systems
+
+The commented code can be found in [`packages/contracts/src/systems/ReadDemoSystem.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/ReadDemo/packages/contracts/src/systems/ReadDemoSystem.sol)
+
+The code should compile with `pnpm build`.
+
+```ts filename="ReadDemoSystem.sol"
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.24;
+
+import { System } from "@latticexyz/world/src/System.sol";
+import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
+
+import { Home } from "primodium/tables/Home.sol";
+import { Level } from "primodium/tables/Level.sol";
+
+
+contract ReadDemoSystem is System {
+  function readMainBaseLevel() public returns (uint32) {
+
+    StoreSwitch.setStoreAddress(_world());
+
+    bytes32 playerEntity = bytes32(uint256(uint160(_msgSender())));
+    bytes32 asteroidEntity = Home.get(playerEntity);
+    bytes32 baseEntity = Home.get(asteroidEntity);
+
+    return uint32(Level.get(baseEntity));
+  }
+}
+```
+
+<details>
+<summary>Explanation</summary>
+
+[**Primodium systems**](../../overview-contracts/systems.mdx) are smart contracts that execute on-chain logic to modify state stored in Primodium [tables](../../overview-contracts/tables.mdx). Systems exist in both the core Primodium contracts and in world extensions.
+
+In the ReadDemo, system contracts are created in `packages/contracts/src/systems`. They are fairly standard smart contracts that only need to import the critical functionality from MUD or the `World` they are interacting with.
+
+```ts
+import { System } from "@latticexyz/world/src/System.sol";
+import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
+```
+
+The contract itself is a `System` so we need to import that MUD library. We also need to tell the contract our `Store` target. `StoreSwitch` allows us to specify the `World` address where our target `Table`s reside.
+
+```ts
+import { Home } from "primodium/tables/Home.sol";
+import { Level } from "primodium/tables/Level.sol";
+```
+
+We import the necessary `Table` libraries from the target `World`. These libraries are constructed by MUD scripts during `pnpm build`, and include the specific `tableId`s and `fieldLayout`s, with appropriate setters and getters. They handle the encoding and decoding of the underlying storage records for us.
+
+These libraries are imported from the `@primodiumxyz/contracts` npm package.
+
+```ts
+contract ReadDemoSystem is System {
+```
+
+Make sure this matches what you specified in `mud.config.ts`
+
+```ts
+StoreSwitch.setStoreAddress(_world());
+```
+
+`StoreSwitch` allows us to choose the data source for our extension. `_world()` is inherited from `System`, and resolves to the world that called this system. Since our systems will be registered to the Primodium world, this tells us to use the Primodium tables.
+
+https://mud.dev/world/reference/world-context#_world
+
+```ts
+bytes32 playerEntity = bytes32(uint256(uint160(_msgSender())));
+```
+
+Every player has an ID generated from their address for interacting with the world. This is the raw form; usually we use a helper function like `addressToEntity()` to make this cleaner.
+
+`_msgSender()` allows us to find the address of the player calling this system. `msg.sender` won't work since that will be the Primodium world address.
+
+https://mud.dev/world/reference/world-context#_msgsender
+
+```ts
+bytes32 asteroidEntity = Home.get(playerEntity);
+bytes32 baseEntity = Home.get(asteroidEntity);
+```
+
+This can be a little confusing at first. In Primodium, `Home.get` is dual purpose. Using it on a player ID returns their home asteroid ID. Using it on an asteroid ID returns the base building ID of that asteroid. Combined, we get the building ID of the main base building.
+
+Most tables are not multipurpose like this, but it is common to need to drill down through parent-child entity ID layers.
+
+```ts
+return uint32(Level.get(baseEntity));
+```
+
+And we're done. A simple call to the Level table to get the level of the main base for the player.
+
+</details>
