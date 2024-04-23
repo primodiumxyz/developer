@@ -1,0 +1,20 @@
+# Configure the Extension
+
+This should all be familiar from the [ReadDemo](../readdemo/mud-config.mdx)
+
+```ts filename="mud.config.ts"
+import { defineWorld } from "@latticexyz/world";
+
+export default defineWorld({
+  namespace: "PluginExamples",
+  systems: {
+    WriteDemoSystem: {
+      name: "WriteDemoSystem",
+      openAccess: true,
+    },
+  },
+  tables: {},
+});
+```
+
+More details on MUD Config can be found [here](https://mud.dev/config).
