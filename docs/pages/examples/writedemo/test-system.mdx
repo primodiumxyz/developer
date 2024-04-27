@@ -100,13 +100,13 @@ contract WriteDemoTest is MudTest {
 <details>
 <summary>Explanation</summary>
 
-```ts
+```solidity filename="WriteDemoSystem.t.sol:14"
 import { UNLIMITED_DELEGATION } from "@latticexyz/world/src/constants.sol";
 ```
 
 This is a new import related to delegations. Aside from `UNLIMITED_DELEGATION`, there are also more restrictive options such as `CALLBOUND_DELEGATION`, `SYSTEMBOUND_DELEGATION`, and `TIMEBOUND_DELEGATION`.
 
-```ts
+```solidity filename="WriteDemoSystem.t.sol:63"
 world.registerDelegation(
   address(writeDemoSystem),
   UNLIMITED_DELEGATION,

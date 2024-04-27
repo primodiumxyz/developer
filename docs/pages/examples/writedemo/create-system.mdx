@@ -1,4 +1,4 @@
-# Create the World Extension
+# Create Extension Systems
 
 The commented code can be found in [`packages/contracts/src/systems/WriteDemoSystem.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol).
 
@@ -38,7 +38,7 @@ import { FunctionSelectors } from "@latticexyz/world/src/codegen/tables/Function
 <details>
 <summary>Explanation</summary>
 
-```ts
+```solidity filename="WriteDemoSystem.sol:14"
 import {
   Asteroid,
   Home,
@@ -60,20 +60,20 @@ import {
 
 Previously we imported `Table`s directly, one at a time. However, MUD collects and exposes them in `index.sol` automatically, so we're going to use that now.
 
-```ts
+```solidity filename="WriteDemoSystem.sol:19"
 import { EBuilding } from "primodium/common.sol";
 ```
 
 Primodium stores lists of entity lookup keys in `common.sol` as enumerations. Here we can find buildings, resources, units, etc.
 
-```ts
+```solidity filename="WriteDemoSystem.sol:16"
 import { Bounds, EResource } from "src/Types.sol";
 import { BuildingKey, ExpansionKey } from "src/Keys.sol";
 ```
 
 We use `struct`s to pass around collections of related data; these can be found in `Types.sol`. Similarly, we have some internal keys we used look up data, and those can be found in `Keys.sol`.
 
-```ts
+```solidity filename="WriteDemoSystem.sol:9"
 import { FunctionSelectors } from "@latticexyz/world/src/codegen/tables/FunctionSelectors.sol";
 ```
 
@@ -83,7 +83,7 @@ Normally we won't need this. However, there is a bug in how MUD v2.0.1 handles f
 
 ### Top Level Function
 
-```ts filename="WriteDemoSystem.sol"
+```solidity filename="examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol"
   function buildIronMine() public returns (bytes32 buildingEntity) {
 
     StoreSwitch.setStoreAddress(_world());
@@ -122,39 +122,39 @@ Normally we won't need this. However, there is a bug in how MUD v2.0.1 handles f
 <details>
 <summary>Explanation</summary>
 
-```ts
+```solidity filename="WriteDemoSystem.sol:39"
 bool playerIsSpawned = Spawned.get(playerEntity);
 ```
 
 `Spawned` is a Primodium `Table` we can call to check if a player has started playing. You can examine the imported contract, and see what types to expect in return, and any other functionality it provides. Most of the time we will only be using `get()` and `set()`.
 
-```ts
+```solidity filename="WriteDemoSystem.sol:47"
 EBuilding building = EBuilding.IronMine;
 ```
 
 Enumerations let us use clear names instead of magic numbers to represent data. It makes the code much more readable. Enumerations decode to `uint8` in the abi.
 
-```ts
+```solidity filename="WriteDemoSystem.sol:58"
 PositionData memory position = getTilePosition(asteroidEntity, building);
 ```
 
 This function gets pretty complex. We will walk through it in detail later, but at the high level, the map on each asteroid is broken into a tile grid, and this function walks the map and looks for an appropriate tile for the building passed in.
 
-```ts
-// ResourceId buildSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, PRIMODIUM_NAMESPACE, "BuildSystem");
-// bytes memory buildingEntity = IPrimodiumWorld(_world()).callFrom(
-//     _msgSender(),
-//     buildSystemId,
-//     abi.encodeWithSignature("Primodium__build(uint8,(int32,int32,bytes32))", building, (position))
-// );
+```solidity filename="WriteDemoSystem.sol:65"
+ResourceId buildSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, PRIMODIUM_NAMESPACE, "BuildSystem");
+bytes memory buildingEntity = IPrimodiumWorld(_world()).callFrom(
+    _msgSender(),
+    buildSystemId,
+    abi.encodeWithSignature("Primodium__build(uint8,(int32,int32,bytes32))", building, (position))
+);
 ```
 
 This is normally how we would call a `System` that is going to take action for the user. Find the ResourceId for the system, and execute a `callFrom` using `_msgSender()` to identify the user, with the signature of the of the function being called. The target `System` needs to have received delegation permission from the user in advance. We'll discuss delegation later.
 
 The parameters of the function signature deconstruct the struct into its internal native types, to match the abi. Note the extra () around `position` to indicate that the struct is a tuple.
 
-```ts
-bytes4 worldFunctionSelector = bytes4(keccak256(bytes("Primodium__build(uint8,(int32,int32,bytes32))")));
+```solidity filename="WriteDemoSystem.sol:73"
+bytes4 worldFunctionSelector = IPrimodiumWorld(_world()).Primodium__build.selector;
 
 (ResourceId buildSystemId, bytes4 buildSystemFunctionSelector) = FunctionSelectors.get(worldFunctionSelector);
 
@@ -177,7 +177,7 @@ We start in the same place, and find the original signature. Then we check the `
 
 Finally, we execute the `callFrom` using manually built calldata.
 
-```ts
+```solidity filename="WriteDemoSystem.sol:92"
 buildingEntity = abi.decode(result, bytes32);
 ```
 
