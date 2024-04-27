@@ -14,7 +14,7 @@ A detailed explanation of most of the imports can be found [here](https://mud.de
 
 We will highlight some specific additional details in the Explanation below.
 
-```ts filename="ReadDemoSystem.t.sol"
+```solidity filename="examples/ReadDemo/packages/contracts/test/ReadDemoSystem.t.sol" showLineNumbers
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
@@ -105,26 +105,26 @@ contract ReadDemoTest is MudTest {
 <details>
 <summary>Explanation</summary>
 
-```ts
+```solidity
 import { ReadDemoSystem } from "../src/systems/ReadDemoSystem.sol";
 ```
 
 We need to import our `System` to use it.
 
-```ts
+```solidity
 import { IWorld } from "../src/codegen/world/IWorld.sol";
 import { IWorld as IPrimodiumWorld } from "../src/primodium/world/IWorld.sol";
 ```
 
 We need the import specific features and types to our World Extension. These are found in `../src/codegen/`. We also need to specific features of Primodium world.
 
-```ts
+```solidity
 contract ReadDemoTest is MudTest {
 ```
 
 We will be using the `MudTest` library, which extends the standard forge `Test` with some additional supporting functionality.
 
-```ts
+```solidity
 address extensionDeployerAddress = vm.envAddress("ADDRESS_ALICE");
 address playerAddressActive = vm.envAddress("ADDRESS_PLAYER_ACTIVE");
 address playerAddressInactive = vm.envAddress("ADDRESS_PLAYER_INACTIVE");
@@ -132,14 +132,14 @@ address playerAddressInactive = vm.envAddress("ADDRESS_PLAYER_INACTIVE");
 
 Foundry Cheatcodes allows us quick access to `.env` parameters using `vm.envAddress`, `vm.Uint`, etc. https://book.getfoundry.sh/cheatcodes/external
 
-```ts
+```solidity
 function setUp() public override {
   super.setUp();
 ```
 
 We need some of the background setUp that occurs in MudTest.
 
-```ts
+```solidity
 vm.createSelectFork(
   vm.envString("PRIMODIUM_RPC_URL"),
   vm.envUint("BLOCK_NUMBER")
@@ -148,13 +148,13 @@ vm.createSelectFork(
 
 For these tests, we create a local temporary copy of the live Primodium blockchain, at a specific block number. Changes to this blockchain are not sent back to the real one, so we can do thorough testing without danger of unintended consequences.
 
-```ts
+```solidity
 WorldRegistrationSystem world = WorldRegistrationSystem(worldAddress);
 ```
 
 This is our primary interface to Primodium world for the duration of the test.
 
-```ts
+```solidity
 ResourceId namespaceResource = WorldResourceIdLib.encodeNamespace(bytes14(namespace));
 ResourceId systemResource = WorldResourceIdLib.encode(RESOURCE_SYSTEM, namespace, system);
 ```
@@ -163,13 +163,13 @@ ResourceId systemResource = WorldResourceIdLib.encode(RESOURCE_SYSTEM, namespace
 
 `encodeNamespace()` and `encode()` handle the messy bitshifting into appropriate `ResourceId` formats for interfacing with `Table`s and `Systems`s.
 
-```ts
+```solidity
 world.registerSystem(systemResource, readDemoSystem, true);
 ```
 
 This line associates the derived `ResourceId` to a `System` address, and sets access permissions. https://mud.dev/world/reference/world-external#registersystem
 
-```ts
+```solidity
 world.registerFunctionSelector(systemResource, "readMainBaseLevel()");
 ```
 
