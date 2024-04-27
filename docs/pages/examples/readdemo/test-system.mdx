@@ -32,7 +32,7 @@ import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
 import { ReadDemoSystem } from "../src/systems/ReadDemoSystem.sol";
 
 import { IWorld } from "../src/codegen/world/IWorld.sol";
-import { IWorld as IPrimodiumWorld } from "../src/primodium/world/IWorld.sol";
+import { IWorld as IPrimodiumWorld } from "primodium/world/IWorld.sol";
 
 contract ReadDemoTest is MudTest {
 
@@ -113,10 +113,10 @@ We need to import our `System` to use it.
 
 ```solidity
 import { IWorld } from "../src/codegen/world/IWorld.sol";
-import { IWorld as IPrimodiumWorld } from "../src/primodium/world/IWorld.sol";
+import { IWorld as IPrimodiumWorld } from "primodium/world/IWorld.sol";
 ```
 
-We need the import specific features and types to our World Extension. These are found in `../src/codegen/`. We also need to specific features of Primodium world.
+We need the import specific features and types to our World Extension. These are found in `../src/codegen/`. We also need to specific features of the Primodium world.
 
 ```solidity
 contract ReadDemoTest is MudTest {

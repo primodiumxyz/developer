@@ -2,9 +2,9 @@
 
 The commented code can be found in [`packages/contracts/src/systems/WriteDemoSystem.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol).
 
-We want our expansion system to call a system on the Primodium world. If all of this is successful, we return the `buildingEntity`.
+We want our expansion system to call a system on the Primodium world. If this is successful, we return the `buildingEntity`.
 
-This system is quite a bit more involved. We'll break this system down by function.
+This system is quite a bit more involved. We'll break it down by function.
 
 ### Imports
 
@@ -25,9 +25,9 @@ import {
   P_MaxLevel,
   P_RequiredTile,
   P_Terrain,
-} from "../primodium/index.sol";
+} from "primodium/index.sol";
 
-import { EBuilding } from "../primodium/common.sol";
+import { EBuilding } from "primodium/common.sol";
 
 import { Bounds, EResource } from "src/Types.sol";
 import { BuildingKey, ExpansionKey } from "src/Keys.sol";
@@ -55,13 +55,13 @@ import {
   P_MaxLevel,
   P_RequiredTile,
   P_Terrain,
-} from "../primodium/index.sol";
+} from "primodium/index.sol";
 ```
 
-Previously we imported `Table`s directly, one at a time. However, MUD collects and exposes them in index.sol automatically, so we're just going to use that now.
+Previously we imported `Table`s directly, one at a time. However, MUD collects and exposes them in `index.sol` automatically, so we're going to use that now.
 
 ```ts
-import { EBuilding } from "../primodium/common.sol";
+import { EBuilding } from "primodium/common.sol";
 ```
 
 Primodium stores lists of entity lookup keys in `common.sol` as enumerations. Here we can find buildings, resources, units, etc.
@@ -132,7 +132,7 @@ bool playerIsSpawned = Spawned.get(playerEntity);
 EBuilding building = EBuilding.IronMine;
 ```
 
-Enumerations let us use clear names instead of magic numbers to represent data. It makes the code much more readable.
+Enumerations let us use clear names instead of magic numbers to represent data. It makes the code much more readable. Enumerations decode to `uint8` in the abi.
 
 ```ts
 PositionData memory position = getTilePosition(asteroidEntity, building);
@@ -187,13 +187,13 @@ buildingEntity = abi.decode(result, bytes32);
 
 ### Enumerations
 
-Next we need to select the building we want to build. Primodium stores lits of entity lookup keys in `common.sol`. Here we can find buildings, resources, units, etc. The enums are used to lookup prototypes and blueprints later, in their specific `System`s. We're going to build an `EBuilding.IronMine` for now.
+We need to select the building we want to build. Primodium stores lists of entity lookup keys in `common.sol`. Here we can find buildings, resources, units, etc. The enums are used to lookup prototypes and blueprints later, in their specific `System`s. We're going to build an `EBuilding.IronMine` for now.
 
 ### Map Interactions
 
 Each asteroid has a bounded set of tiles where buildings can be placed. We need to find the bounds for this specific map (our Home Base in this case). These bounds change as you increase your expansion level, so we get the level, and save the `DimensionData` range. From there, we use an `P_AsteroidData` struct to manage the data, calculate the bounds, and return them.
 
-Finally, we step through each tile and check if it is the correct type. Next we check if it is empty, and we use a `P_Blueprint` to check if the building fits within the bounds. If all of this is successful, we return the tile position.
+We step through each tile and check if it is the correct type. To check if it is empty, we use a `P_Blueprint` and verify the building fits within the bounds. If all of this is successful, we return the tile position.
 
 ### Calling a Game System
 
@@ -204,4 +204,4 @@ Unlike the ReadDemo, the WriteDemo acts on behalf of the user. Our system needs 
 - https://mud.dev/world/account-delegation
 - `WriteDemoSystem.t.sol:100`
 
-Normally we would get the system `ResourceId`, and the use `abi.encodeWithSignature` to call the function. However, there is currently a [bug](https://github.com/latticexyz/mud/issues/2463) in MUD, and we need to retrieve the internal function selector from the `FunctionSelectors` table, and then use that with `abi.encodeWithSelector`. Example code is provided; we expect the normal usage to return in future MUD versions.
+As mentioned in the detail, we normally get the system `ResourceId`, and the use `abi.encodeWithSignature` to call the function. However, there is currently a [bug](https://github.com/latticexyz/mud/issues/2463) in MUD, and we need to retrieve the internal function selector from the `FunctionSelectors` table, and then use that with `abi.encodeWithSelector`. Example code is provided; we expect the normal usage to return in future MUD versions.
