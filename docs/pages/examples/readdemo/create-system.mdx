@@ -4,7 +4,7 @@ The commented code can be found in [`packages/contracts/src/systems/ReadDemoSyst
 
 The code should compile with `pnpm build`.
 
-```ts filename="ReadDemoSystem.sol"
+```solidity filename="examples/ReadDemo/packages/contracts/src/systems/ReadDemoSystem.sol" showLineNumbers
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
@@ -36,14 +36,14 @@ contract ReadDemoSystem is System {
 
 In the ReadDemo, system contracts are created in `packages/contracts/src/systems`. They are fairly standard smart contracts that only need to import the critical functionality from MUD or the `World` they are interacting with.
 
-```ts
+```solidity filename="ReadDemoSystem.sol:4"
 import { System } from "@latticexyz/world/src/System.sol";
 import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
 ```
 
 The contract itself is a `System` so we need to import that MUD library. We also need to tell the contract our `Store` target. `StoreSwitch` allows us to specify the `World` address where our target `Table`s reside.
 
-```ts
+```solidity filename="ReadDemoSystem.sol:7"
 import { Home } from "primodium/tables/Home.sol";
 import { Level } from "primodium/tables/Level.sol";
 ```
@@ -52,13 +52,13 @@ We import the necessary `Table` libraries from the target `World`. These librari
 
 These libraries are imported from the `@primodiumxyz/contracts` npm package.
 
-```ts
+```solidity filename="ReadDemoSystem.sol:11"
 contract ReadDemoSystem is System {
 ```
 
 Make sure this matches what you specified in `mud.config.ts`
 
-```ts
+```solidity filename="ReadDemoSystem.sol:14"
 StoreSwitch.setStoreAddress(_world());
 ```
 
@@ -66,7 +66,7 @@ StoreSwitch.setStoreAddress(_world());
 
 https://mud.dev/world/reference/world-context#_world
 
-```ts
+```solidity filename="ReadDemoSystem.sol:16"
 bytes32 playerEntity = bytes32(uint256(uint160(_msgSender())));
 ```
 
@@ -76,7 +76,7 @@ Every player has an ID generated from their address for interacting with the wor
 
 https://mud.dev/world/reference/world-context#_msgsender
 
-```ts
+```solidity filename="ReadDemoSystem.sol:17"
 bytes32 asteroidEntity = Home.get(playerEntity);
 bytes32 baseEntity = Home.get(asteroidEntity);
 ```
@@ -85,7 +85,7 @@ This can be a little confusing at first. In Primodium, `Home.get` is dual purpos
 
 Most tables are not multipurpose like this, but it is common to need to drill down through parent-child entity ID layers.
 
-```ts
+```solidity filename="ReadDemoSystem.sol:20"
 return uint32(Level.get(baseEntity));
 ```
 
