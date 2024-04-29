@@ -77,7 +77,7 @@ We use `struct`s to pass around collections of related data; these can be found 
 import { FunctionSelectors } from "@latticexyz/world/src/codegen/tables/FunctionSelectors.sol";
 ```
 
-Normally we won't need this. However, there is a bug in how MUD v2.0.1 handles function selectors when using `callFrom`. We need to use `callFrom` to interact with systems that take action for the user, so we're going to use this to workaround the bug until it is resolved in future versions.
+Normally we won't need this. However, there is a [bug](https://github.com/latticexyz/mud/issues/2463) in how MUD v2.0.1 handles function selectors when using `callFrom`. We need to use `callFrom` to interact with systems that take action for the user, so we're going to use this to workaround the bug until it is resolved in future versions.
 
 </details>
 
