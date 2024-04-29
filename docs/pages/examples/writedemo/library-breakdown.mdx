@@ -2,11 +2,11 @@
 
 The majority of the work done in this extension happens in the following `getTilePosition()` function call.
 
-```solidity filename="examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol"
+```solidity filename="examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol:102"
 PositionData memory position = getTilePosition(asteroidEntity, building);
 ```
 
-The [`getTilePosition()`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol) function dives progressively deeper into helper functions. Many of these will be included in a future Primodium library package, but they are a good source of insight as well.
+The [`getTilePosition()`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol#L102-L130) function dives progressively deeper into helper functions. Many of these will be included in a future Primodium library package, but they are a good source of insight as well.
 
 - `getTilePosition()`
   - `P_EnumToPrototype.get()`
