@@ -4,11 +4,23 @@
 
 ## Contract Extensions
 
-Get started as a Primodium developer by cloning the example [`building-upgrade-bounty`](https://github.com/primodiumxyz/developer/tree/main/examples/building-upgrade-bounty) world extension.
+Get started as a Primodium developer by cloning the example [**ReadDemo**](./examples/readdemo.mdx) world extension.
 
-```bash
-git clone https://github.com/primodiumxyz/developer
-cd developer/examples/building-upgrade-bounty
+```bash showLineNumbers
+# Clone the Primodium Developer repository:
+git clone https://github.com/primodiumxyz/developer.git
+
+# Change your active directory:
+cd developer/examples/ReadDemo/packages/contracts
+
+# Install the necessary packages and build the project:
+pnpm i && pnpm build
+
+# Test the project:
+forge test
+
+# Do a dry-run of deployment:
+forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http
 ```
 
 **World extensions** refer to player smart contracts that extend the functionality of Primodium's core contracts, which are documented in the [world extensions guide](./world-extension.mdx).
