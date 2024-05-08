@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { Script } from "forge-std/Script.sol";
 import { console } from "forge-std/console.sol";
 import { IBaseWorld } from "@latticexyz/world-modules/src/interfaces/IBaseWorld.sol"; // get definitions common to all World contracts
 
-import { AccessManagementSystem } from "@latticexyz/world/src/modules/core/implementations/AccessManagementSystem.sol";
+import { AccessManagementSystem } from "@latticexyz/world/src/modules/init/implementations/AccessManagementSystem.sol";
 
 // Create resource identifiers (for the namespace and system)
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";

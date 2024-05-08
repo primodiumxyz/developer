@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { Script } from "forge-std/Script.sol";
 import { console } from "forge-std/console.sol";
@@ -35,26 +35,29 @@ contract UpgradeBountyActions is Script {
 
     // Alice deposits a bounty at a coordinate
     vm.startBroadcast(deployerPrivateKey);
-    uint256 bountyValue = world.upgradeBounty_UpgrBounSystem_depositBounty{ value: bountyAmount }(bountyCoord);
+    uint256 bountyValue = world.upgradeBounty__depositBounty{ value: bountyAmount }(bountyCoord);
     vm.stopBroadcast();
     console.log("Alice set a bounty for %d wei.", bountyValue);
 
     // Alice withdraws a bounty at the same coordinate
     vm.startBroadcast(deployerPrivateKey);
-    bountyValue = world.upgradeBounty_UpgrBounSystem_withdrawBounty(bountyCoord);
+    bountyValue = world.upgradeBounty__withdrawBounty(bountyCoord);
     vm.stopBroadcast();
     console.log("Alice withdrew a %d wei bounty.", bountyValue);
 
     // Alice deposits a bounty again, at a coordinate
     vm.startBroadcast(deployerPrivateKey);
-    bountyValue = world.upgradeBounty_UpgrBounSystem_depositBounty{ value: bountyAmount }(bountyCoord);
+    bountyValue = world.upgradeBounty__depositBounty{ value: bountyAmount }(bountyCoord);
     vm.stopBroadcast();
     console.log("Alice set another bounty for %d wei.", bountyValue);
 
     // Bob upgrades Alice's building. Note Alice needs to have the requisite upgrade resources for it to succeed.
     vm.startBroadcast(delegateePrivateKey);
-    bytes memory newBuildingEntity = world.upgradeBounty_UpgrBounSystem_upgradeForBounty(deployerAddress, bountyCoord);
+    bytes32 newBuildingEntity = world.upgradeBounty__upgradeForBounty(deployerAddress, bountyCoord);
     vm.stopBroadcast();
-    console.log("Bob upgraded Alice's building and claimed the bounty.");
+    console.log(
+      "Bob upgraded Alice's building and claimed the bounty. The new building entitity is: %x",
+      uint256(newBuildingEntity)
+    );
   }
 }

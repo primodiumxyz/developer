@@ -4,19 +4,19 @@
  * @title UpgrBounSystem
  * @dev A contract that handles upgrade bounties for buildings in a world system.
  */
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { System } from "@latticexyz/world/src/System.sol";
 import { PositionData } from "../codegen/index.sol";
 import { UpgradeBounty } from "../codegen/index.sol";
-import { OwnedBy } from "../codegen/index.sol";
 import { IWorld } from "../codegen/world/IWorld.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { WorldResourceIdLib, ROOT_NAMESPACE } from "@latticexyz/world/src/WorldResourceId.sol";
 import { RESOURCE_SYSTEM } from "@latticexyz/world/src/worldResourceTypes.sol";
-import { IWorld as IPrimodiumWorld } from "../primodium-codegen/world/IWorld.sol";
+import { FunctionSelectors } from "@latticexyz/world/src/codegen/tables/FunctionSelectors.sol";
+import { IWorld as IPrimodiumWorld } from "primodium/world/IWorld.sol";
 import { LibHelpers } from "../libraries/LibHelpers.sol";
-import { BuildingTileKey } from "../libraries/Keys.sol";
+import { EXTENSION_NAMESPACE } from "../libraries/Constants.sol";
 
 /**
  * @dev A contract that handles upgrade bounties for buildings in a world system.
@@ -25,6 +25,8 @@ import { BuildingTileKey } from "../libraries/Keys.sol";
  * @notice Technically Alice can issue an upgrade bounty at Bob's building, and Bob can claim it
  */
 contract UpgrBounSystem is System {
+  ResourceId immutable extensionNamespaceResourceId = WorldResourceIdLib.encodeNamespace(EXTENSION_NAMESPACE);
+
   /**
    * @dev Deposits an upgrade bounty for the building at the specified coordinate.
    * @param coord The coordinate of the building.
@@ -67,12 +69,10 @@ contract UpgrBounSystem is System {
     );
 
     // Prep params for the transferBalanceToAddress function
-    IWorld world = IWorld(_world());
-    ResourceId namespaceResource = WorldResourceIdLib.encodeNamespace(bytes14("upgradeBounty"));
     bountyValue = UpgradeBounty.get(playerEntity, buildingEntity);
 
     // Transfer the bounty value to the caller
-    world.transferBalanceToAddress(namespaceResource, _msgSender(), bountyValue);
+    IWorld(_world()).transferBalanceToAddress(extensionNamespaceResourceId, _msgSender(), bountyValue);
 
     // Remove the claimed bounty from the UpgradeBounty table
     UpgradeBounty.set(playerEntity, buildingEntity, 0);
@@ -87,7 +87,7 @@ contract UpgrBounSystem is System {
   function upgradeForBounty(
     address bountyPublisherAddress,
     PositionData memory coord
-  ) public returns (bytes memory newBuildingEntity) {
+  ) public returns (bytes32 newBuildingEntity) {
     bytes32 oldBuildingEntity = LibHelpers.getBuildingFromCoord(coord);
     bytes32 bountyPublisherEntity = LibHelpers.addressToEntity(bountyPublisherAddress);
 
@@ -98,24 +98,31 @@ contract UpgrBounSystem is System {
     );
 
     // Call the upgradeBuilding function from the World contract
-    ResourceId upgradeBuildingSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, ROOT_NAMESPACE, "UpgradeBuildingS");
-    newBuildingEntity = IPrimodiumWorld(_world()).callFrom(
+
+    // find the expected function selector
+    bytes4 worldFunctionSelector = IPrimodiumWorld(_world()).Primodium__upgradeBuilding.selector;
+
+    // look up that function selector in the MUD FunctionSelectors table, and get the actual function selector.
+    // eventually, these should match, but currently that is not the case.
+    (ResourceId upgradeBuildingSystemId, bytes4 upgradeBuildingSystemFunctionSelector) = FunctionSelectors.get(
+      worldFunctionSelector
+    );
+
+    bytes memory result = IPrimodiumWorld(_world()).callFrom(
       bountyPublisherAddress,
       upgradeBuildingSystemId,
-      abi.encodeWithSignature("upgradeBuilding((int32,int32,bytes32))", (coord))
+      abi.encodeWithSelector(upgradeBuildingSystemFunctionSelector, (coord))
     );
 
     // Prep params for the transferBalanceToAddress function
     uint256 bountyValue = UpgradeBounty.get(bountyPublisherEntity, oldBuildingEntity);
-    IWorld world = IWorld(_world());
-    ResourceId namespaceResource = WorldResourceIdLib.encodeNamespace(bytes14("upgradeBounty"));
 
     // Distribute the bounty value from the UpgradeBounty table to the collector
-    world.transferBalanceToAddress(namespaceResource, _msgSender(), bountyValue);
+    IWorld(_world()).transferBalanceToAddress(extensionNamespaceResourceId, _msgSender(), bountyValue);
 
     // Remove the bounty from the UpgradeBounty table
     UpgradeBounty.set(bountyPublisherEntity, oldBuildingEntity, 0);
 
-    return newBuildingEntity;
+    return abi.decode(result, (bytes32));
   }
 }

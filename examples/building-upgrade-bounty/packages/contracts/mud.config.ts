@@ -1,28 +1,29 @@
-import { mudConfig } from "@latticexyz/world/register";
+import { defineWorld } from "@latticexyz/world";
 
-export default mudConfig({
+export default defineWorld({
   namespace: "upgradeBounty",
   systems: {
     UpgrBounSystem: {
       openAccess: true,
       name: "UpgrBounSystem",
-      // deposits and withdrawals track the depositor and amount
     },
   },
   tables: {
     UpgradeBounty: {
-      keySchema: {
+      key: ["depositorEntity", "buildingEntity"],
+      schema: {
         depositorEntity: "bytes32",
         buildingEntity: "bytes32",
+        bounty: "uint256",
       },
-      valueSchema: "uint256",
     },
 
     /* --------------------------------- Common --------------------------------- */
 
     Position: {
-      keySchema: { entity: "bytes32" },
-      valueSchema: {
+      key: ["entity"],
+      schema: {
+        entity: "bytes32",
         x: "int32",
         y: "int32",
         parent: "bytes32",
@@ -30,8 +31,9 @@ export default mudConfig({
     },
 
     OwnedBy: {
-      keySchema: { entity: "bytes32" },
-      valueSchema: {
+      key: ["entity"],
+      schema: {
+        entity: "bytes32",
         value: "bytes32",
       },
     },
