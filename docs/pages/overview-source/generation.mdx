@@ -8,7 +8,7 @@ Primodium is played on a 2-dimensional map with manually-designed ore generation
 
 ![alt text](../../public/terrain/ores.png)
 
-```tsx filename="/contract-source/ts/terrain/terraingen.ts#L19-L28" copy showLineNumbers
+```tsx filename="@primodiumxyz/contracts/ts/terrain/terraingen.ts#L19-L28" copy showLineNumbers
 const numberBase: Record<string, string> = {
   1: "Copper",
   2: "Iron",
@@ -33,7 +33,7 @@ which is exported into the following .csv file, with commas as separators.
 
 The following script creates a Solidity script from the CSV file that encodes the ore distribution. The script reads the CSV file and converts the ore distribution into a Foundry script that sets the ore distribution on the world contract.
 
-```ts filename="/contract-source/ts/terrain/terraingen.ts" showLineNumbers
+```ts filename="@primodiumxyz/contracts/ts/terrain/terraingen.ts" showLineNumbers
 import { formatAndWriteSolidity } from "@latticexyz/common/codegen";
 import fs from "fs";
 import path from "path";
@@ -128,7 +128,7 @@ import { EResource } from "codegen/common.sol";
 
 The generated Foundry script populates the `P_Terrain` table with the ore distribution, which is a [prototype table](./tables.mdx#prototype-tables). The following is the generated script for the Iron ore distribution:
 
-```solidity filename="/contract-source/src/codegen/scripts/CreateTerrain.sol" copy showLineNumbers
+```solidity filename="@primodiumxyz/contracts/src/codegen/scripts/CreateTerrain.sol" copy showLineNumbers
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 

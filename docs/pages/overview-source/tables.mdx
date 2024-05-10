@@ -1,7 +1,7 @@
 # Source for Primodium Tables
 
-- [`/contract-source/src/codegen/tables`](https://github.com/primodiumxyz/developer/blob/main/contract-source/src/codegen/tables): Generated Solidity contracts for each table.
-- [`/contract-source/mud.config.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/mud.config.ts): Configuration file that defines each table compliant with the open MUD standard.
+- [`@primodiumxyz/contracts/src/codegen/tables`](https://github.com/primodiumxyz/contracts/blob/main/src/codegen/tables): Generated Solidity contracts for each table.
+- [`@primodiumxyz/contracts/mud.config.ts`](https://github.com/primodiumxyz/contracts/blob/main/mud.config.ts): Configuration file that defines each table compliant with the open MUD standard.
 
 ## Building Contracts from JSON
 
@@ -9,7 +9,7 @@ In MUD-compliant projects, tables are defined in a file named `mud.config.ts` an
 
 For example, the following JSON string in `mud.config.ts` encodes a table that stores the number of asteroids named `AsteroidCount`. Because there is no specified key schema, the key schema defaults to `{ "key": "bytes32" }`. The value schema is a single `uint256` type.
 
-```js filename="/contract-source/mud.config.ts" showLineNumbers
+```js filename="@primodiumxyz/contracts/mud.config.ts" showLineNumbers
 {
   // ...
   AsteroidCount: {
@@ -22,7 +22,7 @@ For example, the following JSON string in `mud.config.ts` encodes a table that s
 
 After compilation, the `AsteroidCount` table is represented by a Solidity contract that conforms to the [StoreCore](https://mud.dev/store/reference/store-core) specifications. Therefore, the generated contract for the `AsteroidCount` table below has getter function that takes in the default `bytes32` key schema:
 
-```solidity filename="/contract-source/src/codegen/tables/AsteroidCount.sol" showLineNumbers {4}
+```solidity filename="@primodiumxyz/contracts/src/codegen/tables/AsteroidCount.sol" showLineNumbers {4}
 library AsteroidCount {
   // ...
   function getValue() internal view returns (uint256 value) {
@@ -37,7 +37,7 @@ library AsteroidCount {
 
 and the generated value schema consists of a single `uint256` type.
 
-```solidity filename="/contract-source/src/codegen/tables/AsteroidCount.sol" showLineNumbers {5}
+```solidity filename="@primodiumxyz/contracts/src/codegen/tables/AsteroidCount.sol" showLineNumbers {5}
 library AsteroidCount {
   // ...
   function getValueSchema() internal pure returns (Schema) {
