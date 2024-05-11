@@ -1,12 +1,14 @@
 # Primodium Developer Docs and Examples
 
-This monorepo contains documentation source and extension examples for Primodium developers. Visit [here](https://developer.primodium.xyz) to for the live developer documentation.
+This monorepo contains documentation source and extension examples for Primodium developers. Visit [here](https://developer.primodium.xyz) for the live developer documentation.
 
 ## Directories
 
 ```bash
 /docs
 /examples
+  /ReadDemo
+  /WriteDemo
   /building-upgrade-bounty
 ```
 
