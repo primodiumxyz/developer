@@ -1,21 +1,96 @@
 # Source for Primodium System Interfaces
 
-- [`/contract-source/src/codegen/world`](https://github.com/primodiumxyz/developer/blob/main/contract-source/src/codegen/world): Generated Solidity interfaces for each publicly-accessible system.
+- [`@primodiumxyz/contracts/src/codegen/world`](https://github.com/primodiumxyz/contracts/blob/main/src/codegen/world): Generated Solidity interfaces for each publicly-accessible system.
 
 ## Primodium Systems in World Extensions
 
-The example [`building-upgrade-bounty`](../world-extension/examples.mdx) world extension requires a reference to functions in the Primodium `UpgradeBuildingSystem`, which handles building upgrades. The following steps demonstrate how to reference the `UpgradeBuildingSystem` in a world extension and successfully its function `upgradeBuilding()`.
+There are two ways to reference Primodium systems in a world extension:
+
+- Install the `@primodiumxyz/contracts` package and import the system interfaces directly.
+- Copy the system interfaces to your world extension project and import them from there.
+
+### Installing the `@primodiumxyz/contracts` package
+
+If your world extension is a [Foundry](https://book.getfoundry.sh) project, you can install the `@primodiumxyz/contracts` package as a dependency. In the root directory of your world extension project, run the following command:
+
+```bash
+pnpm install @primodiumxyz/contracts
+```
+
+Make sure the project's `foundry.toml` references `node_modules` as a package directory.
+
+```toml copy filename="foundry.toml"
+[profile.default]
+# ...
+allow_paths = [
+  # pnpm symlinks to the project root's node_modules
+  "../../node_modules",
+  # template uses linked mud packages from within the mud monorepo
+  "../../../../packages",
+  # projects created from this template and using linked mud packages
+  "../../../mud/packages",
+]
+#...
+```
+
+Then, update `remappings.txt` to point to the installed package. For example, if you are using the `@primodiumxyz/contracts` package in a world extension, update the `remappings.txt` file as follows:
+
+```txt copy filename="remappings.txt"
+primodium=node_modules/@primodiumxyz/contracts/src/codegen/
+```
+
+The [`ReadDemo`](../examples/readdemo.mdx) world extension example references system interfaces directly from `@primodiumxyz/contracts`. The following snipped highlights lines on how to import and reference the `Home` table.
+
+```solidity filename="examples/ReadDemo/packages/contracts/src/systems/ReadDemoSystem.sol" showLineNumbers {7,25,28}
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.8.24;
+
+import { System } from "@latticexyz/world/src/System.sol";
+import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
+
+import { Home } from "primodium/tables/Home.sol";
+import { Level } from "primodium/tables/Level.sol";
+
+// We're building a System, to extend the System contract
+contract ReadDemoSystem is System {
+  function readMainBaseLevel() public returns (uint32) {
+    // we want to read from the Primodium World, not the Extension World
+    StoreSwitch.setStoreAddress(_world());
+
+    // Get the players ID
+    // msg.sender in this case will be the World. We want the player instead.
+    // use _msgSender() to get the address of the player calling the function
+    bytes32 playerEntity = bytes32(uint256(uint160(_msgSender())));
+
+    // Home.get is dual purpose. Using it on a player ID returns their home asteroid ID
+    // Using it on an asteroid ID returns the base building ID of that asteroid
+
+    // get the ID of the players home base asteroid
+    bytes32 asteroidEntity = Home.get(playerEntity);
+
+    // get the ID of the base building on the players home base asteroid
+    bytes32 baseEntity = Home.get(asteroidEntity);
+
+    // get and return the level of the base building
+    return uint32(Level.get(baseEntity));
+  }
+}
+```
+
+### Directly Referencing System Interfaces
+
+The [`building-upgrade-bounty`](../examples/building-upgrade-bounty.mdx) world extension example requires a reference to functions in the Primodium `UpgradeBuildingSystem`, which handles building upgrades. The following steps demonstrate how to reference the `UpgradeBuildingSystem` in a world extension and successfully its function `upgradeBuilding()`.
 
 First, copy the following folders to your Primodium extension project:
 
-- [`/contract-source/src/codegen/world`](https://github.com/primodiumxyz/developer/blob/main/contract-source/src/codegen/world): contains references to all system interfaces.
-- [`/contract-source/src/codegen/common.sol`](https://github.com/primodiumxyz/developer/blob/main/contract-source/src/codegen/common.sol): contains generated Solidity enums and structs for common types.
+- [`@primodiumxyz/contracts/src/codegen/world`](https://github.com/primodiumxyz/contracts/blob/main/src/codegen/world): contains references to all system interfaces.
+- [`@primodiumxyz/contracts/src/codegen/common.sol`](https://github.com/primodiumxyz/contracts/blob/main/src/codegen/common.sol): contains generated Solidity enums and structs for common types.
 
 In the `building-upgrade-bounty` example, the above files are copied to [`/examples/building-upgrade-bounty/packages/contracts/src/primodium-codegen`](https://github.com/primodiumxyz/developer/blob/main/examples/building-upgrade-bounty/packages/contracts/src/primodium-codegen).
 
 Locate the function you want to call in the generated system interfaces. In this case, we want to call the upgrade `upgradeBuilding()`, whose function signature is obtained from the generated `IUpgradeBuildingSystem`.
 
-```solidity copy filename="/contract-source/src/codegen/world/IUpgradeBuildingSystem.sol" showLineNumbers {13}
+```solidity copy filename="@primodiumxyz/contracts/src/codegen/world/IUpgradeBuildingSystem.sol" showLineNumbers {13}
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
@@ -34,7 +109,7 @@ interface IUpgradeBuildingSystem {
 
 The `upgradeBuilding()`function in `BuildSystem` can then be called as follows, with `UpgradeBuildingS` being the system ID of the Primodium `UpgradeBuildingSystem` cut off at 16 bytes. See [footguns](../world-extension/footguns.mdx) for more details.
 
-```solidity copy filename="/examples/building-upgrade-bounty/packages/contracts/src/systems/UpgrBounSystem.sol" showLineNumbers {1,16-22}
+```solidity copy filename="examples/building-upgrade-bounty/packages/contracts/src/systems/UpgrBounSystem.sol" showLineNumbers {1,16-22}
 import { IWorld as IPrimodiumWorld } from "../primodium-codegen/world/IWorld.sol";
 
 contract UpgrBounSystem is System {

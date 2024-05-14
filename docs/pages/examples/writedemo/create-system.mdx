@@ -83,7 +83,7 @@ Normally we won't need this. However, there is a [bug](https://github.com/lattic
 
 ### Top Level Function
 
-```solidity filename="examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol"
+```solidity filename="examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol" showLineNumbers
   function buildIronMine() public returns (bytes32 buildingEntity) {
 
     StoreSwitch.setStoreAddress(_world());
@@ -202,6 +202,6 @@ We want our expansion system to call a system on the Primodium world. If all of 
 Unlike the ReadDemo, the WriteDemo acts on behalf of the user. Our system needs to have permission to do so. This is allowed through a Delegation that needs to occur before the system it called. You can find documentation and example code for delegations at:
 
 - https://mud.dev/world/account-delegation
-- `WriteDemoSystem.t.sol:100`
+- [`WriteDemoSystem.t.sol:100`](https://github.com/primodiumxyz/developer/blob/98197a9b888f2ca85398c90a005f15e13d1bafce/examples/WriteDemo/packages/contracts/test/WriteDemoSystem.t.sol#L107-L131)
 
 As mentioned in the detail, we normally get the system `ResourceId`, and the use `abi.encodeWithSignature` to call the function. However, there is currently a [bug](https://github.com/latticexyz/mud/issues/2463) in MUD, and we need to retrieve the internal function selector from the `FunctionSelectors` table, and then use that with `abi.encodeWithSelector`. Example code is provided; we expect the normal usage to return in future MUD versions.

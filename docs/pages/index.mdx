@@ -27,7 +27,7 @@ forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-se
 
 ## Game Design
 
-You can contribute to Primodium's design and balancing by submitting pull requests to [`/contract-source/config/prototypeConfig.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/prototypeConfig.ts), which contains the main configuration for game prototypes in Primodium.
+You can contribute to Primodium's design and balancing by submitting pull requests to [`@primodiumxyz/contracts/config/prototypeConfig.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/prototypeConfig.ts), which contains the main configuration for game prototypes in Primodium.
 
 For example, the following code block from the above file defines the prototype data for `IronPlateFactory`, a building that produces `IronPlates` from iron mines. There are four fields that you can immediately modify to your own needs:
 
@@ -36,7 +36,7 @@ For example, the following code block from the above file defines the prototype 
 - `P_RequiredDependency` denotes the existing production rate required for the building to produce.
 - `P_Production` specifies the production resources and denotes its production rate.
 
-```ts filename="/contract-source/config/prototypeConfig.ts#L510-L560" showLineNumbers {10-17}
+```ts filename="@primodiumxyz/contracts/config/prototypeConfig.ts#L510-L560" showLineNumbers {10-17}
 {
   // ...
   IronPlateFactory: {
@@ -62,9 +62,9 @@ For example, the following code block from the above file defines the prototype 
 }
 ```
 
-See [`/contract-source/config/enums.ts`](https://github.com/primodiumxyz/developer/blob/main/contract-source/config/enums.ts#L34-L63) for the resource types available in Primodium. The following [prototype config](./overview-source/configuration.mdx) in TypeScript is [generated](./overview-source/generation.mdx) into Solidity on compilation.
+See [`@primodiumxyz/contracts/config/enums.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/enums.ts#L34-L63) for the resource types available in Primodium. The following [prototype config](./overview-source/configuration.mdx) in TypeScript is [generated](./overview-source/generation.mdx) into Solidity on compilation.
 
-```ts filename="/contract-source/config/enums.ts#L34-L48" showLineNumbers
+```ts filename="@primodiumxyz/contracts/config/enums.ts#L34-L48" showLineNumbers
 export enum EResource {
   Iron = 1,
   Copper,
