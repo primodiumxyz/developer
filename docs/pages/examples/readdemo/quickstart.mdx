@@ -1,60 +1,58 @@
 # Quickstart
 
-The following is a summary of the walkthrough in the following pages.
-
 1. Clone the Primodium Developer repository:
 
-```bash
+```bash copy
 git clone https://github.com/primodiumxyz/developer.git
 ```
 
 2. Change your active directory:
 
-```bash
+```bash copy
 cd developer/examples/ReadDemo/packages/contracts
 ```
 
 3. Install the necessary packages:
 
-```bash
+```bash copy
 pnpm i
 ```
 
 4. Build the project:
 
-```bash
+```bash copy
 pnpm build
 ```
 
 5. Test the project:
 
-```bash
+```bash copy
 forge test
 ```
 
 6. Do a dry-run of deployment:
 
-```bash
+```bash copy
 forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http
 ```
 
 7. Deploy the System:
 
-```bash
+```bash copy
 forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
 ```
 
 8. Use a script to interact with the system:
 
-```bash
+```bash copy
 forge script script/ReadMainBaseLevel.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
 ```
 
 ## File Structure
 
-The ReadDemo consists of four main files:
+The [ReadDemo](https://github.com/primodiumxyz/developer/tree/main/examples/ReadDemo) consists of four main files:
 
-- System Contract: `src/ReadDemoSystem.sol`
-- System Tests: `test/ReadDemoSystem.t.sol`
-- Deployment Script: `scripts/RegisterReadDemoSystem.s.sol`
-- Interaction Script: `scripts/ReadMainBaseLevel.s.sol`
+- System Contract: [`src/systems/ReadDemoSystem.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/ReadDemo/packages/contracts/src/systems/ReadDemoSystem.sol)
+- System Tests: [`test/ReadDemoSystem.t.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/ReadDemo/packages/contracts/test/ReadDemoSystem.t.sol)
+- Deployment Script: [`script/RegisterReadDemoSystem.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/ReadDemo/packages/contracts/script/RegisterReadDemoSystem.s.sol)
+- Interaction Script: [`script/ReadMainBaseLevel.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/ReadDemo/packages/contracts/script/ReadMainBaseLevel.s.sol)
