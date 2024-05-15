@@ -8,8 +8,7 @@ This section assumes knowledge of [GraphQL](https://graphql.org/) and its relate
 
 Primodium provides a GraphQL endpoint for querying decoded on-chain data, which can be used to create dashboards. The endpoint is a [Hasura](https://hasura.io/) instance that provides a GraphQL API over our internal [Primodium indexer](../pages/indexer.mdx) database.
 
-```
-# GraphQL Endpoint
+```bash copy
 https://graphql.primodium.ai/v1/graphql
 ```
 
@@ -26,18 +25,18 @@ Refer to the [Hasura docs](https://hasura.io/docs/latest/queries/postgres/index/
 
 For this guide, we will use _Apollo Studio_ to read Primodium data from our GraphQL endpoint.
 
-1. Visit to [Apollo Studio](https://studio.apollographql.com/sandbox/explorer)
-2. Set the sandbox url to our endpoint: `https://graphql.primodium.ai/v1/graphql`
+1. Visit [Apollo Studio](https://studio.apollographql.com/sandbox/explorer).
+2. Set the sandbox url to our endpoint on the top-left field: `https://graphql.primodium.ai/v1/graphql`
 
-> <img src="/tooling/graphql/apollo_studio.png" width="600" />
+![Apollo Studio](../public/tooling/graphql/apollo_studio.png)
 
-3. Query away with the following examples
+3. Query away with the following examples:
 
 ### Query Decoded Data
 
 This example queries the top 10 scores of the current round:
 
-```gql
+```gql showLineNumbers copy
 query Top10Score {
   viewScore(limit: 10, orderBy: { value: DESC }) {
     entity
@@ -50,7 +49,7 @@ query Top10Score {
 
 This example queries MUD records between a block range:
 
-```gql
+```gql showLineNumbers copy
 query MudRecords(
   $where: MudRecordsBoolExp = { blockNumber: { _lte: 4824475, _gte: 4823475 } }
   $limit: Int = 1000
@@ -73,4 +72,4 @@ query MudRecords(
 
 ## React Template
 
-- [react-client-lite](../react-client-lite.mdx): Minimal setup to start creating read-only clients utilizing primodium graphql endpoint.
+- [react-client-lite](../react-client-lite.mdx): Minimal setup to start creating read-only clients with the Primodium GraphQL endpoint.
