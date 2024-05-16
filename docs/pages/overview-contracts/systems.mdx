@@ -4,7 +4,7 @@
 
 All systems are inherited from the `PrimodiumSystem` contract which provides the `addressToEntity()` and `entityToAddress()` functions to convert between Ethereum addresses and their corresponding entity IDs stored in [table contracts](https://mud.dev/store/data-model#tables-on-chain).
 
-```solidity filename="/packages/contracts/src/systems/internal/PrimodiumSystem.sol" showLineNumbers
+```solidity copy filename="/packages/contracts/src/systems/internal/PrimodiumSystem.sol" showLineNumbers
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 
@@ -26,7 +26,7 @@ contract PrimodiumSystem is System {
 
 A new system is defined for a group of related on-chain logic. For example, the `BuildSystem` is responsible for building new buildings in the game, as shown in the following code sample.
 
-```solidity filename="/packages/contracts/src/systems/BuildSystem.sol" showLineNumbers
+```solidity copy filename="/packages/contracts/src/systems/BuildSystem.sol" showLineNumbers
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.21;
 

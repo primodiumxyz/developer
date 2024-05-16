@@ -8,7 +8,7 @@ This system is quite a bit more involved. We'll break it down by function.
 
 ### Imports
 
-```solidity filename="examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol" showLineNumbers
+```solidity copy filename="examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol" showLineNumbers
 import {
   Asteroid,
   Home,
@@ -83,7 +83,7 @@ Normally we won't need this. However, there is a [bug](https://github.com/lattic
 
 ### Top Level Function
 
-```solidity filename="examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol" showLineNumbers
+```solidity copy filename="examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol" showLineNumbers
   function buildIronMine() public returns (bytes32 buildingEntity) {
 
     StoreSwitch.setStoreAddress(_world());

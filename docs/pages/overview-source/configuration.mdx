@@ -99,7 +99,7 @@ export enum EResource {
 
 - [`@primodiumxyz/contracts/ts/prototypes/prototypeGenUtils.ts`](https://github.com/primodiumxyz/contracts/blob/main/ts/prototypes/prototypeGenUtils.ts): Utility functions for generating prototype data. For example, the `getResourceValue()` function also referenced above converts a resource key and amount into a `EResource` enum and a `BigInt`, values that can be written to a Solidity contract.
 
-```ts filename="@primodiumxyz/contracts/ts/prototypes/prototypeGenUtils.ts#L91-L97" showLineNumbers
+```ts copy filename="@primodiumxyz/contracts/ts/prototypes/prototypeGenUtils.ts#L91-L97" showLineNumbers
 export const getResourceValue = (resourceValue: { [x: string]: number }) => {
   const [resource, amount] = Object.entries(resourceValue)[0];
   return {
@@ -111,7 +111,7 @@ export const getResourceValue = (resourceValue: { [x: string]: number }) => {
 
 - [`@primodiumxyz/contracts/config/util/blueprints.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/util/blueprints.ts): Contains the utility function `getBlueprint()` that takes in a building width and height measured in tiles and returns a building blueprint value stored in the `P_Blueprint` prototype table.
 
-```ts filename="@primodiumxyz/contracts/config/util/blueprints.ts" showLineNumbers
+```ts copy filename="@primodiumxyz/contracts/config/util/blueprints.ts" showLineNumbers
 export function getIntArray(coords: { x: number; y: number }[]) {
   return coords.reduce((prev: number[], { x, y }) => [...prev, x, y], []);
 }
