@@ -2,7 +2,7 @@
 
 The majority of the work done in this extension happens in the following `getTilePosition()` function call.
 
-```solidity filename="examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol:102"
+```solidity copy filename="examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol:102"
 PositionData memory position = getTilePosition(asteroidEntity, building);
 ```
 
@@ -27,8 +27,8 @@ Before we search the asteroid for a suitable tile, we need to know the x/y tile 
 
 ### `P_EnumToPrototype.get()`
 
-```ts filename="WriteDemoSystem.sol:108"
-bytes32 buildingPrototype = P_EnumToPrototype.get(BuildingKey, uint8(buildingType));
+```ts copy filename="WriteDemoSystem.sol:108"
+bytes32 copy buildingPrototype = P_EnumToPrototype.get(BuildingKey, uint8(buildingType));
 ```
 
 We use EBuilding to track our list of building. The actual building data is stored in a Prototype table.
@@ -36,13 +36,13 @@ The `P_EnumToPrototype` table allows us to convert these enums to prototypes, us
 
 ### `Dimensions.get()` / `P_Asteroid.get()`
 
-```ts filename="WriteDemoSystem.sol:142"
+```ts copy filename="WriteDemoSystem.sol:142"
 DimensionsData memory range = Dimensions.get(ExpansionKey, asteroidLevel);
 ```
 
 Each asteroid map has an allowed build area based on its current expansion level. This lookup table returns a `DimensionsData` object with the expansion related width and height parameters.
 
-```ts filename="WriteDemoSystem.sol:145"
+```ts copy filename="WriteDemoSystem.sol:145"
 P_AsteroidData memory asteroidDims = P_Asteroid.get();
 ```
 
@@ -50,33 +50,33 @@ P_AsteroidData memory asteroidDims = P_Asteroid.get();
 
 Both of these are then combined to tell us the current bounded build range for the asteroid.
 
-```ts filename="WriteDemoSystem.sol:148"
-return;
-Bounds({
-  maxX: (asteroidDims.xBounds + range.width) / 2 - 1,
-  maxY: (asteroidDims.yBounds + range.height) / 2 - 1,
-  minX: (asteroidDims.xBounds - range.width) / 2,
-  minY: (asteroidDims.yBounds - range.height) / 2,
-});
+```ts copy filename="WriteDemoSystem.sol:148"
+return
+  Bounds({
+    maxX: (asteroidDims.xBounds + range.width) / 2 - 1,
+    maxY: (asteroidDims.yBounds + range.height) / 2 - 1,
+    minX: (asteroidDims.xBounds - range.width) / 2,
+    minY: (asteroidDims.yBounds - range.height) / 2,
+  });
 ```
 
 ## `canBuildOnTile()`
 
 After we have the `Bounds` details, we loop until we find a suitable tile. This function specifically checks the type of each tile coordinate, and if it matches the building we intend to build there.
 
-```ts filename="WriteDemoSystem.sol:163"
+```ts copy filename="WriteDemoSystem.sol:163"
 EResource resource = EResource(P_RequiredTile.get(prototype));
 ```
 
 `P_RequiredTile` tells us the tile type require by the specific building we're attempting to build.
 
-```ts filename="WriteDemoSystem.sol:166"
+```ts copy filename="WriteDemoSystem.sol:166"
 uint8 mapId = Asteroid.getMapId(coord.parentEntity);
 ```
 
 Different asteroids have different maps. The `PositionData` struct contains both x/y parameters, as well as the ResourceId of the parent object. We can use that to retrieve the relevant map.
 
-```ts filename="WriteDemoSystem.sol:169"
+```ts copy filename="WriteDemoSystem.sol:169"
 return (
   resource == EResource.NULL ||
   uint8(resource) == P_Terrain.get(mapId, coord.x, coord.y)
@@ -91,7 +91,7 @@ Most buildings cover more than one tile. This function checks for collision and 
 
 ### `P_Blueprint.get()`
 
-```ts filename="WriteDemoSystem.sol:179"
+```ts copy filename="WriteDemoSystem.sol:179"
 int32[] memory blueprint = P_Blueprint.get(buildingPrototype);
 ```
 
@@ -101,7 +101,7 @@ The rest of this function is checking the full building size stays within the as
 
 ### `allTilesAvailable()`
 
-```ts filename="WriteDemoSystem.sol:194"
+```ts copy filename="WriteDemoSystem.sol:194"
 return allTilesAvailable(asteroidEntity, tileCoords);
 ```
 

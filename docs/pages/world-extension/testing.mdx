@@ -15,7 +15,7 @@ We will use [Foundry](https://book.getfoundry.sh/cheatcodes/create-select-fork)'
 6. As seen in `/examples/building-upgrade-bounty/packages/contracts/test/UpgradeBountyExtension.t.sol`, use `vm.createSelectFork(vm.envString("PRIMODIUM_RPC_URL"), vm.envUint("BLOCK_NUMBER"));` to fork the chain and run Foundry tests against it.
 7. In your test file, make sure to at minimum import the following files. See `/examples/building-upgrade-bounty/packages/contracts/test/UpgradeBountyExtension.t.sol` for more useful imports.
 
-```solidity
+```solidity showLineNumbers copy
 import "forge-std/Test.sol";
 import { MudTest } from "@latticexyz/world/test/MudTest.t.sol";
 ```

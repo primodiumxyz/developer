@@ -22,7 +22,7 @@ For example, the following JSON string in `mud.config.ts` encodes a table that s
 
 After compilation, the `AsteroidCount` table is represented by a Solidity contract that conforms to the [StoreCore](https://mud.dev/store/reference/store-core) specifications. Therefore, the generated contract for the `AsteroidCount` table below has getter function that takes in the default `bytes32` key schema:
 
-```solidity filename="@primodiumxyz/contracts/src/codegen/tables/AsteroidCount.sol" showLineNumbers {4}
+```solidity copy filename="@primodiumxyz/contracts/src/codegen/tables/AsteroidCount.sol" showLineNumbers {4}
 library AsteroidCount {
   // ...
   function getValue() internal view returns (uint256 value) {
@@ -37,7 +37,7 @@ library AsteroidCount {
 
 and the generated value schema consists of a single `uint256` type.
 
-```solidity filename="@primodiumxyz/contracts/src/codegen/tables/AsteroidCount.sol" showLineNumbers {5}
+```solidity copy filename="@primodiumxyz/contracts/src/codegen/tables/AsteroidCount.sol" showLineNumbers {5}
 library AsteroidCount {
   // ...
   function getValueSchema() internal pure returns (Schema) {
@@ -80,7 +80,7 @@ For example, in the `mud-config.ts` of the [`building-upgrade-bounty`](../world-
 
 After running `pnpm run build`, the `Position` and `OwnedBy` tables are generated as Solidity contracts in the `codegen/tables` directory. For instance, `PositionData`, which is generated from the `Position` table key schema, can be referenced in the world extension as follows.
 
-```solidity filename="/examples/building-upgrade-bounty/packages/contracts/src/libraries/LibHelpers.sol" showLineNumbers {1,4}
+```solidity copy filename="/examples/building-upgrade-bounty/packages/contracts/src/libraries/LibHelpers.sol" showLineNumbers {1,4}
 import { PositionData } from "../codegen/index.sol";
 
 library LibHelpers {
@@ -93,7 +93,7 @@ library LibHelpers {
 
 To read directly from the `OwnedBy` table, you can directly reference the `OwnedBy` table in the world extension as follows.
 
-```solidity filename="/examples/building-upgrade-bounty/packages/contracts/src/libraries/LibHelpers.sol" showLineNumbers {1,7}
+```solidity copy filename="/examples/building-upgrade-bounty/packages/contracts/src/libraries/LibHelpers.sol" showLineNumbers {1,7}
 import { OwnedBy } from "../codegen/index.sol";
 
 library LibHelpers {

@@ -4,7 +4,7 @@ The commented code can be found in [`packages/contracts/script/RegisterReadDemoS
 
 ## Code
 
-```solidity filename="examples/ReadDemo/packages/contracts/script/RegisterReadDemoSystem.s.sol" showLineNumbers
+```solidity copy filename="examples/ReadDemo/packages/contracts/script/RegisterReadDemoSystem.s.sol" showLineNumbers
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
@@ -65,6 +65,6 @@ Key differences are:
 - Writing to the chain requires startBroadcast() instead of startPrank()
 - You can do a simulation of a deployment with the following command:
 
-```bash
+```bash copy 
 forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http
 ```
