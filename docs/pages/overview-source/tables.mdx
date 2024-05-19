@@ -13,8 +13,8 @@ For example, the following JSON string in `mud.config.ts` encodes a table that s
 {
   // ...
   AsteroidCount: {
-    keySchema: {},
-    valueSchema: "uint256",
+    key: [],
+    schema: { value: "uint256" },
   },
   // ...
 }
@@ -35,21 +35,6 @@ library AsteroidCount {
 }
 ```
 
-and the generated value schema consists of a single `uint256` type.
-
-```solidity copy filename="@primodiumxyz/contracts/src/codegen/tables/AsteroidCount.sol" showLineNumbers {5}
-library AsteroidCount {
-  // ...
-  function getValueSchema() internal pure returns (Schema) {
-    SchemaType[] memory _valueSchema = new SchemaType[](1);
-    _valueSchema[0] = SchemaType.UINT256;
-
-    return SchemaLib.encode(_valueSchema);
-  }
-  // ...
-}
-```
-
 ### Primodium Tables in World Extensions
 
 When developing a [world extension](../world-extension.mdx) as a MUD-compliant project that modifies Primodium tables, the templates of such tables must be included in the extension's `mud.config.ts`.
@@ -60,18 +45,20 @@ For example, in the `mud-config.ts` of the [`building-upgrade-bounty`](../world-
 {
   // ...
   Position: {
-    keySchema: { entity: "bytes32" },
-    valueSchema: {
-      x: "int32",
-      y: "int32",
-      parent: "bytes32",
+    key: ["entity"],
+    schema: { 
+      entity: "bytes32", 
+      x: "int32", 
+      y: "int32", 
+      parentEntity: "bytes32" 
     },
   },
 
   OwnedBy: {
-    keySchema: { entity: "bytes32" },
-    valueSchema: {
-      value: "bytes32",
+    key: ["entity"],
+    schema: { 
+      entity: "bytes32", 
+      value: "bytes32"
     },
   },
   // ...

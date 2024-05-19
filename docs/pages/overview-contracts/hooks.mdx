@@ -15,12 +15,12 @@ Table Hooks allow us to define tables with values dependant on other tables but 
 The following is an example of another hook subscribed to the `Score` table and updates the `AllianceScore` table whenever an alliance member score is updated.
 
 ```solidity filename="/packages/contracts/src/hooks/storeHooks/OnScore_Alliance_Score.sol" copy showLineNumbers
-/// @title OnScore_Alliance_Score - Updates alliance scores based on player scores.
-contract OnScore_Alliance_Score is StoreHook {
+/// @title OnPoints_Alliance_Points - Updates alliance points based on player points.
+contract OnPoints_Alliance_Points is StoreHook {
   constructor() {}
 
   /// @dev This function is called before splicing static data.
-  /// @param keyTuple The key tuple of the player score.
+  /// @param keyTuple The key tuple of the player points.
   /// @param start The start position of the data.
   /// @param data The data to be processed.
   function onBeforeSpliceStaticData(
@@ -30,25 +30,31 @@ contract OnScore_Alliance_Score is StoreHook {
     bytes memory data
   ) public override {
     bytes32 playerEntity = keyTuple[0];
+    uint8 pointsType = uint8(uint256(keyTuple[1]));
     bytes32 allianceEntity = PlayerAlliance.getAlliance(playerEntity);
 
-    // Check if the player is part of an alliance
-    if (allianceEntity == 0) {
-      // If the player is not part of an alliance, there is no alliance score to update
-      return;
-    }
+    if (allianceEntity == 0) return;
 
-    bytes memory newScoreRaw = SliceInstance.toBytes(SliceLib.getSubslice(data, start));
-    uint256 newScore = abi.decode(newScoreRaw, (uint256));
-    uint256 oldScore = Score.get(playerEntity);
-    uint256 allianceScore = Alliance.getScore(allianceEntity);
+    bytes memory newPointsRaw = SliceInstance.toBytes(SliceLib.getSubslice(data, start));
+    uint256 newPoints = abi.decode(newPointsRaw, (uint256));
+    uint256 oldPoints = Points.get(playerEntity, pointsType);
+    uint256 alliancePoint = Points.get(allianceEntity, pointsType);
+    uint256 prevContribution = AlliancePointContribution.get(allianceEntity, pointsType, playerEntity);
 
-    if (newScore > oldScore) {
-      uint256 scoreDiff = newScore - oldScore;
-      Alliance.setScore(allianceEntity, allianceScore + scoreDiff);
+    if (newPoints > oldPoints) {
+      uint256 pointsDiff = newPoints - oldPoints;
+      Points.set(allianceEntity, pointsType, alliancePoint + pointsDiff);
+      AlliancePointContribution.set(allianceEntity, pointsType, playerEntity, prevContribution + pointsDiff);
     } else {
-      uint256 scoreDiff = oldScore - newScore;
-      Alliance.setScore(allianceEntity, allianceScore - scoreDiff);
+      uint256 pointsDiff = oldPoints - newPoints;
+
+      if (pointsDiff > alliancePoint) {
+        Points.set(allianceEntity, pointsType, 0);
+      } else Points.set(allianceEntity, pointsType, alliancePoint - pointsDiff);
+
+      if (pointsDiff > prevContribution) {
+        AlliancePointContribution.set(allianceEntity, pointsType, playerEntity, 0);
+      } else AlliancePointContribution.set(allianceEntity, pointsType, playerEntity, alliancePoint - pointsDiff);
     }
   }
 }

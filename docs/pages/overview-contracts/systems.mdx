@@ -28,7 +28,7 @@ A new system is defined for a group of related on-chain logic. For example, the 
 
 ```solidity copy filename="/packages/contracts/src/systems/BuildSystem.sol" showLineNumbers
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 // external
 import { PrimodiumSystem } from "systems/internal/PrimodiumSystem.sol";
@@ -37,12 +37,12 @@ import { PrimodiumSystem } from "systems/internal/PrimodiumSystem.sol";
 import { P_EnumToPrototype, PositionData } from "codegen/index.sol";
 
 // libraries
-import { LibBuilding } from "codegen/Libraries.sol";
+import { LibBuilding } from "libraries/LibBuilding.sol";
+import { IWorld } from "codegen/world/IWorld.sol";
 
 // types
 import { BuildingKey } from "src/Keys.sol";
 import { EBuilding } from "src/Types.sol";
-
 
 /*
   EBuilding is an uint256 that encodes different building types.
@@ -57,12 +57,16 @@ import { EBuilding } from "src/Types.sol";
 */
 
 contract BuildSystem is PrimodiumSystem {
-  function build(EBuilding buildingType, PositionData memory coord) public returns (bytes32 buildingEntity) {
-    bytes32 playerEntity = addressToEntity(_msgSender());
+  function build(
+    EBuilding buildingType,
+    PositionData memory coord
+  ) public _claimResources(coord.parentEntity) returns (bytes32 buildingEntity) {
+
     bytes32 buildingPrototype = P_EnumToPrototype.get(BuildingKey, uint8(buildingType));
-    return LibBuilding.build(playerEntity, buildingPrototype, coord);
+    buildingEntity = LibBuilding.build(_player(), buildingPrototype, coord, false);
   }
 }
+
 ```
 
 In TypeScript, a system is called using the `write$` observable. First, a `worldContract` object is initialized as follows, where `getContract()` is defined [here](https://github.com/latticexyz/mud/tree/main/packages/common/src/getContract.ts#L50C17-L50C28) in the `@latticexyz/mud` package.

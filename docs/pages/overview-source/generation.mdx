@@ -130,14 +130,14 @@ The generated Foundry script populates the `P_Terrain` table with the ore distri
 
 ```solidity filename="@primodiumxyz/contracts/src/codegen/scripts/CreateTerrain.sol" copy showLineNumbers
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity >=0.8.24;
 
 import { P_Terrain } from "codegen/index.sol";
 import { EResource } from "codegen/common.sol";
 
 function createTerrain() {
-  P_Terrain.set(1, 20, 8, uint8(EResource.Iron));
-  P_Terrain.set(1, 21, 8, uint8(EResource.Iron));
+  P_Terrain.set(1, 17, 4, uint8(EResource.Iron));
+  P_Terrain.set(1, 16, 5, uint8(EResource.Iron));
   // continued with all other iron tiles
 }
 ```

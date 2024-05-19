@@ -10,22 +10,22 @@ Prototype tables store game configuration data such as building costs, unit stat
 
 The following json string in [`mud.config.ts`](https://github.com/primodiumxyz/contracts/blob/main/mud.config.ts#L85-L97) encodes a table that stores key game configuration named `P_GameConfig`.
 
-```js copy filename="@primodiumxyz/contracts/mud.config.ts#L85-L97" showLineNumbers
+```js copy filename="@primodiumxyz/contracts/mud.config.ts#L47-L59" showLineNumbers
 {
   // ...
   P_GameConfig: {
-    keySchema: {},
-    valueSchema: {
+    key: [],
+    schema: {
       admin: "address",
       unitProductionRate: "uint256",
-      maxMotherlodesPerAsteroid: "uint256",
-      motherlodeChanceInv: "uint256",
-      motherlodeDistance: "uint256",
       travelTime: "uint256",
       worldSpeed: "uint256",
-      tax: "uint256",
+      maxAsteroidsPerPlayer: "uint256",
+      asteroidChanceInv: "uint256",
+      asteroidDistance: "uint256",
+      unitDeathLimit: "uint256",
     },
-  }
+  },
   // ...
 }
 ```
@@ -34,16 +34,16 @@ The following json string in [`mud.config.ts`](https://github.com/primodiumxyz/c
 
 All other tables store in-game data associated with players, space rocks, alliances, and other game entities. These tables are expected to change during the game's lifecycle. The following json string encodes a table that stores the position of a building named [`Position`](https://github.com/primodiumxyz/contracts/blob/main/mud.config.ts#L107-L114).
 
-```js copy filename="@primodiumxyz/contracts/mud.config.ts#L107-L114" showLineNumbers
+```js copy filename="@primodiumxyz/contracts/mud.config.ts#L79-L82" showLineNumbers
 {
   Position: {
-    keySchema: { entity: "bytes32" },
-    valueSchema: {
-      x: "int32",
-      y: "int32",
-      parent: "bytes32",
+    key: ["entity"],
+    schema: { 
+      entity: "bytes32", 
+      x: "int32", y: "int32", 
+      parentEntity: "bytes32" 
     },
-  }
+  },
 }
 ```
 
