@@ -38,7 +38,7 @@ contract WriteDemoTest is MudTest {
   // namespaces are truncated to 14 bytes, and systems to 16 bytes.
   // namespaces must be unique, so if you get an Already Exists revert, try changing the namespace.
   // systems are also unique within a namespace, but redeploying a system will overwrite the previous version.
-  bytes14 PRIMODIUM_NAMESPACE = bytes14("Primodium");
+  bytes14 PRIMODIUM_NAMESPACE = bytes14("Pri_11");
   bytes14 namespace = bytes14("PluginExamples");
   bytes16 system = bytes16("WriteDemoSystem");
 
@@ -115,7 +115,7 @@ contract WriteDemoTest is MudTest {
     bool playerIsSpawned = Spawned.get(playerEntity);
     if (!playerIsSpawned) {
       console2.log("Spawning Player");
-      IPrimodiumWorld(worldAddress).Primodium__spawn();
+      IPrimodiumWorld(worldAddress).Pri_11__spawn();
     }
 
     // build an iron mine on their home base
@@ -152,7 +152,7 @@ contract WriteDemoTest is MudTest {
   //     // attempting to spawn the player says it's already spawned
   //     if (!playerIsSpawned) {
   //         console2.log("Spawning Player");
-  //         IPrimodiumWorld(worldAddress).Primodium__spawn();
+  //         IPrimodiumWorld(worldAddress).Pri_11__spawn();
   //     }
   //     // check if the player is spawned
   //     playerIsSpawned = Spawned.get(playerEntity);
@@ -168,14 +168,14 @@ contract WriteDemoTest is MudTest {
   //     position.parentEntity = asteroidEntity;
 
   //     ResourceId buildSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, PRIMODIUM_NAMESPACE, "BuildSystem");
-  //     // console2.log("Primodium__build((uint256,(int32, int32, bytes32))");
+  //     // console2.log("Pri_11__build((uint256,(int32, int32, bytes32))");
   //     console2.log("building enum: %s", uint256(building));
   //     console2.log("position x: %s", uint256(int256(position.x)));
   //     console2.log("position y: %s", uint256(int256(position.y)));
   //     console2.log("position parent: %x", uint256(position.parentEntity));
   //     console2.log("buildSystemId: %x", uint256(ResourceId.unwrap(buildSystemId)));
 
-  //     bytes4 worldFunctionSelector = bytes4(keccak256(bytes("Primodium__build(uint8,(int32,int32,bytes32))")));
+  //     bytes4 worldFunctionSelector = bytes4(keccak256(bytes("Pri_11__build(uint8,(int32,int32,bytes32))")));
   //     console2.log("worldFunctionSelector:");
   //     console2.logBytes4(worldFunctionSelector);
 
@@ -184,7 +184,7 @@ contract WriteDemoTest is MudTest {
   //     console2.logBytes4(systemFunctionSelector);
 
   //     console2.logBytes(
-  //         abi.encodeWithSignature("Primodium__build(uint8,(int32,int32,bytes32))", building, (position))
+  //         abi.encodeWithSignature("Pri_11__build(uint8,(int32,int32,bytes32))", building, (position))
   //     );
   //     console2.logBytes(
   //         abi.encodeWithSelector(

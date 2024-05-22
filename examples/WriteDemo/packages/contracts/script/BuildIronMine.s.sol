@@ -24,7 +24,7 @@ contract BuildIronMine is Script {
     // you can cache the IWorld, or cast it inline as seen in the test script
     IWorld iworld = IWorld(worldAddress);
 
-    bytes4 worldFunctionSelector = IPrimodiumWorld(worldAddress).Primodium__build.selector;
+    bytes4 worldFunctionSelector = IPrimodiumWorld(worldAddress).Pri_11__build.selector;
     (ResourceId systemId, ) = FunctionSelectors.get(worldFunctionSelector);
 
     address writeDemoSystem = Systems._getSystem(systemId);
