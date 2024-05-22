@@ -18,31 +18,38 @@ cd developer/examples/ReadDemo/packages/contracts
 pnpm i
 ```
 
-4. Build the project:
+4. Update namespaces in scripts (choose your own to avoid collision).
+
+5. Build the project:
 
 ```bash copy
 pnpm build
 ```
 
-5. Test the project:
+6. Update addresses and private keys in `.env`
+```bash copy
+cp .env.example .env
+```
+
+7. Test the project:
 
 ```bash copy
 forge test
 ```
 
-6. Do a dry-run of deployment:
+8. Do a dry-run of deployment:
 
 ```bash copy
 forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http
 ```
 
-7. Deploy the System:
+8. Deploy the System:
 
 ```bash copy
 forge script script/RegisterReadDemoSystem.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
 ```
 
-8. Use a script to interact with the system:
+9. Use a script to interact with the system:
 
 ```bash copy
 forge script script/ReadMainBaseLevel.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast

@@ -10,13 +10,12 @@
   only be revoked under specific conditions.
 - System access gives someone the ability to call _any_ function in the system. If this is undesirable, either use proper
   checks in your functions or break apart your system into multiple systems.
-- If something in MUD isn't working properly, double check that your MUD version is set to `2.0.0-main-9ef3f9a7`.
+- If something in MUD isn't working properly, double check that your MUD version is set to `2.0.9`.
   If not, run the following command in the root of your directory:
 
 ```bash copy
-pnpm mud set-version --mudVersion 2.0.0-main-9ef3f9a7 && pnpm i && pnpm build
+pnpm mud set-version --mudVersion 2.0.9 && pnpm i && pnpm build
 ```
 
 - If you recently changed some configuration, double check that you have run `pnpm i` and `pnpm build` in the root of your directory.
-- Any time you have used the `<namespace>__<function>` pattern from a MUD example, replace it with the `<namespace>_<system>_<function>` pattern.
 - Namespaces in MUD worlds are unique and exclusive. You cannot register a namespace name that already exists. If you previously registered a namespace to the live Primodium world and attempt to reregister the same name, it will fail. Please be conservative with registering namespaces by using [forked tests](./testing.mdx) of the world until you are confident in registering to the main world.

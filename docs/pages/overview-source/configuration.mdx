@@ -8,61 +8,49 @@ Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templ
 
 - [`@primodiumxyz/contracts/config/prototypeConfig.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/prototypeConfig.ts): The main configuration file that defines game prototype data in Primodium. For example, the following defines the prototype data for `CopperMine`, a building that mines copper on an asteroid.
 
-```ts filename="@primodiumxyz/contracts/config/prototypeConfig.ts#L419-L463" showLineNumbers
+```ts filename="@primodiumxyz/contracts/config/prototypeConfig.ts#L623-L655" showLineNumbers
 {
   // ...
   CopperMine: {
     tables: {
       P_Blueprint: { value: getBlueprint(1, 1) },
-      P_MaxLevel: { value: 7n },
+      P_MaxLevel: { value: 15n },
       P_RequiredTile: { value: MUDEnums.EResource.indexOf("Iron") },
     },
     levels: {
-      1: { P_RequiredBaseLevel: { value: 1n }, P_Production: getResourceValues({ Copper: 0.25 }) },
+      1: { P_RequiredBaseLevel: { value: 1n }, P_Production: getResourceValues({ Copper: 0.09 }) },
       2: {
         P_RequiredBaseLevel: { value: 1n },
-        P_RequiredResources: getResourceValues({ Iron: 1000 }),
-        P_Production: getResourceValues({ Copper: 0.35 }),
+        P_RequiredResources: getResourceValues({ Iron: 50, Copper: 100 }),
+        P_Production: getResourceValues({ Copper: 0.12 }),
       },
       3: {
         P_RequiredBaseLevel: { value: 2n },
-        P_RequiredResources: getResourceValues({ Iron: 10000 }),
-        P_Production: getResourceValues({ Copper: 0.45 }),
+        P_RequiredResources: getResourceValues({ Iron: 100, Copper: 300 }),
+        P_Production: getResourceValues({ Copper: 0.15 }),
       },
       4: {
         P_RequiredBaseLevel: { value: 3n },
-        P_RequiredResources: getResourceValues({ Iron: 30000 }),
-        P_Production: getResourceValues({ Copper: 0.55 }),
+        P_RequiredResources: getResourceValues({ Iron: 200, Copper: 1000 }),
+        P_Production: getResourceValues({ Copper: 0.18 }),
       },
       5: {
         P_RequiredBaseLevel: { value: 4n },
-        P_RequiredResources: getResourceValues({ Iron: 100000 }),
-        P_Production: getResourceValues({ Copper: 0.65 }),
+        P_RequiredResources: getResourceValues({ Iron: 400, Copper: 1600 }),
+        P_Production: getResourceValues({ Copper: 0.23 }),
       },
       6: {
-        P_RequiredBaseLevel: { value: 5n },
-        P_RequiredResources: getResourceValues({ Iron: 200000 }),
-        P_Production: getResourceValues({ Copper: 0.75 }),
-      },
-      7: {
         P_RequiredBaseLevel: { value: 6n },
-        P_RequiredResources: getResourceValues({ Iron: 500000 }),
-        P_Production: getResourceValues({ Copper: 0.9 }),
+        P_RequiredResources: getResourceValues({ Iron: 4000, Alloy: 1000 }),
+        P_Production: getResourceValues({ Copper: 0.28 }),
       },
-      8: {
-        P_RequiredBaseLevel: { value: 7n },
-        P_RequiredResources: getResourceValues({ Iron: 1000000 }),
-        P_Production: getResourceValues({ Copper: 1.2 }),
-      },
-    },
-  }
   // ...
 }
 ```
 
 - [`@primodiumxyz/contracts/config/enums.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/enums.ts): Solidity Enums that define each building, resource, units, objectives, and related enumerated prototype data. For example, the following enum describes all resources that can be associated with an asteroid in Primodium.
 
-```ts filename="@primodiumxyz/contracts/config/enums.ts#L34-L63" showLineNumbers
+```ts filename="@primodiumxyz/contracts/config/enums.ts#L39-L65" showLineNumbers
 export enum EResource {
   Iron = 1,
   Copper,
@@ -77,13 +65,11 @@ export enum EResource {
   IronPlate,
   Alloy,
   PVCell,
-  RocketFuel,
 
   // Utilities
   U_Electricity,
   U_Housing,
-  U_CapitalShipCapacity,
-  U_MaxMoves,
+  U_MaxFleets,
   U_Defense,
   U_Unraidable,
   U_AdvancedUnraidable,
@@ -99,13 +85,12 @@ export enum EResource {
 
 - [`@primodiumxyz/contracts/ts/prototypes/prototypeGenUtils.ts`](https://github.com/primodiumxyz/contracts/blob/main/ts/prototypes/prototypeGenUtils.ts): Utility functions for generating prototype data. For example, the `getResourceValue()` function also referenced above converts a resource key and amount into a `EResource` enum and a `BigInt`, values that can be written to a Solidity contract.
 
-```ts copy filename="@primodiumxyz/contracts/ts/prototypes/prototypeGenUtils.ts#L91-L97" showLineNumbers
+```ts copy filename="@primodiumxyz/contracts/ts/prototypes/prototypeGenUtils.ts#L63-L66" showLineNumbers
 export const getResourceValue = (resourceValue: { [x: string]: number }) => {
   const [resource, amount] = Object.entries(resourceValue)[0];
-  return {
-    resource: MUDEnums.EResource.indexOf(resource),
-    amount: BigInt(amount * SCALE),
-  };
+  return { 
+    resource: MUDEnums.EResource.indexOf(resource), 
+    amount: BigInt(Math.round(amount * SCALE)) };
 };
 ```
 
@@ -125,6 +110,7 @@ export function getBlueprint(width: number, height: number) {
   }
   return getIntArray(blueprint);
 }
+
 ```
 
 - [`@primodiumxyz/contracts/ts/terrain/terraingen.ts`](https://github.com/primodiumxyz/contracts/blob/main/ts/terrain/terraingen.ts): Generates a Foundry script for populating terrain ore distribution, described in detail in the [prototype generation example](./generation.mdx).
