@@ -12,7 +12,7 @@ Table Hooks allows us to define reactionary logic to changes to a table values. 
 
 Table Hooks allow us to define tables with values dependant on other tables but keep their logic decoupled. The most common hook is the `claimResources` subsystem, which updates resource counts to their up-to-date values.
 
-The following is an example of another hook subscribed to the `Score` table and updates the `AllianceScore` table whenever an alliance member score is updated.
+The following is an example of another hook (no longer used in production) subscribed to the `Score` table and updates the `AllianceScore` table whenever an alliance member score is updated.
 
 ```solidity filename="/packages/contracts/src/hooks/storeHooks/OnScore_Alliance_Score.sol" copy showLineNumbers
 /// @title OnPoints_Alliance_Points - Updates alliance points based on player points.
