@@ -40,7 +40,7 @@ contract ReadDemoTest is MudTest {
   address playerAddressActive = vm.envAddress("ADDRESS_PLAYER_ACTIVE");
   address playerAddressInactive = vm.envAddress("ADDRESS_PLAYER_INACTIVE");
 
-  bytes14 PRIMODIUM_NAMESPACE = bytes14("Primodium");
+  bytes14 PRIMODIUM_NAMESPACE = bytes14("Pri_11");
   bytes14 namespace = bytes14("PluginExamples");
   bytes16 system = bytes16("ReadDemoSystem");
 
@@ -93,7 +93,7 @@ contract ReadDemoTest is MudTest {
 
     uint32 baseLevel = IWorld(worldAddress).PluginExamples__readMainBaseLevel();
 
-    IPrimodiumWorld(worldAddress).Primodium__spawn();
+    IPrimodiumWorld(worldAddress).Pri_11__spawn();
     baseLevel = IWorld(worldAddress).PluginExamples__readMainBaseLevel();
 
     vm.stopPrank();

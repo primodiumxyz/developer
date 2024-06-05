@@ -39,7 +39,7 @@ contract WriteDemoTest is MudTest {
     address playerAddressBob = vm.envAddress("ADDRESS_BOB");
     uint256 playerPrivateKeyBob = vm.envUint("PRIVATE_KEY_BOB");
 
-    bytes14 PRIMODIUM_NAMESPACE = bytes14("Primodium");
+    bytes14 PRIMODIUM_NAMESPACE = bytes14("Pri_11");
     bytes14 namespace = bytes14("PluginExamples");
     bytes16 system = bytes16("WriteDemoSystem");
 
@@ -85,7 +85,7 @@ contract WriteDemoTest is MudTest {
         bool playerIsSpawned = Spawned.get(playerEntity);
         if (!playerIsSpawned) {
             console2.log("Spawning Player");
-            IPrimodiumWorld(worldAddress).Primodium__spawn();
+            IPrimodiumWorld(worldAddress).Pri_11__wn();
         }
 
         console2.log("Building Iron Mine");

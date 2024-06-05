@@ -99,7 +99,7 @@ Normally we won't need this. However, there is a [bug](https://github.com/lattic
 
     PositionData memory position = getTilePosition(asteroidEntity, building);
 
-    bytes4 worldFunctionSelector = IPrimodiumWorld(_world()).Primodium__build.selector;
+    bytes4 worldFunctionSelector = IPrimodiumWorld(_world()).Pri_11__build.selector;
 
     (ResourceId buildSystemId, bytes4 buildSystemFunctionSelector) = FunctionSelectors.get(worldFunctionSelector);
 
@@ -145,7 +145,7 @@ ResourceId buildSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, PRIMODIUM_
 bytes memory buildingEntity = IPrimodiumWorld(_world()).callFrom(
     _msgSender(),
     buildSystemId,
-    abi.encodeWithSignature("Primodium__build(uint8,(int32,int32,bytes32))", building, (position))
+    abi.encodeWithSignature("Pri_11__build(uint8,(int32,int32,bytes32))", building, (position))
 );
 ```
 
@@ -154,7 +154,7 @@ This is normally how we would call a `System` that is going to take action for t
 The parameters of the function signature deconstruct the struct into its internal native types, to match the abi. Note the extra () around `position` to indicate that the struct is a tuple.
 
 ```solidity filename="WriteDemoSystem.sol:73"
-bytes4 worldFunctionSelector = IPrimodiumWorld(_world()).Primodium__build.selector;
+bytes4 worldFunctionSelector = IPrimodiumWorld(_world()).Pri_11__build.selector;
 
 (ResourceId buildSystemId, bytes4 buildSystemFunctionSelector) = FunctionSelectors.get(worldFunctionSelector);
 
