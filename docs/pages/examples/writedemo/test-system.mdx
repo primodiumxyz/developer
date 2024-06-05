@@ -85,7 +85,7 @@ contract WriteDemoTest is MudTest {
         bool playerIsSpawned = Spawned.get(playerEntity);
         if (!playerIsSpawned) {
             console2.log("Spawning Player");
-            IPrimodiumWorld(worldAddress).Pri_11__wn();
+            IPrimodiumWorld(worldAddress).Pri_11__spawn();
         }
 
         console2.log("Building Iron Mine");
