@@ -4,7 +4,7 @@
 
 ## Contract Address
 
-The latest version of Primodium was released on March 12, 2024 on the [Primodium testnet](./world-extension/deploy.mdx) with the address `0x060f3f0915999fa84886f6e993cd95c4b2046b43`.
+The latest world version of Primodium was released on March 12, 2024 on the [Primodium testnet](./world-extension/deploy.mdx) with the address `0x060f3f0915999fa84886f6e993cd95c4b2046b43`.
 
 ```json copy
 // Address of the Primodium World Contract
@@ -18,6 +18,10 @@ The latest version of Primodium was released on March 12, 2024 on the [Primodium
 Primodium smart contracts are compliant with the open [MUD standard](https://www.mud.dev) for large-scale Ethereum applications. The contract at the above address, referred in the following docs as the _world contract_, is the main entry point for all other Primodium contracts.
 
 The [contracts overview guide](./overview-contracts.mdx) describes Primodium contract structure and interactions.
+
+## Namespace
+
+The latest match of Primodium is being played in the `Pri_11` namespace. When calling core game functions for the latest match, you must prepend the function call with the namespace. For example, to call the `getAsteroid` function in the `Asteroid` table, you would call `Pri_11__getAsteroid`. The ABI should already have the namespace prepended to the function name.
 
 ## Source
 
