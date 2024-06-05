@@ -29,14 +29,17 @@ Publicly-available source code is available on the [Primodium GitHub](https://gi
 
 ## Changelog
 
-v0.10.0 is our biggest update to date. We’ve changed and added the following:
+v0.11.0 is our biggest update to date. We've changed and added the following:
 
-- Motherlode asteroids are now colonizable and buildable.
-- All asteroids have an `Encryption` attribute to them that prevents colonization.
-- Units are now organized into `Fleets`, which are groups of units that stay in orbit.
-- Fleets can be used to attack other fleets in orbit or defend an asteroid from orbit.
-- Added miners for kimberlite, titanium, iridium, and platinum for use on other asteroids.
-- Resources are transferrable between motherlodes and are tied to fleet cargo.
-- You can now build contract-side plugins for player coordination.
-- Major UI elements have been moved to `Widgets` which can be locked/unlocked, dragged, and pinned.
-- Introducing Aura, your personal gaming companion. Aura provides a centralized location for managing widgets and key game actions and information.
+- Alliance leaderboard scoring changed to reflect two playstyles: economy and conquest.
+  - Economy: Increase your score by sacrificing resources to a wormhole.
+  - Conquest: Increase your score by conquering key asteroids and volatile shards.
+- Wormholes demand a specific resource type to be sacrificed in order to receive points, but the resource type changes over time.
+- Volatile shards are proto-asteroids that can be conquered and held for large conquest points. They are volatile and can be explode after a period of time, but will respawn elsewhere.
+- Victory conditions: the match ends when the unit destruction counter is filled. The alliance with the highest score wins.
+- Colony slots limit how many colonies + colony ships you can possess at one time. Each purchased slot gets increasingly more expensive.
+- Colony ship production costs are now fixed.
+- You can now opt to abandon an asteroid in order to free a colony slot.
+- Building levels have been expanded, including the main base, which now has 15 levels.
+- Expanded objectives to instruct and guide players as they progress.
+- New and improved UI for fleet command, transfer, and management.
