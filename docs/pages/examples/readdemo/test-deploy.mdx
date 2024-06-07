@@ -39,6 +39,12 @@ contract RegisterReadDemoSystem is Script {
 
     vm.startBroadcast(deployerPrivateKey);
 
+    // check if the namespace already exists
+    // if you own the namespace, you can change/deregister it via other code
+    // if you do not own the namespace but it is already registered, you will need to change your namespace
+    bool existingNamespaceCheck = ResourceIds.getExists(namespaceResource);
+    require(!existingNamespaceCheck, "Namespace already exists.");
+
     world.registerNamespace(namespaceResource);
 
     ReadDemoSystem readDemoSystem = new ReadDemoSystem();
