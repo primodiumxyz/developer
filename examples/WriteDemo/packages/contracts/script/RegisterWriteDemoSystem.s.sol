@@ -7,6 +7,7 @@ import { console2 } from "forge-std/Test.sol";
 import { WorldRegistrationSystem } from "@latticexyz/world/src/modules/init/implementations/WorldRegistrationSystem.sol";
 import { System } from "@latticexyz/world/src/System.sol";
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
+import { ResourceIds } from "@latticexyz/store/src/codegen/tables/ResourceIds.sol";
 import { WorldResourceIdLib } from "@latticexyz/world/src/WorldResourceId.sol";
 import { RESOURCE_SYSTEM } from "@latticexyz/world/src/worldResourceTypes.sol";
 import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
@@ -42,8 +43,11 @@ contract RegisterWriteDemoSystem is Script {
     // in testing, we prank(). to write to the live chain, we broadcast()
     vm.startBroadcast(deployerPrivateKey);
 
-    // register the namespace
-    world.registerNamespace(namespaceResource);
+    // check if the namespace already exists
+    // if you own the namespace, you can change/deregister it via other code
+    // if you do not own the namespace but it is already registered, you will need to change your namespace
+    bool existingNamespaceCheck = ResourceIds.getExists(namespaceResource);
+    require(!existingNamespaceCheck, "Namespace already exists.");
 
     // create the system
     WriteDemoSystem writeDemoSystem = new WriteDemoSystem();

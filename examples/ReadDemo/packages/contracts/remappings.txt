@@ -1,5 +1,4 @@
 ds-test/=node_modules/ds-test/src/
 forge-std/=node_modules/forge-std/src/
 @latticexyz/=node_modules/@latticexyz/
-codegen=src/codegen/
 primodium=node_modules/@primodiumxyz/contracts/src/codegen/

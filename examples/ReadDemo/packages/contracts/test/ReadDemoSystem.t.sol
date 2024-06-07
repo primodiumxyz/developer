@@ -10,6 +10,7 @@ import { System } from "@latticexyz/world/src/System.sol";
 import { Systems } from "@latticexyz/world/src/codegen/tables/Systems.sol";
 
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
+import { ResourceIds } from "@latticexyz/store/src/codegen/tables/ResourceIds.sol";
 import { WorldResourceIdLib, ROOT_NAMESPACE } from "@latticexyz/world/src/WorldResourceId.sol";
 import { RESOURCE_SYSTEM } from "@latticexyz/world/src/worldResourceTypes.sol";
 import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
@@ -69,6 +70,12 @@ contract ReadDemoTest is MudTest {
     // here, we are pretending to be the extension deployer
     vm.startPrank(extensionDeployerAddress);
 
+    // check if the namespace already exists
+    // if you own the namespace, you can change/deregister it via other code
+    // if you do not own the namespace but it is already registered, you will need to change your namespace
+    bool existingNamespaceCheck = ResourceIds.getExists(namespaceResource);
+    assertFalse(existingNamespaceCheck, "Namespace already exists.");
+
     // register the namespace
     world.registerNamespace(namespaceResource);
 
@@ -79,7 +86,7 @@ contract ReadDemoTest is MudTest {
     world.registerSystem(systemResource, readDemoSystem, true);
 
     // register all functions in the system
-    // if you have multiple functions, you will need ro register each one
+    // if you have multiple functions, you will need to register each one
     world.registerFunctionSelector(systemResource, "readMainBaseLevel()");
     console2.log(
       "Alice successfully registered the PluginExamples namespace, ReadDemoSystem contract, readMainBaseLevel function selector, to the Primodium world address."
@@ -127,7 +134,7 @@ contract ReadDemoTest is MudTest {
 
   function test_SpawnAndReadMainBaseLevel() public {
     vm.startPrank(playerAddressInactive);
-    console2.log("\ntest_SpawnAndReadMainaseLevel worldAddress: ", worldAddress);
+    console2.log("\ntest_SpawnAndReadMainBaseLevel worldAddress: ", worldAddress);
 
     uint32 baseLevel = IWorld(worldAddress).PluginExamples__readMainBaseLevel();
     console2.log("baseLevelBefore:", baseLevel);

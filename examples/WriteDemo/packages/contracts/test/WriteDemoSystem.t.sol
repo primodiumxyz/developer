@@ -8,6 +8,7 @@ import { WorldRegistrationSystem } from "@latticexyz/world/src/modules/init/impl
 import { System } from "@latticexyz/world/src/System.sol";
 
 import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
+import { ResourceIds } from "@latticexyz/store/src/codegen/tables/ResourceIds.sol";
 import { WorldResourceIdLib } from "@latticexyz/world/src/WorldResourceId.sol";
 import { RESOURCE_SYSTEM } from "@latticexyz/world/src/worldResourceTypes.sol";
 import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
@@ -36,7 +37,7 @@ contract WriteDemoTest is MudTest {
 
   // defining these up top for use below.
   // namespaces are truncated to 14 bytes, and systems to 16 bytes.
-  // namespaces must be unique, so if you get an Already Exists revert, try changing the namespace.
+  // namespaces must be unique, so if you get a Setup revert, try changing the namespace.
   // systems are also unique within a namespace, but redeploying a system will overwrite the previous version.
   bytes14 PRIMODIUM_NAMESPACE = bytes14("Pri_11");
   bytes14 namespace = bytes14("PluginExamples");
@@ -72,6 +73,12 @@ contract WriteDemoTest is MudTest {
     // interacting with the chain requires us to pretend to be someone
     // here, we are pretending to be the extension deployer
     vm.startPrank(extensionDeployerAddress);
+
+    // check if the namespace already exists
+    // if you own the namespace, you can change/deregister it via other code
+    // if you do not own the namespace but it is already registered, you will need to change your namespace
+    bool existingNamespaceCheck = ResourceIds.getExists(namespaceResource);
+    assertFalse(existingNamespaceCheck, "Namespace already exists.");
 
     // register the namespace
     world.registerNamespace(namespaceResource);
@@ -113,9 +120,12 @@ contract WriteDemoTest is MudTest {
     // attempting to spawn the player if they have not started the game yet
     bytes32 playerEntity = bytes32(uint256(uint160(playerAddressBob)));
     bool playerIsSpawned = Spawned.get(playerEntity);
+    bytes32 asteroidEntity;
     if (!playerIsSpawned) {
       console2.log("Spawning Player");
-      IPrimodiumWorld(worldAddress).Pri_11__spawn();
+      asteroidEntity = IPrimodiumWorld(worldAddress).Pri_11__spawn();
+      assertTrue(Spawned.get(playerEntity), "player did not spawn");
+      playerIsSpawned = true;
     }
 
     // build an iron mine on their home base
@@ -123,7 +133,7 @@ contract WriteDemoTest is MudTest {
     bytes32 buildingEntity = IWorld(worldAddress).PluginExamples__buildIronMine();
 
     // assert that the iron mine was built
-    assert(uint256(buildingEntity) != 0);
+    assertTrue(uint256(buildingEntity) != 0, "iron mine was not built");
     console2.log("confirmed new IronMine Entity: %x", uint256(buildingEntity));
 
     // stop interacting with the chain
