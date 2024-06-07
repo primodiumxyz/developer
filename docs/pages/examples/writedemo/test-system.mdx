@@ -12,24 +12,25 @@ We will highlight the key differences in the Explanation below.
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.24;
 
-import {MudTest} from "@latticexyz/world/test/MudTest.t.sol";
-import {console2} from "forge-std/Test.sol";
+import { MudTest } from "@latticexyz/world/test/MudTest.t.sol";
+import { console2 } from "forge-std/Test.sol";
 
-import {WorldRegistrationSystem} from "@latticexyz/world/src/modules/init/implementations/WorldRegistrationSystem.sol";
-import {System} from "@latticexyz/world/src/System.sol";
+import { WorldRegistrationSystem } from "@latticexyz/world/src/modules/init/implementations/WorldRegistrationSystem.sol";
+import { System } from "@latticexyz/world/src/System.sol";
 
-import {ResourceId} from "@latticexyz/store/src/ResourceId.sol";
-import {WorldResourceIdLib} from "@latticexyz/world/src/WorldResourceId.sol";
-import {RESOURCE_SYSTEM} from "@latticexyz/world/src/worldResourceTypes.sol";
-import {StoreSwitch} from "@latticexyz/store/src/StoreSwitch.sol";
-import {UNLIMITED_DELEGATION} from "@latticexyz/world/src/constants.sol";
+import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
+import { ResourceIds } from "@latticexyz/store/src/codegen/tables/ResourceIds.sol";
+import { WorldResourceIdLib } from "@latticexyz/world/src/WorldResourceId.sol";
+import { RESOURCE_SYSTEM } from "@latticexyz/world/src/worldResourceTypes.sol";
+import { StoreSwitch } from "@latticexyz/store/src/StoreSwitch.sol";
+import { UNLIMITED_DELEGATION } from "@latticexyz/world/src/constants.sol";
 
-import {WriteDemoSystem} from "../src/systems/WriteDemoSystem.sol";
+import { WriteDemoSystem } from "../src/systems/WriteDemoSystem.sol";
 
-import {IWorld} from "../src/codegen/world/IWorld.sol";
-import {IWorld as IPrimodiumWorld} from "primodium/world/IWorld.sol";
+import { IWorld } from "../src/codegen/world/IWorld.sol";
+import { IWorld as IPrimodiumWorld } from "primodium/world/IWorld.sol";
 
-import {Home, PositionData, Spawned} from "primodium/index.sol";
+import { Home, PositionData, Spawned } from "primodium/index.sol";
 
 contract WriteDemoTest is MudTest {
     address extensionDeployerAddress = vm.envAddress("ADDRESS_ALICE");
@@ -58,6 +59,9 @@ contract WriteDemoTest is MudTest {
         ResourceId systemResource = WorldResourceIdLib.encode(RESOURCE_SYSTEM, namespace, system);
 
         vm.startPrank(extensionDeployerAddress);
+
+        bool existingNamespaceCheck = ResourceIds.getExists(namespaceResource);
+        assertFalse(existingNamespaceCheck, "Namespace already exists.");
 
         world.registerNamespace(namespaceResource);
 

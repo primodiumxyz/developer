@@ -31,8 +31,6 @@ import { EBuilding } from "primodium/common.sol";
 
 import { Bounds, EResource } from "src/Types.sol";
 import { BuildingKey, ExpansionKey } from "src/Keys.sol";
-
-import { FunctionSelectors } from "@latticexyz/world/src/codegen/tables/FunctionSelectors.sol";
 ```
 
 <details>
@@ -73,12 +71,6 @@ import { BuildingKey, ExpansionKey } from "src/Keys.sol";
 
 We use `struct`s to pass around collections of related data; these can be found in `Types.sol`. Similarly, we have some internal keys we used look up data, and those can be found in `Keys.sol`.
 
-```solidity filename="WriteDemoSystem.sol:9"
-import { FunctionSelectors } from "@latticexyz/world/src/codegen/tables/FunctionSelectors.sol";
-```
-
-Normally we won't need this. However, there is a [bug](https://github.com/latticexyz/mud/issues/2463) in how MUD v2.0.1 handles function selectors when using `callFrom`. We need to use `callFrom` to interact with systems that take action for the user, so we're going to use this to workaround the bug until it is resolved in future versions.
-
 </details>
 
 ### Top Level Function
@@ -99,23 +91,14 @@ Normally we won't need this. However, there is a [bug](https://github.com/lattic
 
     PositionData memory position = getTilePosition(asteroidEntity, building);
 
-    bytes4 worldFunctionSelector = IPrimodiumWorld(_world()).Pri_11__build.selector;
-
-    (ResourceId buildSystemId, bytes4 buildSystemFunctionSelector) = FunctionSelectors.get(worldFunctionSelector);
-
-    bytes memory result = IPrimodiumWorld(_world()).callFrom(
-      _msgSender(),
-      buildSystemId,
-      abi.encodeWithSelector(
-        bytes4(buildSystemFunctionSelector),
-        building,
-        position.x,
-        position.y,
-        position.parentEntity
+    ResourceId buildSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, PRIMODIUM_NAMESPACE, "BuildSystem");
+    buildingEntity = bytes32(
+      IPrimodiumWorld(_world()).callFrom(
+        _msgSender(),
+        buildSystemId,
+        abi.encodeWithSignature("build(uint8,(int32,int32,bytes32))", building, (position))
       )
     );
-
-    buildingEntity = abi.decode(result, (bytes32));
   }
 ```
 
@@ -142,46 +125,20 @@ This function gets pretty complex. We will walk through it in detail later, but 
 
 ```solidity filename="WriteDemoSystem.sol:65"
 ResourceId buildSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, PRIMODIUM_NAMESPACE, "BuildSystem");
-bytes memory buildingEntity = IPrimodiumWorld(_world()).callFrom(
+buildingEntity = bytes32(
+  IPrimodiumWorld(_world()).callFrom(
     _msgSender(),
     buildSystemId,
-    abi.encodeWithSignature("Pri_11__build(uint8,(int32,int32,bytes32))", building, (position))
-);
-```
-
-This is normally how we would call a `System` that is going to take action for the user. Find the ResourceId for the system, and execute a `callFrom` using `_msgSender()` to identify the user, with the signature of the of the function being called. The target `System` needs to have received delegation permission from the user in advance. We'll discuss delegation later.
-
-The parameters of the function signature deconstruct the struct into its internal native types, to match the abi. Note the extra () around `position` to indicate that the struct is a tuple.
-
-```solidity filename="WriteDemoSystem.sol:73"
-bytes4 worldFunctionSelector = IPrimodiumWorld(_world()).Pri_11__build.selector;
-
-(ResourceId buildSystemId, bytes4 buildSystemFunctionSelector) = FunctionSelectors.get(worldFunctionSelector);
-
-bytes memory result = IPrimodiumWorld(_world()).callFrom(
-  _msgSender(),
-  buildSystemId,
-  abi.encodeWithSelector(
-    bytes4(buildSystemFunctionSelector),
-    building,
-    position.x,
-    position.y,
-    position.parentEntity
+    abi.encodeWithSignature("build(uint8,(int32,int32,bytes32))", building, (position))
   )
 );
 ```
 
-This is our workaround for the MUD function selector bug. The function selector used by the `World` is different from the original function selector derived from the function signature.
+This is how we call a `System` that is going to take action for the user. Find the ResourceId for the system, and execute a `callFrom` using `_msgSender()` to identify the user, with the signature of the of the function being called. The target `System` needs to have received delegation permission from the user in advance. We'll discuss delegation later.
 
-We start in the same place, and find the original signature. Then we check the `FunctionSelectors` table to retrieve the actual function selector we need to use in `callFrom`.
+The parameters of the function signature deconstruct the struct into its internal native types, to match the abi. Note the extra () around `position` to indicate that the struct is a tuple.
 
-Finally, we execute the `callFrom` using manually built calldata.
-
-```solidity filename="WriteDemoSystem.sol:92"
-buildingEntity = abi.decode(result, bytes32);
-```
-
-`callFrom` returns `bytes memory`, so we convert it to the `bytes32` we expect and return.
+`callFrom` returns `bytes memory`, so we convert it to the `bytes32` we expect and return `buildingEntity`.
 
 </details>
 
