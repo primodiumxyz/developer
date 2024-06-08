@@ -19,6 +19,24 @@ Primodium smart contracts are compliant with the open [MUD standard](https://www
 
 The [contracts overview guide](./overview-contracts.mdx) describes Primodium contract structure and interactions.
 
+## Namespace
+
+The latest match of Primodium is being played in the `Pri_11` namespace. When calling core game functions for the latest match, you must prepend the function call with the namespace. For example, to call the `getAsteroid` function in the `Asteroid` table, you would call `Pri_11__getAsteroid`. The ABI should already have the namespace prepended to the function name.
+
 ## Source
 
-Publicly-available source code is available on the [Primodium GitHub](https://github.com/primodiumxyz/developer/tree/main@primodiumxyz/contracts) and detailed in the [source guide](./overview-source.mdx). The compiled source and ABIs are available on the [block explorer](https://primodium-sepolia.explorer.caldera.xyz/address/0x1b541ec9cbe3ef02461c50d0b52a486d19f34c15?tab=contract).
+Publicly-available source code is available on the [Primodium GitHub](https://github.com/primodiumxyz/developer/tree/main@primodiumxyz/contracts) and detailed in the [source guide](./overview-source.mdx). The compiled source and ABIs are available on the [block explorer](https://primodium-sepolia.explorer.caldera.xyz/address/0x060f3f0915999fa84886f6e993cd95c4b2046b43?tab=contract).
+
+## Changelog
+
+v0.10.0 is our biggest update to date. We’ve changed and added the following:
+
+- Motherlode asteroids are now colonizable and buildable.
+- All asteroids have an `Encryption` attribute to them that prevents colonization.
+- Units are now organized into `Fleets`, which are groups of units that stay in orbit.
+- Fleets can be used to attack other fleets in orbit or defend an asteroid from orbit.
+- Added miners for kimberlite, titanium, iridium, and platinum for use on other asteroids.
+- Resources are transferrable between motherlodes and are tied to fleet cargo.
+- You can now build contract-side plugins for player coordination.
+- Major UI elements have been moved to `Widgets` which can be locked/unlocked, dragged, and pinned.
+- Introducing Aura, your personal gaming companion. Aura provides a centralized location for managing widgets and key game actions and information.
