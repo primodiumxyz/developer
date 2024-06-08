@@ -10,4 +10,5 @@ Primodium developer docs for plugin and asset builders.
 
 ## Credits
 
-Generated with [Nextra](https://nextra.site) and the [Nextra Docs Template](https://github.com/shuding/nextra-docs-template/).
+Generated with [Nextra](https://nextra.site) and the
+[Nextra Docs Template](https://github.com/shuding/nextra-docs-template/).

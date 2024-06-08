@@ -1,10 +1,15 @@
 # Testing the World Extension
 
-The commented code can be found in [`packages/contracts/test/WriteDemoSystem.t.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/test/WriteDemoSystem.t.sol).
+The commented code can be found in
+[`packages/contracts/test/WriteDemoSystem.t.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/test/WriteDemoSystem.t.sol).
 
-The test should execute by running `forge test` within the `packages/contracts/` folder. If you want to see additional details, you can run `forge test -vvvv` with 1-5 `v`s to increase verbosity. I generally recommend 4 or 5 for debug.
+The test should execute by running `forge test` within the `packages/contracts/`
+folder. If you want to see additional details, you can run `forge test -vvvv`
+with 1-5 `v`s to increase verbosity. I generally recommend 4 or 5 for debug.
 
-Not much changes from [ReadDemo](../readdemo/test-system.mdx) . We need an addition step in setUp() to delegate permission for the system to act on behalf of the user, but the rest is largely the same.
+Not much changes from [ReadDemo](../readdemo/test-system.mdx) . We need an
+addition step in setUp() to delegate permission for the system to act on behalf
+of the user, but the rest is largely the same.
 
 We will highlight the key differences in the Explanation below.
 
@@ -108,7 +113,9 @@ contract WriteDemoTest is MudTest {
 import { UNLIMITED_DELEGATION } from "@latticexyz/world/src/constants.sol";
 ```
 
-This is a new import related to delegations. Aside from `UNLIMITED_DELEGATION`, there are also more restrictive options such as `CALLBOUND_DELEGATION`, `SYSTEMBOUND_DELEGATION`, and `TIMEBOUND_DELEGATION`.
+This is a new import related to delegations. Aside from `UNLIMITED_DELEGATION`,
+there are also more restrictive options such as `CALLBOUND_DELEGATION`,
+`SYSTEMBOUND_DELEGATION`, and `TIMEBOUND_DELEGATION`.
 
 ```solidity filename="WriteDemoSystem.t.sol:63"
 world.registerDelegation(
@@ -118,7 +125,8 @@ world.registerDelegation(
 );
 ```
 
-Here we execute the delegation. Note that we need to prank from a private key instead of an address, since this will normally cost gas.
+Here we execute the delegation. Note that we need to prank from a private key
+instead of an address, since this will normally cost gas.
 
 </details>
 

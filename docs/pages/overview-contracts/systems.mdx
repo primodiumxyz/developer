@@ -1,8 +1,15 @@
 # Systems: On-Chain Logic
 
-**Primodium systems** are smart contracts that execute on-chain logic to modify state stored in Primodium [tables](./tables). Primodium systems are based on [systems](https://mud.dev/templates/typescript/contracts#systems) as defined in the open MUD standard, which are contracts that changes on-chain state called by the central `World` contract.
+**Primodium systems** are smart contracts that execute on-chain logic to modify
+state stored in Primodium [tables](./tables). Primodium systems are based on
+[systems](https://mud.dev/templates/typescript/contracts#systems) as defined in
+the open MUD standard, which are contracts that changes on-chain state called by
+the central `World` contract.
 
-All systems are inherited from the `PrimodiumSystem` contract which provides the `addressToEntity()` and `entityToAddress()` functions to convert between Ethereum addresses and their corresponding entity IDs stored in [table contracts](https://mud.dev/store/data-model#tables-on-chain).
+All systems are inherited from the `PrimodiumSystem` contract which provides the
+`addressToEntity()` and `entityToAddress()` functions to convert between
+Ethereum addresses and their corresponding entity IDs stored in
+[table contracts](https://mud.dev/store/data-model#tables-on-chain).
 
 ```solidity copy filename="/packages/contracts/src/systems/internal/PrimodiumSystem.sol" showLineNumbers
 // SPDX-License-Identifier: MIT
@@ -24,7 +31,9 @@ contract PrimodiumSystem is System {
 
 ## Systems
 
-A new system is defined for a group of related on-chain logic. For example, the `BuildSystem` is responsible for building new buildings in the game, as shown in the following code sample.
+A new system is defined for a group of related on-chain logic. For example, the
+`BuildSystem` is responsible for building new buildings in the game, as shown in
+the following code sample.
 
 ```solidity copy filename="/packages/contracts/src/systems/BuildSystem.sol" showLineNumbers
 // SPDX-License-Identifier: MIT
@@ -69,7 +78,11 @@ contract BuildSystem is PrimodiumSystem {
 
 ```
 
-In TypeScript, a system is called using the `write$` observable. First, a `worldContract` object is initialized as follows, where `getContract()` is defined [here](https://github.com/latticexyz/mud/tree/main/packages/common/src/getContract.ts#L50C17-L50C28) in the `@latticexyz/mud` package.
+In TypeScript, a system is called using the `write$` observable. First, a
+`worldContract` object is initialized as follows, where `getContract()` is
+defined
+[here](https://github.com/latticexyz/mud/tree/main/packages/common/src/getContract.ts#L50C17-L50C28)
+in the `@latticexyz/mud` package.
 
 ```typescript copy showLineNumbers
 import { ContractWrite, getContract } from "@latticexyz/common";
@@ -86,23 +99,38 @@ const worldContract = getContract({
 });
 ```
 
-Then, a system can be called as follows as a [writeContract](https://viem.sh/docs/contract/writeContract.html) call in [`viem`](https://github.com/wevm/viem), with types defined [here](https://github.com/wevm/viem/blob/6eef194a05016f3c2967cd6b4f730012adcbfffc/src/actions/getContract.ts#L430).
+Then, a system can be called as follows as a
+[writeContract](https://viem.sh/docs/contract/writeContract.html) call in
+[`viem`](https://github.com/wevm/viem), with types defined
+[here](https://github.com/wevm/viem/blob/6eef194a05016f3c2967cd6b4f730012adcbfffc/src/actions/getContract.ts#L430).
 
 ```typescript copy showLineNumbers
 worldContract.write.build([building, position], { gas: 7000000n });
 ```
 
-Note that most Primodium systems can only be called by the owner of an asteroid, i.e. calling `build` requires the sender to be the owner of the asteroid at the given position. The exception is if the system is called by a system that has been delegated control of the asteroid by the owner. See [Delegation](../delegation) for more information.
+Note that most Primodium systems can only be called by the owner of an asteroid,
+i.e. calling `build` requires the sender to be the owner of the asteroid at the
+given position. The exception is if the system is called by a system that has
+been delegated control of the asteroid by the owner. See
+[Delegation](../delegation) for more information.
 
-Primodium systems can also be called from the CLI with the publicly-available ABIs, which are accessible from the latest [version information](../latest.mdx).
+Primodium systems can also be called from the CLI with the publicly-available
+ABIs, which are accessible from the latest [version information](../latest.mdx).
 
 ## Subsystems
 
-Subsystems in Primodium are created for reusable logic that can be called by multiple systems, prefixed by `S_`. Primodium subsystems are written to be called by other systems and are not intended to be called directly by the `World` contract. This is to ensure that the subsystems are only called in the context of a system that has been delegated control of an asteroid by the owner.
+Subsystems in Primodium are created for reusable logic that can be called by
+multiple systems, prefixed by `S_`. Primodium subsystems are written to be
+called by other systems and are not intended to be called directly by the
+`World` contract. This is to ensure that the subsystems are only called in the
+context of a system that has been delegated control of an asteroid by the owner.
 
-Subsystems also allow us to split code into subsystems without exposing functionality to malicious actors.
+Subsystems also allow us to split code into subsystems without exposing
+functionality to malicious actors.
 
-The following is an example of a system calling the `S_BattleSystem` subsystem via the `SystemCall` MUD `SystemCallcallWithHooksOrRevert` API defined [here](https://github.com/latticexyz/mud/blob/main/packages/world/src/SystemCall.sol#L123).
+The following is an example of a system calling the `S_BattleSystem` subsystem
+via the `SystemCall` MUD `SystemCallcallWithHooksOrRevert` API defined
+[here](https://github.com/latticexyz/mud/blob/main/packages/world/src/SystemCall.sol#L123).
 
 ```solidity copy showLineNumbers
 bytes memory rawBr = SystemCall.callWithHooksOrRevert(

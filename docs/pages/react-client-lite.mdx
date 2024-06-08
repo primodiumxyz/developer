@@ -1,6 +1,8 @@
 # React Client Lite
 
-This template provides a minimal setup to start working on a read-only client for Primodium via our [GraphQL Endpoint](./creating-dashboards.mdx). Visit the demo site [here](https://template-react-client-lite.vercel.app/).
+This template provides a minimal setup to start working on a read-only client
+for Primodium via our [GraphQL Endpoint](./creating-dashboards.mdx). Visit the
+demo site [here](https://template-react-client-lite.vercel.app/).
 
 ![Template](../public/tooling/react-client-lite/template.svg)
 
@@ -15,13 +17,19 @@ npm install
 npm run dev
 ```
 
-The Primodium `react-client-lite` template is based on `react+vite`. It uses [`gql.tada`](https://gql-tada.0no.co/) for query authoring and `shadcn/ui` for UI elements. Source for the template is available on Github [here](https://github.com/primodiumxyz/create-primodium/tree/main/template-react-client-lite).
+The Primodium `react-client-lite` template is based on `react+vite`. It uses
+[`gql.tada`](https://gql-tada.0no.co/) for query authoring and `shadcn/ui` for
+UI elements. Source for the template is available on Github
+[here](https://github.com/primodiumxyz/create-primodium/tree/main/template-react-client-lite).
 
-To get `gql.tada` magic introspection working, make sure that your editor is using the workspace typescript version or this will not work. For Visual Studio Code, you will be prompted to switch versions.
+To get `gql.tada` magic introspection working, make sure that your editor is
+using the workspace typescript version or this will not work. For Visual Studio
+Code, you will be prompted to switch versions.
 
 ## Production ESLint Config
 
-If you are developing a production application, we recommend updating the default `eslintrc.cjs` config to enable type aware lint rules:
+If you are developing a production application, we recommend updating the
+default `eslintrc.cjs` config to enable type aware lint rules:
 
 - Add the following `parserOptions` property to the the top-level configuration:
 
@@ -37,9 +45,14 @@ module.exports = {
 };
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` with `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`.
+- Replace `plugin:@typescript-eslint/recommended` with
+  `plugin:@typescript-eslint/recommended-type-checked` or
+  `plugin:@typescript-eslint/strict-type-checked`.
 - Optionally, add `plugin:@typescript-eslint/stylistic-type-checked`.
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list.
+- Install
+  [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and
+  add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends`
+  list.
 
 The final `.eslintrc.cjs` will look like this:
 

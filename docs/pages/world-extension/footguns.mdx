@@ -1,25 +1,45 @@
 # World Extension Footguns & FAQ
 
 - System names are limited to 16 bytes; anything beyond that will be truncated.
-  - If there are multiple systems with the same registered name (due to truncation), your systems may experience divergent behavior.
-- Namespace names are limited to 14 bytes; anything beyond that will be truncated.
-- Systems should be stateless! If you need to store state, use a table in the namespace.
-  If you do not follow this convention, adversaries may be able to exploit your system.
-- Delegation in its current form can be revoked by the delegator
-  at any time. A future release will include credibly committed delegations that can
-  only be revoked under specific conditions.
-- System access gives someone the ability to call _any_ function in the system. If this is undesirable, either use proper
-  checks in your functions or break apart your system into multiple systems.
-- If something in MUD isn't working properly, double check that your MUD version is set to `2.0.9`.
-  If not, run the following command in the root of your directory:
+  - If there are multiple systems with the same registered name (due to
+    truncation), your systems may experience divergent behavior.
+- Namespace names are limited to 14 bytes; anything beyond that will be
+  truncated.
+- Systems should be stateless! If you need to store state, use a table in the
+  namespace. If you do not follow this convention, adversaries may be able to
+  exploit your system.
+- Delegation in its current form can be revoked by the delegator at any time. A
+  future release will include credibly committed delegations that can only be
+  revoked under specific conditions.
+- System access gives someone the ability to call _any_ function in the system.
+  If this is undesirable, either use proper checks in your functions or break
+  apart your system into multiple systems.
+- If something in MUD isn't working properly, double check that your MUD version
+  is set to `2.0.9`. If not, run the following command in the root of your
+  directory:
 
 ```bash copy
 pnpm mud set-version --mudVersion 2.0.9 && pnpm i && pnpm build
 ```
 
-- If you recently changed some configuration, double check that you have run `pnpm i` and `pnpm build` in the root of your directory.
-- Namespaces in MUD worlds are unique and exclusive. You cannot register a namespace name that already exists. If you previously registered a namespace to the live Primodium world and attempt to reregister the same name, it will fail. Please be conservative with registering namespaces by using [forked tests](./testing.mdx) of the world until you are confident in registering to the main world.
-- If you are calling a function for another namespace (like `BuildingUpgradeBounty` calling `PRI_11`), make sure to use the correct namespace name in your function call.
-- If your extension utilizes an asteroid's unit or resource count (and that asteroid could be mining or training units), it is recommended to use the `Pri_11__claimUnits(bytes32 asteroidEntity)` and `Pri_11__claimResources(bytes32 asteroidEntity)` functions to ensure the most up-to-date values.
-  - This is due to the core contracts lazily updating the unit and resource counts instead of using a keeper or tick to update each block.
-  - The core Primodium functions already use these where necessary (like in the core TransferSystem), but if you are managing balances in your extension, it may be necessary to use these functions as well.
+- If you recently changed some configuration, double check that you have run
+  `pnpm i` and `pnpm build` in the root of your directory.
+- Namespaces in MUD worlds are unique and exclusive. You cannot register a
+  namespace name that already exists. If you previously registered a namespace
+  to the live Primodium world and attempt to reregister the same name, it will
+  fail. Please be conservative with registering namespaces by using
+  [forked tests](./testing.mdx) of the world until you are confident in
+  registering to the main world.
+- If you are calling a function for another namespace (like
+  `BuildingUpgradeBounty` calling `PRI_11`), make sure to use the correct
+  namespace name in your function call.
+- If your extension utilizes an asteroid's unit or resource count (and that
+  asteroid could be mining or training units), it is recommended to use the
+  `Pri_11__claimUnits(bytes32 asteroidEntity)` and
+  `Pri_11__claimResources(bytes32 asteroidEntity)` functions to ensure the most
+  up-to-date values.
+  - This is due to the core contracts lazily updating the unit and resource
+    counts instead of using a keeper or tick to update each block.
+  - The core Primodium functions already use these where necessary (like in the
+    core TransferSystem), but if you are managing balances in your extension, it
+    may be necessary to use these functions as well.

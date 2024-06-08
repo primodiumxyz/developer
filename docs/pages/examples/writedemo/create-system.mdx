@@ -1,8 +1,10 @@
 # Create Extension Systems
 
-The commented code can be found in [`packages/contracts/src/systems/WriteDemoSystem.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol).
+The commented code can be found in
+[`packages/contracts/src/systems/WriteDemoSystem.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol).
 
-We want our expansion system to call a system on the Primodium world. If this is successful, we return the `buildingEntity`.
+We want our expansion system to call a system on the Primodium world. If this is
+successful, we return the `buildingEntity`.
 
 This system is quite a bit more involved. We'll break it down by function.
 
@@ -56,20 +58,24 @@ import {
 } from "primodium/index.sol";
 ```
 
-Previously we imported `Table`s directly, one at a time. However, MUD collects and exposes them in `index.sol` automatically, so we're going to use that now.
+Previously we imported `Table`s directly, one at a time. However, MUD collects
+and exposes them in `index.sol` automatically, so we're going to use that now.
 
 ```solidity filename="WriteDemoSystem.sol:19"
 import { EBuilding } from "primodium/common.sol";
 ```
 
-Primodium stores lists of entity lookup keys in `common.sol` as enumerations. Here we can find buildings, resources, units, etc.
+Primodium stores lists of entity lookup keys in `common.sol` as enumerations.
+Here we can find buildings, resources, units, etc.
 
 ```solidity filename="WriteDemoSystem.sol:16"
 import { Bounds, EResource } from "src/Types.sol";
 import { BuildingKey, ExpansionKey } from "src/Keys.sol";
 ```
 
-We use `struct`s to pass around collections of related data; these can be found in `Types.sol`. Similarly, we have some internal keys we used look up data, and those can be found in `Keys.sol`.
+We use `struct`s to pass around collections of related data; these can be found
+in `Types.sol`. Similarly, we have some internal keys we used look up data, and
+those can be found in `Keys.sol`.
 
 </details>
 
@@ -109,19 +115,26 @@ We use `struct`s to pass around collections of related data; these can be found 
 bool playerIsSpawned = Spawned.get(playerEntity);
 ```
 
-`Spawned` is a Primodium `Table` we can call to check if a player has started playing. You can examine the imported contract, and see what types to expect in return, and any other functionality it provides. Most of the time we will only be using `get()` and `set()`.
+`Spawned` is a Primodium `Table` we can call to check if a player has started
+playing. You can examine the imported contract, and see what types to expect in
+return, and any other functionality it provides. Most of the time we will only
+be using `get()` and `set()`.
 
 ```solidity filename="WriteDemoSystem.sol:47"
 EBuilding building = EBuilding.IronMine;
 ```
 
-Enumerations let us use clear names instead of magic numbers to represent data. It makes the code much more readable. Enumerations decode to `uint8` in the abi.
+Enumerations let us use clear names instead of magic numbers to represent data.
+It makes the code much more readable. Enumerations decode to `uint8` in the abi.
 
 ```solidity filename="WriteDemoSystem.sol:58"
 PositionData memory position = getTilePosition(asteroidEntity, building);
 ```
 
-This function gets pretty complex. We will walk through it in detail later, but at the high level, the map on each asteroid is broken into a tile grid, and this function walks the map and looks for an appropriate tile for the building passed in.
+This function gets pretty complex. We will walk through it in detail later, but
+at the high level, the map on each asteroid is broken into a tile grid, and this
+function walks the map and looks for an appropriate tile for the building passed
+in.
 
 ```solidity filename="WriteDemoSystem.sol:65"
 ResourceId buildSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, PRIMODIUM_NAMESPACE, "BuildSystem");
@@ -134,31 +147,56 @@ buildingEntity = bytes32(
 );
 ```
 
-This is how we call a `System` that is going to take action for the user. Find the ResourceId for the system, and execute a `callFrom` using `_msgSender()` to identify the user, with the signature of the of the function being called. The target `System` needs to have received delegation permission from the user in advance. We'll discuss delegation later.
+This is how we call a `System` that is going to take action for the user. Find
+the ResourceId for the system, and execute a `callFrom` using `_msgSender()` to
+identify the user, with the signature of the of the function being called. The
+target `System` needs to have received delegation permission from the user in
+advance. We'll discuss delegation later.
 
-The parameters of the function signature deconstruct the struct into its internal native types, to match the abi. Note the extra () around `position` to indicate that the struct is a tuple.
+The parameters of the function signature deconstruct the struct into its
+internal native types, to match the abi. Note the extra () around `position` to
+indicate that the struct is a tuple.
 
-`callFrom` returns `bytes memory`, so we convert it to the `bytes32` we expect and return `buildingEntity`.
+`callFrom` returns `bytes memory`, so we convert it to the `bytes32` we expect
+and return `buildingEntity`.
 
 </details>
 
 ### Enumerations
 
-We need to select the building we want to build. Primodium stores lists of entity lookup keys in `common.sol`. Here we can find buildings, resources, units, etc. The enums are used to lookup prototypes and blueprints later, in their specific `System`s. We're going to build an `EBuilding.IronMine` for now.
+We need to select the building we want to build. Primodium stores lists of
+entity lookup keys in `common.sol`. Here we can find buildings, resources,
+units, etc. The enums are used to lookup prototypes and blueprints later, in
+their specific `System`s. We're going to build an `EBuilding.IronMine` for now.
 
 ### Map Interactions
 
-Each asteroid has a bounded set of tiles where buildings can be placed. We need to find the bounds for this specific map (our Home Base in this case). These bounds change as you increase your expansion level, so we get the level, and save the `DimensionData` range. From there, we use an `P_AsteroidData` struct to manage the data, calculate the bounds, and return them.
+Each asteroid has a bounded set of tiles where buildings can be placed. We need
+to find the bounds for this specific map (our Home Base in this case). These
+bounds change as you increase your expansion level, so we get the level, and
+save the `DimensionData` range. From there, we use an `P_AsteroidData` struct to
+manage the data, calculate the bounds, and return them.
 
-We step through each tile and check if it is the correct type. To check if it is empty, we use a `P_Blueprint` and verify the building fits within the bounds. If all of this is successful, we return the tile position.
+We step through each tile and check if it is the correct type. To check if it is
+empty, we use a `P_Blueprint` and verify the building fits within the bounds. If
+all of this is successful, we return the tile position.
 
 ### Calling a Game System
 
-We want our expansion system to call a system on the Primodium world. If all of this is successful, we return the `buildingEntity`.
+We want our expansion system to call a system on the Primodium world. If all of
+this is successful, we return the `buildingEntity`.
 
-Unlike the ReadDemo, the WriteDemo acts on behalf of the user. Our system needs to have permission to do so. This is allowed through a Delegation that needs to occur before the system it called. You can find documentation and example code for delegations at:
+Unlike the ReadDemo, the WriteDemo acts on behalf of the user. Our system needs
+to have permission to do so. This is allowed through a Delegation that needs to
+occur before the system it called. You can find documentation and example code
+for delegations at:
 
 - https://mud.dev/world/account-delegation
 - [`WriteDemoSystem.t.sol:100`](https://github.com/primodiumxyz/developer/blob/98197a9b888f2ca85398c90a005f15e13d1bafce/examples/WriteDemo/packages/contracts/test/WriteDemoSystem.t.sol#L107-L131)
 
-As mentioned in the detail, we normally get the system `ResourceId`, and the use `abi.encodeWithSignature` to call the function. However, there is currently a [bug](https://github.com/latticexyz/mud/issues/2463) in MUD, and we need to retrieve the internal function selector from the `FunctionSelectors` table, and then use that with `abi.encodeWithSelector`. Example code is provided; we expect the normal usage to return in future MUD versions.
+As mentioned in the detail, we normally get the system `ResourceId`, and the use
+`abi.encodeWithSignature` to call the function. However, there is currently a
+[bug](https://github.com/latticexyz/mud/issues/2463) in MUD, and we need to
+retrieve the internal function selector from the `FunctionSelectors` table, and
+then use that with `abi.encodeWithSelector`. Example code is provided; we expect
+the normal usage to return in future MUD versions.

@@ -1,10 +1,16 @@
 # Prototype Generation Example
 
-**Prototype Generation** is Primodium's internal process for populating [prototype tables](./tables.mdx#prototype-tables) with [prototype configuration](./configuration.mdx) data. This page describing an example workflow used internally for creating a new ore distribution map and writing to a terrain [prototype table](./tables.mdx#prototype-tables).
+**Prototype Generation** is Primodium's internal process for populating
+[prototype tables](./tables.mdx#prototype-tables) with
+[prototype configuration](./configuration.mdx) data. This page describing an
+example workflow used internally for creating a new ore distribution map and
+writing to a terrain [prototype table](./tables.mdx#prototype-tables).
 
 ## Creating a Terrain Map
 
-Primodium is played on a 2-dimensional map with manually-designed ore generation. The following sprite sheet displays ore tiles used in Primodium, with its corresponding IDs encoded below.
+Primodium is played on a 2-dimensional map with manually-designed ore
+generation. The following sprite sheet displays ore tiles used in Primodium,
+with its corresponding IDs encoded below.
 
 ![alt text](../../public/terrain/ores.png)
 
@@ -21,7 +27,9 @@ const numberBase: Record<string, string> = {
 };
 ```
 
-Using the open-source [Tiled](https://www.mapeditor.org/) map editor, we first create a `csv` file that contains the coordinates of the resources. The following is an ore distribution of Iron on a 37 x 25 space rock:
+Using the open-source [Tiled](https://www.mapeditor.org/) map editor, we first
+create a `csv` file that contains the coordinates of the resources. The
+following is an ore distribution of Iron on a 37 x 25 space rock:
 
 ![alt text](../../public/terrain/1_primary-tiled.png)
 
@@ -31,7 +39,10 @@ which is exported into the following .csv file, with commas as separators.
 
 ## Populating Tables
 
-The following script creates a Solidity script from the CSV file that encodes the ore distribution. The script reads the CSV file and converts the ore distribution into a Foundry script that sets the ore distribution on the world contract.
+The following script creates a Solidity script from the CSV file that encodes
+the ore distribution. The script reads the CSV file and converts the ore
+distribution into a Foundry script that sets the ore distribution on the world
+contract.
 
 ```ts filename="@primodiumxyz/contracts/ts/terrain/terraingen.ts" showLineNumbers
 import { formatAndWriteSolidity } from "@latticexyz/common/codegen";
@@ -46,19 +57,19 @@ type JsonCoords = {
 };
 export async function terraingen(
   csvSrcs: terrainFile[],
-  outputBaseDirectory: string
+  outputBaseDirectory: string,
 ) {
   const json = csvToJsonCoords(csvSrcs);
   const content = generateContent(json);
   const finalContent = addContext(content);
   const fullOutputPath = path.join(
     outputBaseDirectory,
-    `scripts/CreateTerrain.sol`
+    `scripts/CreateTerrain.sol`,
   );
   await formatAndWriteSolidity(
     finalContent,
     fullOutputPath,
-    `Generated terrain`
+    `Generated terrain`,
   );
 }
 
@@ -89,7 +100,7 @@ function csvToJsonCoords(csvUrls: terrainFile[]) {
         const value = numberBase[currentLine[j]];
         if (!value)
           throw new Error(
-            `Invalid value ${currentLine[j]} at line ${i}, column ${j}`
+            `Invalid value ${currentLine[j]} at line ${i}, column ${j}`,
           );
         result.push({
           coord: { x: j, y: i },
@@ -107,7 +118,7 @@ function generateContent(jsonContent: JsonCoords[]) {
   return jsonContent
     .map(
       (elem) =>
-        `P_Terrain.set(${elem.index}, ${elem.coord.x}, ${elem.coord.y}, uint8(EResource.${elem.value}));`
+        `P_Terrain.set(${elem.index}, ${elem.coord.x}, ${elem.coord.y}, uint8(EResource.${elem.value}));`,
     )
     .join("");
 }
@@ -126,7 +137,9 @@ import { EResource } from "codegen/common.sol";
 }
 ```
 
-The generated Foundry script populates the `P_Terrain` table with the ore distribution, which is a [prototype table](./tables.mdx#prototype-tables). The following is the generated script for the Iron ore distribution:
+The generated Foundry script populates the `P_Terrain` table with the ore
+distribution, which is a [prototype table](./tables.mdx#prototype-tables). The
+following is the generated script for the Iron ore distribution:
 
 ```solidity filename="@primodiumxyz/contracts/src/codegen/scripts/CreateTerrain.sol" copy showLineNumbers
 // SPDX-License-Identifier: MIT
@@ -142,7 +155,9 @@ function createTerrain() {
 }
 ```
 
-In the Primodium contract PostDeploy step as described in `PostDeploy.s.sol`, the `createTerrain` function is called to populate the `P_Terrain` table with the ore distribution.
+In the Primodium contract PostDeploy step as described in `PostDeploy.s.sol`,
+the `createTerrain` function is called to populate the `P_Terrain` table with
+the ore distribution.
 
 ```solidity copy {3} showLineNumbers
 contract PostDeploy is Script {
