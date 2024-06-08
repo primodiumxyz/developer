@@ -12,6 +12,9 @@ import { ResourceId } from "@latticexyz/store/src/ResourceId.sol";
 import { FunctionSelectors } from "@latticexyz/world/src/codegen/tables/FunctionSelectors.sol";
 import { UNLIMITED_DELEGATION } from "@latticexyz/world/src/constants.sol";
 
+import { WorldResourceIdLib } from "@latticexyz/world/src/WorldResourceId.sol";
+import { RESOURCE_SYSTEM } from "@latticexyz/world/src/worldResourceTypes.sol";
+
 contract BuildIronMine is Script {
   function run() external {
     address worldAddress = vm.envAddress("WORLD_ADDRESS");
@@ -19,15 +22,15 @@ contract BuildIronMine is Script {
     uint256 playerPrivateKeyBob = vm.envUint("PRIVATE_KEY_BOB");
     console2.log("Player Private Key: %x", playerPrivateKeyBob);
 
+    ResourceId namespaceResource = WorldResourceIdLib.encodeNamespace(bytes14("PluginExamples"));
+    ResourceId systemResource = WorldResourceIdLib.encode(RESOURCE_SYSTEM, "PluginExamples", "WriteDemoSystem");
+
     vm.startBroadcast(playerPrivateKeyBob);
 
     // you can cache the IWorld, or cast it inline as seen in the test script
     IWorld iworld = IWorld(worldAddress);
 
-    bytes4 worldFunctionSelector = IPrimodiumWorld(worldAddress).Pri_11__build.selector;
-    (ResourceId systemId, ) = FunctionSelectors.get(worldFunctionSelector);
-
-    address writeDemoSystem = Systems._getSystem(systemId);
+    address writeDemoSystem = Systems._getSystem(systemResource);
 
     // Before a system can take actions on behalf of a player, they have to delegate
     // authority to the system.  There are various delegation levels, but for this demo,

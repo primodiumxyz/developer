@@ -59,37 +59,15 @@ contract WriteDemoSystem is System {
 
     // if we didn't revert in the above step, then we have found a valid tile position to build on
 
-    // this is the correct way to implement this.  however, there is a bug in how MUD handles function selectors
-    // when using callFrom, so we're going to have to do it a different way.
-
-    // ResourceId buildSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, PRIMODIUM_NAMESPACE, "BuildSystem");
-    // bytes memory buildingEntity = IPrimodiumWorld(_world()).callFrom(
-    //     _msgSender(),
-    //     buildSystemId,
-    //     abi.encodeWithSignature("Pri_11__build(uint8,(int32,int32,bytes32))", building, (position))
-    // );
-
-    // find the expected function selector
-    bytes4 worldFunctionSelector = IPrimodiumWorld(_world()).Pri_11__build.selector;
-
-    // look up that function selector in the MUD FunctionSelectors talbe, and get the actual function selector.
-    // eventually, these should match, but currently that is not the case.
-    (ResourceId buildSystemId, bytes4 buildSystemFunctionSelector) = FunctionSelectors.get(worldFunctionSelector);
-
-    // now we can call the build function in the BuildSystem
-    bytes memory result = IPrimodiumWorld(_world()).callFrom(
-      _msgSender(),
-      buildSystemId,
-      abi.encodeWithSelector(
-        bytes4(buildSystemFunctionSelector),
-        building,
-        position.x,
-        position.y,
-        position.parentEntity
+    ResourceId buildSystemId = WorldResourceIdLib.encode(RESOURCE_SYSTEM, PRIMODIUM_NAMESPACE, "BuildSystem");
+    buildingEntity = bytes32(
+      IPrimodiumWorld(_world()).callFrom(
+        _msgSender(),
+        buildSystemId,
+        abi.encodeWithSignature("build(uint8,(int32,int32,bytes32))", building, (position))
       )
     );
-
-    buildingEntity = abi.decode(result, (bytes32));
+    // Notice that the called function is "build" and not "Pri_11__build", because the namespace encoding happens with buildSystemId
   }
 
   /*//////////////////////////////////////////////////////////////
