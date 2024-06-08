@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prettier": "pnpm exec prettier . --write"
   },
   "license": "",
   "dependencies": {
