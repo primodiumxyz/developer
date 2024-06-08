@@ -5,7 +5,8 @@
     "dev": "pnpm --filter 'docs' run dev",
     "build": "pnpm recursive run build",
     "clean": "pnpm recursive run clean",
-    "test": "pnpm recursive run test"
+    "test": "pnpm recursive run test",
+    "prettier": "pnpm exec prettier . --write"
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --cache --fix",
