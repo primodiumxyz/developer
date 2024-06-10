@@ -1,32 +1,46 @@
 # Creating Dashboards
 
-As a fully on-chain game, Primodium supports a wide range of data that can be queried and displayed in dashboards. This guide will show you how to query decoded and encoded data from the Primodium blockchain using our GraphQL endpoint.
+As a fully on-chain game, Primodium supports a wide range of data that can be
+queried and displayed in dashboards. This guide will show you how to query
+decoded and encoded data from the Primodium blockchain using our GraphQL
+endpoint.
 
 ## GraphQL Endpoint
 
-This section assumes knowledge of [GraphQL](https://graphql.org/) and its related technologies.
+This section assumes knowledge of [GraphQL](https://graphql.org/) and its
+related technologies.
 
-Primodium provides a GraphQL endpoint for querying decoded on-chain data, which can be used to create dashboards. The endpoint is a [Hasura](https://hasura.io/) instance that provides a GraphQL API over our internal [Primodium indexer](../pages/indexer.mdx) database.
+Primodium provides a GraphQL endpoint for querying decoded on-chain data, which
+can be used to create dashboards. The endpoint is a [Hasura](https://hasura.io/)
+instance that provides a GraphQL API over our internal
+[Primodium indexer](../pages/indexer.mdx) database.
 
 ```bash copy
 https://graphql.primodium.ai/v1/graphql
 ```
 
-We recommend using a GraphQL playground to introspect our schema, such as the following:
+We recommend using a GraphQL playground to introspect our schema, such as the
+following:
 
 - [Apollo Studio](https://studio.apollographql.com/sandbox/explorer)
 - [GraphiQL Online](https://lucasconstantino.github.io/graphiql-online/)
 
-Refer to the [Hasura docs](https://hasura.io/docs/latest/queries/postgres/index/) for more information on advanced querying.
+Refer to the
+[Hasura docs](https://hasura.io/docs/latest/queries/postgres/index/) for more
+information on advanced querying.
 
 ## Quickstart
 
-> NOTE: Currently, tables and its fields are exposed; however, full data type support and relations are missing due to the nature of how are decoded data is stored.
+> NOTE: Currently, tables and its fields are exposed; however, full data type
+> support and relations are missing due to the nature of how are decoded data is
+> stored.
 
-For this guide, we will use _Apollo Studio_ to read Primodium data from our GraphQL endpoint.
+For this guide, we will use _Apollo Studio_ to read Primodium data from our
+GraphQL endpoint.
 
 1. Visit [Apollo Studio](https://studio.apollographql.com/sandbox/explorer).
-2. Set the sandbox url to our endpoint on the top-left field: `https://graphql.primodium.ai/v1/graphql`
+2. Set the sandbox url to our endpoint on the top-left field:
+   `https://graphql.primodium.ai/v1/graphql`
 
 ![Apollo Studio](../public/tooling/graphql/apollo_studio.png)
 
@@ -72,4 +86,5 @@ query MudRecords(
 
 ## React Template
 
-- [react-client-lite](../react-client-lite.mdx): Minimal setup to start creating read-only clients with the Primodium GraphQL endpoint.
+- [react-client-lite](../react-client-lite.mdx): Minimal setup to start creating
+  read-only clients with the Primodium GraphQL endpoint.

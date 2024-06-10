@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev -p 3001",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prettier": "pnpm exec prettier . --write"
   },
   "license": "",
   "dependencies": {
@@ -21,6 +22,7 @@
     "autoprefixer": "^10.4.17",
     "daisyui": "^4.6.0",
     "postcss": "^8.4.33",
+    "prettier": "3.3.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^4.9.3"
   }

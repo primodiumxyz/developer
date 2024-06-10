@@ -1,28 +1,34 @@
 # World Extension Structure
 
-Building on top of the world extension structure as dictated by the open MUD standard, Primodium contracts also includes optional access patterns for various forms of delegation and access control.
+Building on top of the world extension structure as dictated by the open MUD
+standard, Primodium contracts also includes optional access patterns for various
+forms of delegation and access control.
 
 ## Registering All World Extensions
 
-Before starting to write your own world extension, we recommend you first follow the extension [setup guide](./setup.mdx). This will give you a good understanding on how the different conceptual components of a world extension below translates directly to its project structure.
+Before starting to write your own world extension, we recommend you first follow
+the extension [setup guide](./setup.mdx). This will give you a good
+understanding on how the different conceptual components of a world extension
+below translates directly to its project structure.
 
 1. Register namespace
    - This is where your world extension will live. It is the root of your
      extension and is how access controls and tables are managed. Don't forget
-     that the namespace admin has the ability to modify any table or system in the
-     namespace, so be careful who you give namespace access to!
+     that the namespace admin has the ability to modify any table or system in
+     the namespace, so be careful who you give namespace access to!
 2. Register new tables
-   - Any additional state not already included in the World should be added
-     as a new table. You can also read the tables outside of this namespace,
-     but you are still subject to their system constraints for writing to them.
+   - Any additional state not already included in the World should be added as a
+     new table. You can also read the tables outside of this namespace, but you
+     are still subject to their system constraints for writing to them.
 3. Register systems needed in your namespace
-   - Any system that you plan on using should be
-     registered in to your namespace. Note that if the
-     system has already been deployed on the chain and used in another
-     namespace, you can use the same system! ([Don't forget](./footguns.mdx) that systems are only
-     safe if they are stateless!)
-   - Systems can be set as either public or private. Public systems can be called by anyone, while private systems
-     can only be called by those with namespace access/admin or those who are given system access.
+   - Any system that you plan on using should be registered in to your
+     namespace. Note that if the system has already been deployed on the chain
+     and used in another namespace, you can use the same system!
+     ([Don't forget](./footguns.mdx) that systems are only safe if they are
+     stateless!)
+   - Systems can be set as either public or private. Public systems can be
+     called by anyone, while private systems can only be called by those with
+     namespace access/admin or those who are given system access.
 4. Register functions from your systems
    - Functions are tied to the namespace, so you need to register each function
      so that it is accessible through the World.

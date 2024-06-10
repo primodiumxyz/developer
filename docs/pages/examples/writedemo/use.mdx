@@ -1,8 +1,10 @@
 # Using the World Extension
 
-The commented code can be found in [`packages/contracts/script/BuildIronMine.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/script/BuildIronMine.s.sol).
+The commented code can be found in
+[`packages/contracts/script/BuildIronMine.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/script/BuildIronMine.s.sol).
 
-The following `System` uses gas for writing new state, so we call from a Private Key instead of an Address.
+The following `System` uses gas for writing new state, so we call from a Private
+Key instead of an Address.
 
 ```solidity copy filename="examples/WriteDemo/packages/contracts/script/BuildIronMine.s.sol" showLineNumbers
 // SPDX-License-Identifier: MIT
@@ -36,6 +38,6 @@ contract BuildIronMine is Script {
 
 Execute the script with this command:
 
-```bash copy 
+```bash copy
 forge script script/BuildIronMine.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
 ```

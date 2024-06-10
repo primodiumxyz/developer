@@ -1,12 +1,23 @@
 # Prototype Configs
 
-**Prototype Configuration** files in Primodium are used to define the game's configuration data. During our game design and balancing processes, we needed to frequently change game data such as resource prices, building costs, and factory production.
+**Prototype Configuration** files in Primodium are used to define the game's
+configuration data. During our game design and balancing processes, we needed to
+frequently change game data such as resource prices, building costs, and factory
+production.
 
-Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templates, we developed internal scripts to generate [Foundry scripts](https://book.getfoundry.sh/tutorials/solidity-scripting) from JSON objects and CSV files with TypeScript scripts. This allows us to quickly iterate between play tests without needing to manually update Solidity contracts.
+Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public)
+templates, we developed internal scripts to generate
+[Foundry scripts](https://book.getfoundry.sh/tutorials/solidity-scripting) from
+JSON objects and CSV files with TypeScript scripts. This allows us to quickly
+iterate between play tests without needing to manually update Solidity
+contracts.
 
 ## Prototype Config Data
 
-- [`@primodiumxyz/contracts/config/prototypeConfig.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/prototypeConfig.ts): The main configuration file that defines game prototype data in Primodium. For example, the following defines the prototype data for `CopperMine`, a building that mines copper on an asteroid.
+- [`@primodiumxyz/contracts/config/prototypeConfig.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/prototypeConfig.ts):
+  The main configuration file that defines game prototype data in Primodium. For
+  example, the following defines the prototype data for `CopperMine`, a building
+  that mines copper on an asteroid.
 
 ```ts filename="@primodiumxyz/contracts/config/prototypeConfig.ts#L623-L655" showLineNumbers
 {
@@ -48,7 +59,10 @@ Inspired by [Sky Strife's](https://github.com/latticexyz/skystrife-public) templ
 }
 ```
 
-- [`@primodiumxyz/contracts/config/enums.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/enums.ts): Solidity Enums that define each building, resource, units, objectives, and related enumerated prototype data. For example, the following enum describes all resources that can be associated with an asteroid in Primodium.
+- [`@primodiumxyz/contracts/config/enums.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/enums.ts):
+  Solidity Enums that define each building, resource, units, objectives, and
+  related enumerated prototype data. For example, the following enum describes
+  all resources that can be associated with an asteroid in Primodium.
 
 ```ts filename="@primodiumxyz/contracts/config/enums.ts#L39-L65" showLineNumbers
 export enum EResource {
@@ -83,18 +97,26 @@ export enum EResource {
 
 ## Prototype Config Scripts
 
-- [`@primodiumxyz/contracts/ts/prototypes/prototypeGenUtils.ts`](https://github.com/primodiumxyz/contracts/blob/main/ts/prototypes/prototypeGenUtils.ts): Utility functions for generating prototype data. For example, the `getResourceValue()` function also referenced above converts a resource key and amount into a `EResource` enum and a `BigInt`, values that can be written to a Solidity contract.
+- [`@primodiumxyz/contracts/ts/prototypes/prototypeGenUtils.ts`](https://github.com/primodiumxyz/contracts/blob/main/ts/prototypes/prototypeGenUtils.ts):
+  Utility functions for generating prototype data. For example, the
+  `getResourceValue()` function also referenced above converts a resource key
+  and amount into a `EResource` enum and a `BigInt`, values that can be written
+  to a Solidity contract.
 
 ```ts copy filename="@primodiumxyz/contracts/ts/prototypes/prototypeGenUtils.ts#L63-L66" showLineNumbers
 export const getResourceValue = (resourceValue: { [x: string]: number }) => {
   const [resource, amount] = Object.entries(resourceValue)[0];
-  return { 
-    resource: MUDEnums.EResource.indexOf(resource), 
-    amount: BigInt(Math.round(amount * SCALE)) };
+  return {
+    resource: MUDEnums.EResource.indexOf(resource),
+    amount: BigInt(Math.round(amount * SCALE)),
+  };
 };
 ```
 
-- [`@primodiumxyz/contracts/config/util/blueprints.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/util/blueprints.ts): Contains the utility function `getBlueprint()` that takes in a building width and height measured in tiles and returns a building blueprint value stored in the `P_Blueprint` prototype table.
+- [`@primodiumxyz/contracts/config/util/blueprints.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/util/blueprints.ts):
+  Contains the utility function `getBlueprint()` that takes in a building width
+  and height measured in tiles and returns a building blueprint value stored in
+  the `P_Blueprint` prototype table.
 
 ```ts copy filename="@primodiumxyz/contracts/config/util/blueprints.ts" showLineNumbers
 export function getIntArray(coords: { x: number; y: number }[]) {
@@ -110,7 +132,8 @@ export function getBlueprint(width: number, height: number) {
   }
   return getIntArray(blueprint);
 }
-
 ```
 
-- [`@primodiumxyz/contracts/ts/terrain/terraingen.ts`](https://github.com/primodiumxyz/contracts/blob/main/ts/terrain/terraingen.ts): Generates a Foundry script for populating terrain ore distribution, described in detail in the [prototype generation example](./generation.mdx).
+- [`@primodiumxyz/contracts/ts/terrain/terraingen.ts`](https://github.com/primodiumxyz/contracts/blob/main/ts/terrain/terraingen.ts):
+  Generates a Foundry script for populating terrain ore distribution, described
+  in detail in the [prototype generation example](./generation.mdx).

@@ -1,18 +1,31 @@
 # Hooks: On-Chain Events
 
-**Primodium hooks** are contracts that are defined to react to specific parts of the codebase. Hooks can be thought of as [subsystems](./systems.mdx#subsystems) that are frequently called before or after core system functions.
+**Primodium hooks** are contracts that are defined to react to specific parts of
+the codebase. Hooks can be thought of as [subsystems](./systems.mdx#subsystems)
+that are frequently called before or after core system functions.
 
-Hooks allow us to decouple the core logic from secondary and reactionary logic. Hooks are also a workaround to smart contract size limits set by [EIP-170](https://eips.ethereum.org/EIPS/eip-170), which prevents adding features by directly increasing the size of core system contracts.
+Hooks allow us to decouple the core logic from secondary and reactionary logic.
+Hooks are also a workaround to smart contract size limits set by
+[EIP-170](https://eips.ethereum.org/EIPS/eip-170), which prevents adding
+features by directly increasing the size of core system contracts.
 
-In the open MUD standard, hooks can react to both system calls and tables. Tables hooks are used throughout Primodium contracts, unlike system hooks are replaced with subsystems and modifiers.
+In the open MUD standard, hooks can react to both system calls and tables.
+Tables hooks are used throughout Primodium contracts, unlike system hooks are
+replaced with subsystems and modifiers.
 
 ## Table Hooks
 
-Table Hooks allows us to define reactionary logic to changes to a table values. They are based on [store hooks](https://mud.dev/store/store-hooks) as implemented in the open MUD standard.
+Table Hooks allows us to define reactionary logic to changes to a table values.
+They are based on [store hooks](https://mud.dev/store/store-hooks) as
+implemented in the open MUD standard.
 
-Table Hooks allow us to define tables with values dependant on other tables but keep their logic decoupled. The most common hook is the `claimResources` subsystem, which updates resource counts to their up-to-date values.
+Table Hooks allow us to define tables with values dependant on other tables but
+keep their logic decoupled. The most common hook is the `claimResources`
+subsystem, which updates resource counts to their up-to-date values.
 
-The following is an example of another hook (no longer used in production) subscribed to the `Score` table and updates the `AllianceScore` table whenever an alliance member score is updated.
+The following is an example of another hook (no longer used in production)
+subscribed to the `Score` table and updates the `AllianceScore` table whenever
+an alliance member score is updated.
 
 ```solidity filename="/packages/contracts/src/hooks/storeHooks/OnScore_Alliance_Score.sol" copy showLineNumbers
 /// @title OnPoints_Alliance_Points - Updates alliance points based on player points.

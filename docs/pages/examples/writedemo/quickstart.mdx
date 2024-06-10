@@ -27,6 +27,7 @@ pnpm build
 ```
 
 6. Update addresses and private keys in `.env`
+
 ```bash copy
 cp .env.example .env
 ```
@@ -36,7 +37,6 @@ cp .env.example .env
 ```bash copy
 forge test
 ```
-
 
 8. Do a dry-run of deployment:
 
@@ -58,9 +58,15 @@ forge script script/BuildIronMine.s.sol --fork-url https://primodium-sepolia.rpc
 
 ## File Structure
 
-The [WriteDemo](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo) consists of four main files:
+The
+[WriteDemo](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo)
+consists of four main files:
 
-- System Contract: [`src/systems/WriteDemoSystem.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol)
-- System Tests: [`test/WriteDemoSystem.t.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/test/WriteDemoSystem.t.sol)
-- Deployment Script: [`script/RegisterWriteDemoSystem.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/script/RegisterWriteDemoSystem.s.sol)
-- Interaction Script: [`script/BuildIronMine.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/script/BuildIronMine.s.sol)
+- System Contract:
+  [`src/systems/WriteDemoSystem.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/src/systems/WriteDemoSystem.sol)
+- System Tests:
+  [`test/WriteDemoSystem.t.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/test/WriteDemoSystem.t.sol)
+- Deployment Script:
+  [`script/RegisterWriteDemoSystem.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/script/RegisterWriteDemoSystem.s.sol)
+- Interaction Script:
+  [`script/BuildIronMine.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/WriteDemo/packages/contracts/script/BuildIronMine.s.sol)
