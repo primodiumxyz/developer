@@ -35,8 +35,11 @@ To access your fleets on an asteroid, go to the **`Command Center`** (located on
 Before sending units out, you must create a fleet. As soon as you do, your units in your fleet will start orbiting your asteroid. To create a fleet:
 
 1. Click on your asteroid (the space rock with the home icon on it)
+
 ![Untitled](../public/game-guide/CreateFleet.png)
+
 1. Left click on a unit from the asteroid side and place it in the fleet side by left clicking.
+
 ![Untitled](../public/game-guide/TransferUnit.png)
 
 > 💡 Left clicking selects all units/resources. Right clicking selects just one unit/resource. While your mouse is holding a unit/resource, you can increase/decrease it by +/- 100 by typing W/A. To increase/decrease it by +/- 10, type D/A.
