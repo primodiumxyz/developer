@@ -29,14 +29,21 @@ Publicly-available source code is available on the [Primodium GitHub](https://gi
 
 ## Changelog
 
-v0.10.0 is our biggest update to date. We’ve changed and added the following:
+v0.11.0 is our biggest update to date. We've changed and added the following:
 
-- Motherlode asteroids are now colonizable and buildable.
-- All asteroids have an `Encryption` attribute to them that prevents colonization.
-- Units are now organized into `Fleets`, which are groups of units that stay in orbit.
-- Fleets can be used to attack other fleets in orbit or defend an asteroid from orbit.
-- Added miners for kimberlite, titanium, iridium, and platinum for use on other asteroids.
-- Resources are transferrable between motherlodes and are tied to fleet cargo.
-- You can now build contract-side plugins for player coordination.
-- Major UI elements have been moved to `Widgets` which can be locked/unlocked, dragged, and pinned.
-- Introducing Aura, your personal gaming companion. Aura provides a centralized location for managing widgets and key game actions and information.
+- New leaderboard scoring format to highlight two core gameplay loops: conquest and economy.
+  - Primodium: Capture asteroids and volatile shards to claim Primodium, which increases your conquest points.
+  - Wormhole: Sacrifice specific resources into a wormhole to increase your economy points.
+- Volatile shards are proto-asteroids that can be captured to quickly claim Primodium.
+  - Be careful! They are known to explode after existing for a certain amount of time and destroy all units in orbit or traveling to/from it.
+  - An exploded shard will respawn in a new location.
+- Wormholes demand specific resources to be sacrificed at different times, and randomly rotates between the different resources.
+- The match now ends when the unit death counter has reached its limit!
+- Colony Slots are introduced to the game. They are occupied by each owned asteroid and Colony Ship.
+- Colony Ships now have a fixed training cost, but require a free Colony Slot.
+- You can now abandon an asteroid in order to free up a Colony Slot.
+- Asteroids with basic resources now generate resources and droid defenses over time. They can be raided for extra resources!
+- Only one starmapper can be built on an asteroid at a time.
+- Improved objectives to guide players through the game.
+- Increased building level maximums across much of the different types. Main bases can now be upgraded to level 15!
+- New Command Center interface to help manage your empire.
