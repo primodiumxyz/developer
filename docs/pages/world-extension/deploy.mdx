@@ -1,18 +1,29 @@
 # Deploying your Primodium World Extension
 
-Primodium is currently deployed on an [OP Stack](https://docs.optimism.io/stack/getting-started) testnet hosted by [Caldera](https://www.caldera.xyz) that resolves to the [Ethereum Sepolia testnet](https://sepolia.dev/).
+Primodium is currently deployed on an
+[OP Stack](https://docs.optimism.io/stack/getting-started) testnet hosted by
+[Caldera](https://www.caldera.xyz) that resolves to the
+[Ethereum Sepolia testnet](https://sepolia.dev/).
 
 ## Forewarning
 
-Once you deploy your Primodium world extension to the Primodium testnet, it will be live and accessible to the public. Additionally, that namespace name will become taken and no longer available to be used by anyone else (or reregistered by you). Be sure to [test your extension](./testing.mdx) on the local development environment before deploying to the live Primodium world.
+Once you deploy your Primodium world extension to the Primodium testnet, it will
+be live and accessible to the public. Additionally, that namespace name will
+become taken and no longer available to be used by anyone else (or reregistered
+by you). Be sure to [test your extension](./testing.mdx) on the local
+development environment before deploying to the live Primodium world.
 
 ## Testnet Tokens
 
-Before deploying your Primodium world extension, you will need to bridge ETH from Sepolia to the Primodium testnet. After obtaining Sepolia ETH from a faucet, you can bridge to the Primodium testnet using the following [bridge](https://primodium-sepolia.calderabridge.xyz/).
+Before deploying your Primodium world extension, you will need to bridge ETH
+from Sepolia to the Primodium testnet. After obtaining Sepolia ETH from a
+faucet, you can bridge to the Primodium testnet using the following
+[bridge](https://primodium-sepolia.calderabridge.xyz/).
 
 ## Testnet Configuration
 
-To deploy a MUD contract to the Primodium testnet for interoperability with the testnet Primodium world contract, use the following deployment settings.
+To deploy a MUD contract to the Primodium testnet for interoperability with the
+testnet Primodium world contract, use the following deployment settings.
 
 ```toml copy
 [profile.caldera-sepolia]
@@ -20,10 +31,13 @@ eth_rpc_url = "https://primodium-sepolia.rpc.caldera.xyz/http"
 chain_id = 10017
 ```
 
-If you haven't already, set the Primodium world address for the following locations:
+If you haven't already, set the Primodium world address for the following
+locations:
 
-1. Set the `WORLD_ADDRESS` in your `.env` file and to the live Primodium world contract address.
-1. Set the `worlds.json` file to the following "10017" chainID and substitute in the world address, available on the [latest release page](../latest.mdx).
+1. Set the `WORLD_ADDRESS` in your `.env` file and to the live Primodium world
+   contract address.
+1. Set the `worlds.json` file to the following "10017" chainID and substitute in
+   the world address, available on the [latest release page](../latest.mdx).
 
 ```json copy
 {

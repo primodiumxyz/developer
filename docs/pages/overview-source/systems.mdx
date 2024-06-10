@@ -1,23 +1,29 @@
 # Source for Primodium System Interfaces
 
-- [`@primodiumxyz/contracts/src/codegen/world`](https://github.com/primodiumxyz/contracts/blob/main/src/codegen/world): Generated Solidity interfaces for each publicly-accessible system.
+- [`@primodiumxyz/contracts/src/codegen/world`](https://github.com/primodiumxyz/contracts/blob/main/src/codegen/world):
+  Generated Solidity interfaces for each publicly-accessible system.
 
 ## Primodium Systems in World Extensions
 
 There are two ways to reference Primodium systems in a world extension:
 
-- Install the `@primodiumxyz/contracts` package and import the system interfaces directly.
-- Copy the system interfaces to your world extension project and import them from there.
+- Install the `@primodiumxyz/contracts` package and import the system interfaces
+  directly.
+- Copy the system interfaces to your world extension project and import them
+  from there.
 
 ### Installing the `@primodiumxyz/contracts` package
 
-If your world extension is a [Foundry](https://book.getfoundry.sh) project, you can install the `@primodiumxyz/contracts` package as a dependency. In the root directory of your world extension project, run the following command:
+If your world extension is a [Foundry](https://book.getfoundry.sh) project, you
+can install the `@primodiumxyz/contracts` package as a dependency. In the root
+directory of your world extension project, run the following command:
 
 ```bash showLineNumbers copy
 pnpm install @primodiumxyz/contracts
 ```
 
-Make sure the project's `foundry.toml` references `node_modules` as a package directory.
+Make sure the project's `foundry.toml` references `node_modules` as a package
+directory.
 
 ```toml copy filename="foundry.toml"
 [profile.default]
@@ -33,13 +39,17 @@ allow_paths = [
 #...
 ```
 
-Then, update `remappings.txt` to point to the installed package. For example, if you are using the `@primodiumxyz/contracts` package in a world extension, update the `remappings.txt` file as follows:
+Then, update `remappings.txt` to point to the installed package. For example, if
+you are using the `@primodiumxyz/contracts` package in a world extension, update
+the `remappings.txt` file as follows:
 
 ```txt copy filename="remappings.txt"
 primodium=node_modules/@primodiumxyz/contracts/src/codegen/
 ```
 
-The [`ReadDemo`](../examples/readdemo.mdx) world extension example references system interfaces directly from `@primodiumxyz/contracts`. The following snipped highlights lines on how to import and reference the `Home` table.
+The [`ReadDemo`](../examples/readdemo.mdx) world extension example references
+system interfaces directly from `@primodiumxyz/contracts`. The following snipped
+highlights lines on how to import and reference the `Home` table.
 
 ```solidity copy filename="examples/ReadDemo/packages/contracts/src/systems/ReadDemoSystem.sol" showLineNumbers {7,25,28}
 // SPDX-License-Identifier: MIT
@@ -79,16 +89,25 @@ contract ReadDemoSystem is System {
 
 ### Directly Referencing System Interfaces
 
-The [`BuildingUpgradeBounty`](../examples/buildingupgradebounty.mdx) world extension example requires a reference to functions in the Primodium `UpgradeBuildingSystem`, which handles building upgrades. The following steps demonstrate how to reference the `UpgradeBuildingSystem` in a world extension and successfully its function `upgradeBuilding()`.
+The [`BuildingUpgradeBounty`](../examples/buildingupgradebounty.mdx) world
+extension example requires a reference to functions in the Primodium
+`UpgradeBuildingSystem`, which handles building upgrades. The following steps
+demonstrate how to reference the `UpgradeBuildingSystem` in a world extension
+and successfully its function `upgradeBuilding()`.
 
 First, copy the following folders to your Primodium extension project:
 
-- [`@primodiumxyz/contracts/src/codegen/world`](https://github.com/primodiumxyz/contracts/blob/main/src/codegen/world): contains references to all system interfaces.
-- [`@primodiumxyz/contracts/src/codegen/common.sol`](https://github.com/primodiumxyz/contracts/blob/main/src/codegen/common.sol): contains generated Solidity enums and structs for common types.
+- [`@primodiumxyz/contracts/src/codegen/world`](https://github.com/primodiumxyz/contracts/blob/main/src/codegen/world):
+  contains references to all system interfaces.
+- [`@primodiumxyz/contracts/src/codegen/common.sol`](https://github.com/primodiumxyz/contracts/blob/main/src/codegen/common.sol):
+  contains generated Solidity enums and structs for common types.
 
-In the `BuildingUpgradeBounty` example, the above files are copied to [`/examples/BuildingUpgradeBounty/packages/contracts/src/primodium-codegen`](https://github.com/primodiumxyz/developer/blob/main/examples/BuildingUpgradeBounty/packages/contracts/src/primodium-codegen).
+In the `BuildingUpgradeBounty` example, the above files are copied to
+[`/examples/BuildingUpgradeBounty/packages/contracts/src/primodium-codegen`](https://github.com/primodiumxyz/developer/blob/main/examples/BuildingUpgradeBounty/packages/contracts/src/primodium-codegen).
 
-Locate the function you want to call in the generated system interfaces. In this case, we want to call the upgrade `Pri_11__upgradeBuilding()`, whose function signature is obtained from the generated `IUpgradeBuildingSystem`.
+Locate the function you want to call in the generated system interfaces. In this
+case, we want to call the upgrade `Pri_11__upgradeBuilding()`, whose function
+signature is obtained from the generated `IUpgradeBuildingSystem`.
 
 ```solidity copy filename="@primodiumxyz/contracts/src/codegen/world/IUpgradeBuildingSystem.sol" showLineNumbers {12}
 // SPDX-License-Identifier: MIT
@@ -106,7 +125,10 @@ interface IUpgradeBuildingSystem {
 }
 ```
 
-The `upgradeBuilding()`function in `BuildSystem` can then be called as follows, with `UpgradeBuildingS` being the system ID of the Primodium `UpgradeBuildingSystem` cut off at 16 bytes. See [footguns](../world-extension/footguns.mdx) for more details.
+The `upgradeBuilding()`function in `BuildSystem` can then be called as follows,
+with `UpgradeBuildingS` being the system ID of the Primodium
+`UpgradeBuildingSystem` cut off at 16 bytes. See
+[footguns](../world-extension/footguns.mdx) for more details.
 
 ```solidity copy filename="examples/BuildingUpgradeBounty/packages/contracts/src/systems/UpgrBounSystem.sol" showLineNumbers {1,16-22}
 import { IWorld as IPrimodiumWorld } from "../primodium-codegen/world/IWorld.sol";

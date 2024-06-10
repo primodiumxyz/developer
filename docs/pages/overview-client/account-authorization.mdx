@@ -1,10 +1,22 @@
 # Account Authorization
 
-**Account authorization** is a feature introduced in the latest version of Primodium, which allows players to both play without needing to confirm every transaction and retain their game progress across sessions.
+**Account authorization** is a feature introduced in the latest version of
+Primodium, which allows players to both play without needing to confirm every
+transaction and retain their game progress across sessions.
 
-In previous versions of Primodium, the game client generates a new private key for each new player session such that the player could play without needing to confirm every transaction. Because the generated private key was stored in `localStorage`, players would lose game progress when they cleared their browser cache.
+In previous versions of Primodium, the game client generates a new private key
+for each new player session such that the player could play without needing to
+confirm every transaction. Because the generated private key was stored in
+`localStorage`, players would lose game progress when they cleared their browser
+cache.
 
-Players can play Primodium with their web3 identity, typically an account linked to ENS and stored in a high-security wallet like Metamask, Rainbow, or Ledger. Using MUD's integrated [callFrom](https://mud.dev/world/systems#calling-systems), we let players play with their account without needing to confirm every transaction. This is done by authorizing a locally stored session account to execute transactions on behalf of the player.
+Players can play Primodium with their web3 identity, typically an account linked
+to ENS and stored in a high-security wallet like Metamask, Rainbow, or Ledger.
+Using MUD's integrated
+[callFrom](https://mud.dev/world/systems#calling-systems), we let players play
+with their account without needing to confirm every transaction. This is done by
+authorizing a locally stored session account to execute transactions on behalf
+of the player.
 
 ## Authorizing a Session Account
 
@@ -14,9 +26,8 @@ _Note that upon spawning players automatically authorize a session account._
 
    <img src="/authorize/authorize1.png" width="600" />
 
-2. Click the button to authorize a randomly generated session account.
-   Its private key will be stored in the browser's local storage.
-   {" "}
+2. Click the button to authorize a randomly generated session account. Its
+   private key will be stored in the browser's local storage. {" "}
    <img src="/authorize/authorize2.png" width="600" />
 3. Confirm with Metamask
 
@@ -28,7 +39,11 @@ _Note that upon spawning players automatically authorize a session account._
 
 ## How does it work?
 
-When you authorize an account, you grant permission for it to perform transactions for you.
-When an authorized account calls the `callFrom` function, the MUD system being accessed will run using the player account as the msg.sender. This is possible because MUD uses an abstracted `msgSender()` instead of the default Solidity `msg.sender`.
+When you authorize an account, you grant permission for it to perform
+transactions for you. When an authorized account calls the `callFrom` function,
+the MUD system being accessed will run using the player account as the
+msg.sender. This is possible because MUD uses an abstracted `msgSender()`
+instead of the default Solidity `msg.sender`.
 
-Once the player account revokes authorization access, the session wallet can no longer use `callFrom` to impersonate the player.
+Once the player account revokes authorization access, the session wallet can no
+longer use `callFrom` to impersonate the player.

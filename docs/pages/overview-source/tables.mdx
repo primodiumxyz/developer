@@ -1,13 +1,23 @@
 # Source for Primodium Tables
 
-- [`@primodiumxyz/contracts/src/codegen/tables`](https://github.com/primodiumxyz/contracts/blob/main/src/codegen/tables): Generated Solidity contracts for each table.
-- [`@primodiumxyz/contracts/mud.config.ts`](https://github.com/primodiumxyz/contracts/blob/main/mud.config.ts): Configuration file that defines each table compliant with the open MUD standard.
+- [`@primodiumxyz/contracts/src/codegen/tables`](https://github.com/primodiumxyz/contracts/blob/main/src/codegen/tables):
+  Generated Solidity contracts for each table.
+- [`@primodiumxyz/contracts/mud.config.ts`](https://github.com/primodiumxyz/contracts/blob/main/mud.config.ts):
+  Configuration file that defines each table compliant with the open MUD
+  standard.
 
 ## Building Contracts from JSON
 
-In MUD-compliant projects, tables are defined in a file named `mud.config.ts` and generated before [compilation](https://mud.dev/templates/typescript/contracts#mudconfigts) into Solidity contracts for each individual table. To represent contract state, each table has a key schema and a value schema.
+In MUD-compliant projects, tables are defined in a file named `mud.config.ts`
+and generated before
+[compilation](https://mud.dev/templates/typescript/contracts#mudconfigts) into
+Solidity contracts for each individual table. To represent contract state, each
+table has a key schema and a value schema.
 
-For example, the following JSON string in `mud.config.ts` encodes a table that stores the number of asteroids named `AsteroidCount`. Because there is no specified key schema, the key schema defaults to `{ "key": "bytes32" }`. The value schema is a single `uint256` type.
+For example, the following JSON string in `mud.config.ts` encodes a table that
+stores the number of asteroids named `AsteroidCount`. Because there is no
+specified key schema, the key schema defaults to `{ "key": "bytes32" }`. The
+value schema is a single `uint256` type.
 
 ```js filename="@primodiumxyz/contracts/mud.config.ts" showLineNumbers
 {
@@ -20,7 +30,11 @@ For example, the following JSON string in `mud.config.ts` encodes a table that s
 }
 ```
 
-After compilation, the `AsteroidCount` table is represented by a Solidity contract that conforms to the [StoreCore](https://mud.dev/store/reference/store-core) specifications. Therefore, the generated contract for the `AsteroidCount` table below has getter function that takes in the default `bytes32` key schema:
+After compilation, the `AsteroidCount` table is represented by a Solidity
+contract that conforms to the
+[StoreCore](https://mud.dev/store/reference/store-core) specifications.
+Therefore, the generated contract for the `AsteroidCount` table below has getter
+function that takes in the default `bytes32` key schema:
 
 ```solidity copy filename="@primodiumxyz/contracts/src/codegen/tables/AsteroidCount.sol" showLineNumbers {4}
 library AsteroidCount {
@@ -37,27 +51,33 @@ library AsteroidCount {
 
 ### Primodium Tables in World Extensions
 
-When developing a [world extension](../world-extension.mdx) as a MUD-compliant project that modifies Primodium tables, the templates of such tables must be included in the extension's `mud.config.ts`.
+When developing a [world extension](../world-extension.mdx) as a MUD-compliant
+project that modifies Primodium tables, the templates of such tables must be
+included in the extension's `mud.config.ts`.
 
-For example, in the `mud-config.ts` of the [`BuildingUpgradeBounty`](../world-extension/examples.mdx) world extension, the core `Position` and `OwnedBy` tables are [referenced](https://github.com/primodiumxyz/developer/blob/bca59e31bce35ce3b9feada4ee42b0259b5e371a/examples/BuildingUpgradeBounty/packages/contracts/mud.config.ts#L21-L35) as follows:
+For example, in the `mud-config.ts` of the
+[`BuildingUpgradeBounty`](../world-extension/examples.mdx) world extension, the
+core `Position` and `OwnedBy` tables are
+[referenced](https://github.com/primodiumxyz/developer/blob/bca59e31bce35ce3b9feada4ee42b0259b5e371a/examples/BuildingUpgradeBounty/packages/contracts/mud.config.ts#L21-L35)
+as follows:
 
 ```js copy filename="/examples/BuildingUpgradeBounty/packages/contracts/mud.config.ts#L21-L35" showLineNumbers
 {
   // ...
   Position: {
     key: ["entity"],
-    schema: { 
-      entity: "bytes32", 
-      x: "int32", 
-      y: "int32", 
-      parentEntity: "bytes32" 
+    schema: {
+      entity: "bytes32",
+      x: "int32",
+      y: "int32",
+      parentEntity: "bytes32"
     },
   },
 
   OwnedBy: {
     key: ["entity"],
-    schema: { 
-      entity: "bytes32", 
+    schema: {
+      entity: "bytes32",
       value: "bytes32"
     },
   },
@@ -65,7 +85,10 @@ For example, in the `mud-config.ts` of the [`BuildingUpgradeBounty`](../world-ex
 }
 ```
 
-After running `pnpm run build`, the `Position` and `OwnedBy` tables are generated as Solidity contracts in the `codegen/tables` directory. For instance, `PositionData`, which is generated from the `Position` table key schema, can be referenced in the world extension as follows.
+After running `pnpm run build`, the `Position` and `OwnedBy` tables are
+generated as Solidity contracts in the `codegen/tables` directory. For instance,
+`PositionData`, which is generated from the `Position` table key schema, can be
+referenced in the world extension as follows.
 
 ```solidity copy filename="/examples/BuildingUpgradeBounty/packages/contracts/src/libraries/LibHelpers.sol" showLineNumbers {1,4}
 import { PositionData } from "../codegen/index.sol";
@@ -78,7 +101,8 @@ library LibHelpers {
 }
 ```
 
-To read directly from the `OwnedBy` table, you can directly reference the `OwnedBy` table in the world extension as follows.
+To read directly from the `OwnedBy` table, you can directly reference the
+`OwnedBy` table in the world extension as follows.
 
 ```solidity copy filename="/examples/BuildingUpgradeBountyackages/contracts/src/libraries/LibHelpers.sol" showLineNumbers {1,7}
 import { OwnedBy } from "../codegen/index.sol";

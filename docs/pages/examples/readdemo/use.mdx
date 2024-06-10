@@ -1,10 +1,12 @@
 # Using the World Extension
 
-The commented code can be found in [`packages/contracts/scripts/ReadMainBaseLevel.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/ReadDemo/packages/contracts/script/ReadMainBaseLevel.s.sol)
+The commented code can be found in
+[`packages/contracts/scripts/ReadMainBaseLevel.s.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/ReadDemo/packages/contracts/script/ReadMainBaseLevel.s.sol)
 
 Congratulations! Your world extension is onchain and ready to be used.
 
-Now that the code is live, we can use a script that largely replicates the function we wrote in the test.
+Now that the code is live, we can use a script that largely replicates the
+function we wrote in the test.
 
 ```solidity copy filename="examples/ReadDemo/packages/contracts/scripts/ReadMainBaseLevel.s.sol" showLineNumbers
 // SPDX-License-Identifier: MIT
@@ -37,6 +39,6 @@ contract ReadMainBaseLevel is Script {
 
 Execute the script with this command:
 
-```bash copy 
+```bash copy
 forge script script/ReadMainBaseLevel.s.sol --fork-url https://primodium-sepolia.rpc.caldera.xyz/http --broadcast
 ```

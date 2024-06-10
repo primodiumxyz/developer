@@ -1,6 +1,6 @@
 # Primodium Game Guide
 
-The victory conditions and colony ships are overhauled in v0.11. We also added to our [contract plugin system guide](./world-extension.mdx) for players to build different coordination mechanisms.
+The game's victory conditions and colony ships are overhauled in v0.11. We also added to our [contract plugin system guide](./world-extension.mdx) for players to build different coordination mechanisms.
 
 ## Accounts
 
@@ -17,7 +17,9 @@ When connected to a wallet, you'll be able to delegate actions to an in-browser 
 
 #### Playing without an external wallet
 
-Alternatively, you can play as a guest if you don't want to use an external wallet. We don't recommend doing this because you might lose your game progress if your session is accidentally cleared.
+Alternatively, you can play as a guest if you don't want to use an external
+wallet. We don't recommend doing this because you might lose your game progress
+if your session is accidentally cleared.
 
 ![The warning message when you choose to play as a guest.](../public/game-guide/GuestWarning.png)
 <small>_The warning message when you choose to play as a guest._</small>
@@ -32,7 +34,8 @@ To access your fleets on an asteroid, go to the **`Command Center`** (located on
 
 #### Creating and configuring your fleet
 
-Before sending units out, you must create a fleet. As soon as you do, your units in your fleet will start orbiting your asteroid. To create a fleet:
+Before sending units out, you must create a fleet. As soon as you do, your units
+in your fleet will start orbiting your asteroid. To create a fleet:
 
 1. Click on your asteroid (the space rock with the home icon on it)
 
@@ -114,7 +117,9 @@ The `Shipyard` is a building where you can increase `colony slots` and train `co
 
 To lower your target's encryption, you need to attack your opponent with a colony ship in your fleet. Each successful attack will lower your opponent's encryption amount by 300. Once their encryption drops below 0, you will take over the asteroid.
 
-> 💡 While you are attacking an asteroid to lower their encryption, other players are also able to snipe asteroids with low encryption levels, so you should pay attention to the asteroids you're attacking.
+> 💡 While you are attacking an asteroid to lower their encryption, other
+> players are also able to snipe asteroids with low encryption levels, so you
+> should pay attention to the asteroids you're attacking.
 
 Once you've successfully taken over an asteroid, your colony ship will be destroyed. You will have to build another colony ship to colonize another asteroid.
 

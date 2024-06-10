@@ -1,14 +1,22 @@
 # Tables: On-Chain Data
 
-**Primodium tables** are smart contracts that store on-chain data. Primodium tables are based on [on-chain tables](https://mud.dev/templates/typescript/contracts#tables) as defined in the open MUD standard.
+**Primodium tables** are smart contracts that store on-chain data. Primodium
+tables are based on
+[on-chain tables](https://mud.dev/templates/typescript/contracts#tables) as
+defined in the open MUD standard.
 
 There are two main types of on-chain tables used in Primodium.
 
 ## Prototype Tables
 
-Prototype tables store game configuration data such as building costs, unit stats, and other game constants. These tables are used to define the game's rules and are not expected to change during the game's lifecycle. Prototype tables are prefixed with `P_` and are populated during the `PostDeploy` step.
+Prototype tables store game configuration data such as building costs, unit
+stats, and other game constants. These tables are used to define the game's
+rules and are not expected to change during the game's lifecycle. Prototype
+tables are prefixed with `P_` and are populated during the `PostDeploy` step.
 
-The following json string in [`mud.config.ts`](https://github.com/primodiumxyz/contracts/blob/main/mud.config.ts#L85-L97) encodes a table that stores key game configuration named `P_GameConfig`.
+The following json string in
+[`mud.config.ts`](https://github.com/primodiumxyz/contracts/blob/main/mud.config.ts#L85-L97)
+encodes a table that stores key game configuration named `P_GameConfig`.
 
 ```js copy filename="@primodiumxyz/contracts/mud.config.ts#L47-L59" showLineNumbers
 {
@@ -32,16 +40,20 @@ The following json string in [`mud.config.ts`](https://github.com/primodiumxyz/c
 
 ## Tables
 
-All other tables store in-game data associated with players, space rocks, alliances, and other game entities. These tables are expected to change during the game's lifecycle. The following json string encodes a table that stores the position of a building named [`Position`](https://github.com/primodiumxyz/contracts/blob/main/mud.config.ts#L107-L114).
+All other tables store in-game data associated with players, space rocks,
+alliances, and other game entities. These tables are expected to change during
+the game's lifecycle. The following json string encodes a table that stores the
+position of a building named
+[`Position`](https://github.com/primodiumxyz/contracts/blob/main/mud.config.ts#L107-L114).
 
 ```js copy filename="@primodiumxyz/contracts/mud.config.ts#L79-L82" showLineNumbers
 {
   Position: {
     key: ["entity"],
-    schema: { 
-      entity: "bytes32", 
-      x: "int32", y: "int32", 
-      parentEntity: "bytes32" 
+    schema: {
+      entity: "bytes32",
+      x: "int32", y: "int32",
+      parentEntity: "bytes32"
     },
   },
 }
@@ -49,6 +61,10 @@ All other tables store in-game data associated with players, space rocks, allian
 
 ## Reading and Writing Tables
 
-Tables can be read directly from their contracts via their [ABIs](../latest.mdx). See the MUD documentation on the [table data model](https://mud.dev/store/data-model) for more information on how tables are structured on-chain.
+Tables can be read directly from their contracts via their
+[ABIs](../latest.mdx). See the MUD documentation on the
+[table data model](https://mud.dev/store/data-model) for more information on how
+tables are structured on-chain.
 
-Both prototype and player tables cannot be written directly without [systems](./systems.mdx) unless [delegated](./delegation).
+Both prototype and player tables cannot be written directly without
+[systems](./systems.mdx) unless [delegated](./delegation).

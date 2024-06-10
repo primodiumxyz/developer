@@ -1,16 +1,24 @@
 # Testing the World Extension
 
-The commented code can be found in [`packages/contracts/test/ReadDemoSystem.t.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/ReadDemo/packages/contracts/test/ReadDemoSystem.t.sol).
+The commented code can be found in
+[`packages/contracts/test/ReadDemoSystem.t.sol`](https://github.com/primodiumxyz/developer/tree/main/examples/ReadDemo/packages/contracts/test/ReadDemoSystem.t.sol).
 
-The test should execute by running `forge test` within the `packages/contracts/` folder. If you want to see additional details, you can run `forge test -vvvv` with 1-5 `v`s to increase verbosity. I generally recommend 4 or 5 for debug.
+The test should execute by running `forge test` within the `packages/contracts/`
+folder. If you want to see additional details, you can run `forge test -vvvv`
+with 1-5 `v`s to increase verbosity. I generally recommend 4 or 5 for debug.
 
-Before we deploy this system, we should run tests. We'll be using `forge test` in this example, to test against a live deployment. `pnpm mud test` is another option, that has some additional complexities, so we are not using it for now.
+Before we deploy this system, we should run tests. We'll be using `forge test`
+in this example, to test against a live deployment. `pnpm mud test` is another
+option, that has some additional complexities, so we are not using it for now.
 
-We've included three tests in this example, to highlight a couple different situations.
+We've included three tests in this example, to highlight a couple different
+situations.
 
-The test file can be intimidating, especially the imports. Most of these are boilerplate for tests and scripts that interact with MUD worlds.
+The test file can be intimidating, especially the imports. Most of these are
+boilerplate for tests and scripts that interact with MUD worlds.
 
-A detailed explanation of most of the imports can be found [here](https://mud.dev/guides/extending-a-world#deploy-to-the-blockchain).
+A detailed explanation of most of the imports can be found
+[here](https://mud.dev/guides/extending-a-world#deploy-to-the-blockchain).
 
 We will highlight some specific additional details in the Explanation below.
 
@@ -127,13 +135,16 @@ import { IWorld } from "../src/codegen/world/IWorld.sol";
 import { IWorld as IPrimodiumWorld } from "primodium/world/IWorld.sol";
 ```
 
-We need the import specific features and types to our World Extension. These are found in `../src/codegen/`. We also need to specific features of the Primodium world.
+We need the import specific features and types to our World Extension. These are
+found in `../src/codegen/`. We also need to specific features of the Primodium
+world.
 
 ```solidity filename="ReadDemoSystem.t.sol:20"
 contract ReadDemoTest is MudTest {
 ```
 
-We will be using the `MudTest` library, which extends the standard forge `Test` with some additional supporting functionality.
+We will be using the `MudTest` library, which extends the standard forge `Test`
+with some additional supporting functionality.
 
 ```solidity filename="ReadDemoSystem.t.sol:22"
 address extensionDeployerAddress = vm.envAddress("ADDRESS_ALICE");
@@ -141,7 +152,8 @@ address playerAddressActive = vm.envAddress("ADDRESS_PLAYER_ACTIVE");
 address playerAddressInactive = vm.envAddress("ADDRESS_PLAYER_INACTIVE");
 ```
 
-Foundry Cheatcodes allows us quick access to `.env` parameters using `vm.envAddress`, `vm.Uint`, etc. https://book.getfoundry.sh/cheatcodes/external
+Foundry Cheatcodes allows us quick access to `.env` parameters using
+`vm.envAddress`, `vm.Uint`, etc. https://book.getfoundry.sh/cheatcodes/external
 
 ```solidity filename="ReadDemoSystem.t.sol:30"
 function setUp() public override {
@@ -157,7 +169,10 @@ vm.createSelectFork(
 );
 ```
 
-For these tests, we create a local temporary copy of the live Primodium blockchain, at a specific block number. Changes to this blockchain are not sent back to the real one, so we can do thorough testing without danger of unintended consequences.
+For these tests, we create a local temporary copy of the live Primodium
+blockchain, at a specific block number. Changes to this blockchain are not sent
+back to the real one, so we can do thorough testing without danger of unintended
+consequences.
 
 ```solidity filename="ReadDemoSystem.t.sol:39"
 WorldRegistrationSystem world = WorldRegistrationSystem(worldAddress);
@@ -170,20 +185,27 @@ ResourceId namespaceResource = WorldResourceIdLib.encodeNamespace(bytes14(namesp
 ResourceId systemResource = WorldResourceIdLib.encode(RESOURCE_SYSTEM, namespace, system);
 ```
 
-`ResourceId`s are type wrapped `bytes32`s. They are the primary type we use to access most game data.
+`ResourceId`s are type wrapped `bytes32`s. They are the primary type we use to
+access most game data.
 
-`encodeNamespace()` and `encode()` handle the messy bitshifting into appropriate `ResourceId` formats for interfacing with `Table`s and `Systems`s.
+`encodeNamespace()` and `encode()` handle the messy bitshifting into appropriate
+`ResourceId` formats for interfacing with `Table`s and `Systems`s.
 
 ```solidity filename="ReadDemoSystem.t.sol:49"
 world.registerSystem(systemResource, readDemoSystem, true);
 ```
 
-This line associates the derived `ResourceId` to a `System` address, and sets access permissions. https://mud.dev/world/reference/world-external#registersystem
+This line associates the derived `ResourceId` to a `System` address, and sets
+access permissions.
+https://mud.dev/world/reference/world-external#registersystem
 
 ```solidity filename="ReadDemoSystem.t.sol:51"
 world.registerFunctionSelector(systemResource, "readMainBaseLevel()");
 ```
 
-The `System` may be registered, but we also need to tell the `World` what functions are provided by the `System`. This handles that. The function text is a function signature, and needs to include all the input parameters, e.g. `"transfer(address,uint256)"`. No spaces.
+The `System` may be registered, but we also need to tell the `World` what
+functions are provided by the `System`. This handles that. The function text is
+a function signature, and needs to include all the input parameters, e.g.
+`"transfer(address,uint256)"`. No spaces.
 
 </details>
