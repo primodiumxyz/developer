@@ -61,7 +61,7 @@ core `Position` and `OwnedBy` tables are
 [referenced](https://github.com/primodiumxyz/developer/blob/bca59e31bce35ce3b9feada4ee42b0259b5e371a/examples/BuildingUpgradeBounty/packages/contracts/mud.config.ts#L21-L35)
 as follows:
 
-```js copy filename="/examples/BuildingUpgradeBounty/packages/contracts/mud.config.ts#L21-L35" showLineNumbers
+```js copy filename="examples/BuildingUpgradeBounty/packages/contracts/mud.config.ts#L21-L35" showLineNumbers
 {
   // ...
   Position: {
@@ -90,7 +90,7 @@ generated as Solidity contracts in the `codegen/tables` directory. For instance,
 `PositionData`, which is generated from the `Position` table key schema, can be
 referenced in the world extension as follows.
 
-```solidity copy filename="/examples/BuildingUpgradeBounty/packages/contracts/src/libraries/LibHelpers.sol" showLineNumbers {1,4}
+```solidity copy filename="examples/BuildingUpgradeBounty/packages/contracts/src/libraries/LibHelpers.sol" showLineNumbers {1,4}
 import { PositionData } from "../codegen/index.sol";
 
 library LibHelpers {
@@ -104,7 +104,7 @@ library LibHelpers {
 To read directly from the `OwnedBy` table, you can directly reference the
 `OwnedBy` table in the world extension as follows.
 
-```solidity copy filename="/examples/BuildingUpgradeBountyackages/contracts/src/libraries/LibHelpers.sol" showLineNumbers {1,7}
+```solidity copy filename="examples/BuildingUpgradeBounty/packages/contracts/src/libraries/LibHelpers.sol" showLineNumbers {1,7}
 import { OwnedBy } from "../codegen/index.sol";
 
 library LibHelpers {
