@@ -49,6 +49,7 @@
     "title": "Open Source",
     "type": "separator"
   },
+  "reactive-tables": "Reactive Tables",
   "indexer": "Primodium Indexer",
   "game-tools": "Primodium Game Tools"
 }
