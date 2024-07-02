@@ -1,0 +1,55 @@
+# Primodium Client Templates
+
+> **Compatibility Note:** Primodium requires [Node.js](https://nodejs.org/en/)
+> version 18+, 20+. However, some templates require a higher Node.js version to
+> work, please upgrade if your package manager warns about it.
+
+With NPM:
+
+```bash
+$ npm create primodium@latest
+```
+
+With Yarn:
+
+```bash
+$ yarn create primodium
+```
+
+With PNPM:
+
+```bash
+$ pnpm create primodium
+```
+
+With Bun:
+
+```bash
+$ bun create primodium
+```
+
+Then follow the prompts!
+
+You can also directly specify the project name and the template you want to use
+via additional command line options:
+
+```bash
+# npm 7+, extra double-dash is needed:
+npm create primodium@latest my-primodium-app --template react-client
+
+# yarn
+yarn create primodium my-primodium-app --template react-client
+
+# pnpm
+pnpm create primodium my-primodium-app --template react-client
+
+# Bun
+bun create primodium my-primodium-app --template react-client
+```
+
+Currently supported template presets include:
+
+- `react-client`
+- `react-client-lite`
+
+You can use `.` for the project name to scaffold in the current directory.

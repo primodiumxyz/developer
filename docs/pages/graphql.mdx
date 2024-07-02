@@ -1,0 +1,173 @@
+# GraphQL Dashboards (Deprecated)
+
+> NOTE: The Primodium GraphQL endpoint is discontinued for the
+> [latest deployment](./latest.mdx). Only data from version 0.10.0 is available.
+
+As a fully on-chain game, Primodium supports a wide range of data that can be
+queried and displayed in dashboards. This guide will show you how to query
+decoded and encoded data from the Primodium blockchain using our GraphQL
+endpoint.
+
+## GraphQL Endpoint
+
+This section assumes knowledge of [GraphQL](https://graphql.org/) and its
+related technologies.
+
+Primodium provides a GraphQL endpoint for querying decoded on-chain data, which
+can be used to create dashboards. The endpoint is a [Hasura](https://hasura.io/)
+instance that provides a GraphQL API over our internal
+[Primodium indexer](../pages/indexer.mdx) database.
+
+```bash copy
+https://graphql.primodium.ai/v1/graphql
+```
+
+We recommend using a GraphQL playground to introspect our schema, such as the
+following:
+
+- [Apollo Studio](https://studio.apollographql.com/sandbox/explorer)
+- [GraphiQL Online](https://lucasconstantino.github.io/graphiql-online/)
+
+Refer to the
+[Hasura docs](https://hasura.io/docs/latest/queries/postgres/index/) for more
+information on advanced querying.
+
+## Quickstart
+
+> NOTE: Currently, tables and its fields are exposed; however, full data type
+> support and relations are missing due to the nature of how are decoded data is
+> stored.
+
+For this guide, we will use _Apollo Studio_ to read Primodium data from our
+GraphQL endpoint.
+
+1. Visit [Apollo Studio](https://studio.apollographql.com/sandbox/explorer).
+2. Set the sandbox url to our endpoint on the top-left field:
+   `https://graphql.primodium.ai/v1/graphql`
+
+![Apollo Studio](../public/tooling/graphql/apollo_studio.png)
+
+3. Query away with the following examples:
+
+### Query Decoded Data
+
+This example queries the top 10 scores of the current round:
+
+```gql showLineNumbers copy
+query Top10Score {
+  viewScore(limit: 10, orderBy: { value: DESC }) {
+    entity
+    value
+  }
+}
+```
+
+### Query Encoded Data
+
+This example queries MUD records between a block range:
+
+```gql showLineNumbers copy
+query MudRecords(
+  $where: MudRecordsBoolExp = { blockNumber: { _lte: 4824475, _gte: 4823475 } }
+  $limit: Int = 1000
+) {
+  mudRecords(where: $where, limit: $limit) {
+    address
+    blockNumber
+    dynamicData
+    encodedLengths
+    isDeleted
+    key0
+    key1
+    keyBytes
+    logIndex
+    staticData
+    tableId
+  }
+}
+```
+
+## React Client Lite Template
+
+The Primodium
+[React Client Lite Template](https://github.com/primodiumxyz/create-primodium)
+provides a minimal setup to start working on a read-only client for Primodium
+via our [GraphQL Endpoint]. Visit the demo site [here](https://template-react-client-lite.vercel.app/).
+
+![Template](../public/tooling/react-client-lite/template.svg)
+
+![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=template-react-client-lite)
+
+### Getting started
+
+```bash copy
+npm create primodium@latest --template react-client-lite
+cd react-client-lite
+npm install
+npm run dev
+```
+
+The Primodium `react-client-lite` template is based on `react+vite`. It uses
+[`gql.tada`](https://gql-tada.0no.co/) for query authoring and `shadcn/ui` for
+UI elements. Source for the template is available on Github
+[here](https://github.com/primodiumxyz/create-primodium/tree/main/template-react-client-lite).
+
+To get `gql.tada` magic introspection working, make sure that your editor is
+using the workspace typescript version or this will not work. For Visual Studio
+Code, you will be prompted to switch versions.
+
+### Production ESLint Config
+
+If you are developing a production application, we recommend updating the
+default `eslintrc.cjs` config to enable type aware lint rules:
+
+- Add the following `parserOptions` property to the the top-level configuration:
+
+```js filename=".eslintrc.cjs" showLineNumbers {3-8} copy
+module.exports = {
+  // ...other rules
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: ["./tsconfig.json", "./tsconfig.node.json"],
+    tsconfigRootDir: __dirname,
+  },
+};
+```
+
+- Replace `plugin:@typescript-eslint/recommended` with
+  `plugin:@typescript-eslint/recommended-type-checked` or
+  `plugin:@typescript-eslint/strict-type-checked`.
+- Optionally, add `plugin:@typescript-eslint/stylistic-type-checked`.
+- Install
+  [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and
+  add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends`
+  list.
+
+The final `.eslintrc.cjs` will look like this:
+
+```js filename=".eslintrc.cjs" showLineNumbers {6-7,9-10,16-22} copy
+module.exports = {
+  root: true,
+  env: { browser: true, es2020: true },
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended-type-checked", // or plugin:@typescript-eslint/strict-type-checked
+    "plugin:@typescript-eslint/stylistic-type-checked", // optional
+    "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+  ],
+  ignorePatterns: ["dist", ".eslintrc.cjs"],
+  parser: "@typescript-eslint/parser",
+  plugins: ["react-refresh"],
+
+  // Add parserOptions
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: ["./tsconfig.json", "./tsconfig.node.json"],
+    tsconfigRootDir: __dirname,
+  },
+};
+```

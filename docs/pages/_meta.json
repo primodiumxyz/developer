@@ -36,8 +36,9 @@
     "title": "Tooling",
     "type": "separator"
   },
-  "creating-dashboards": "Creating Dashboards",
-  "react-client-lite": "React Client Lite",
+  "react-client": "React Client",
+  "core-library": "Core Library",
+  "graphql": "GraphQL Dashboards",
 
   "protocol": {
     "title": "Protocol",
