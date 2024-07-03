@@ -65,3 +65,59 @@ Currently supported template presets include:
   [Primodium GraphQL Endpoint](./graphql.mdx)
 
 You can use `.` for the project name to scaffold in the current directory.
+
+## Production ESLint Config
+
+If you are developing a production application, we recommend updating the
+default `eslintrc.cjs` config to enable type aware lint rules:
+
+- Add the following `parserOptions` property to the the top-level configuration:
+
+```js filename=".eslintrc.cjs" showLineNumbers {3-8} copy
+module.exports = {
+  // ...other rules
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: ["./tsconfig.json", "./tsconfig.node.json"],
+    tsconfigRootDir: __dirname,
+  },
+};
+```
+
+- Replace `plugin:@typescript-eslint/recommended` with
+  `plugin:@typescript-eslint/recommended-type-checked` or
+  `plugin:@typescript-eslint/strict-type-checked`.
+- Optionally, add `plugin:@typescript-eslint/stylistic-type-checked`.
+- Install
+  [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and
+  add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends`
+  list.
+
+The final `.eslintrc.cjs` will look like this:
+
+```js filename=".eslintrc.cjs" showLineNumbers {6-7,9-10,16-22} copy
+module.exports = {
+  root: true,
+  env: { browser: true, es2020: true },
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended-type-checked", // or plugin:@typescript-eslint/strict-type-checked
+    "plugin:@typescript-eslint/stylistic-type-checked", // optional
+    "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+  ],
+  ignorePatterns: ["dist", ".eslintrc.cjs"],
+  parser: "@typescript-eslint/parser",
+  plugins: ["react-refresh"],
+
+  // Add parserOptions
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: ["./tsconfig.json", "./tsconfig.node.json"],
+    tsconfigRootDir: __dirname,
+  },
+};
+```
