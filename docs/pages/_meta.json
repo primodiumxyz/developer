@@ -36,8 +36,8 @@
     "title": "Tooling",
     "type": "separator"
   },
-  "core-library": "Client Core",
-  "react-client": "Client Templates",
+  "client-core": "Client Core",
+  "client-templates": "Client Templates",
   "graphql": "GraphQL Dashboards",
 
   "protocol": {
