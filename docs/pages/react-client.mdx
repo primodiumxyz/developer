@@ -1,30 +1,70 @@
-# React Client Lite
+# Primodium Client Templates
 
-This template provides a minimal setup to start working on a read-only client
-for Primodium via our [GraphQL Endpoint](./creating-dashboards.mdx). Visit the
-demo site [here](https://template-react-client-lite.vercel.app/).
+The
+[Primodium Client Template](https://github.com/primodiumxyz/create-primodium) to
+provides scaffolding for developers to create cystom Primodium clients with the
+[Primodium Core](./core-library.mdx) TypeScript API. Visit the demo site
+[here](https://template-react-client-primodium.vercel.app/).
 
-![Template](../public/tooling/react-client-lite/template.svg)
+![Template](../public/tooling/react-client/template.svg)
 
-![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=template-react-client-lite)
+## Getting Started
 
-## Getting started
+> **Compatibility Note:** Primodium requires [Node.js](https://nodejs.org/en/)
+> version 18+, 20+. However, some templates require a higher Node.js version to
+> work. Please upgrade if your package manager warns about it.
+
+With `npm`:
 
 ```bash copy
-npm create primodium@latest --template react-client-lite
-cd react-client-lite
-npm install
-npm run dev
+npm create primodium@latest
 ```
 
-The Primodium `react-client-lite` template is based on `react+vite`. It uses
-[`gql.tada`](https://gql-tada.0no.co/) for query authoring and `shadcn/ui` for
-UI elements. Source for the template is available on Github
-[here](https://github.com/primodiumxyz/create-primodium/tree/main/template-react-client-lite).
+With `yarn`:
 
-To get `gql.tada` magic introspection working, make sure that your editor is
-using the workspace typescript version or this will not work. For Visual Studio
-Code, you will be prompted to switch versions.
+```bash copy
+yarn create primodium
+```
+
+With `pnpm`:
+
+```bash copy
+pnpm create primodium
+```
+
+With `bun`:
+
+```bash copy
+bun create primodium
+```
+
+Then follow the prompts!
+
+You can also directly specify the project name and the template you want to use
+via additional command line options:
+
+```bash copy
+# npm 7+, extra double-dash is needed:
+npm create primodium@latest my-primodium-app --template react-client
+
+# yarn
+yarn create primodium my-primodium-app --template react-client
+
+# pnpm
+pnpm create primodium my-primodium-app --template react-client
+
+# Bun
+bun create primodium my-primodium-app --template react-client
+```
+
+Currently supported template presets include:
+
+- `react-client`: for building custom clients with the
+  [Primodium Core Library](./core-library.mdx)
+- `react-client-lite`: for building read-only dashboards with the
+  [Primodium GraphQL Endpoint](./graphql.mdx)
+
+You can use `.` for the project name to scaffold in the current directory.
 
 ## Production ESLint Config
 

@@ -1,9 +1,11 @@
-# Creating Dashboards
+# GraphQL Dashboards (Deprecated)
 
-As a fully on-chain game, Primodium supports a wide range of data that can be
-queried and displayed in dashboards. This guide will show you how to query
-decoded and encoded data from the Primodium blockchain using our GraphQL
-endpoint.
+> NOTE: The Primodium GraphQL endpoint is discontinued for the
+> [latest deployment](./latest.mdx). Only data from version 0.10.0 is available.
+
+Primodium supports a wide range of data that can be queried and displayed in
+dashboards. This guide will show you how to query decoded and encoded data from
+the Primodium blockchain using our GraphQL endpoint.
 
 ## GraphQL Endpoint
 
@@ -84,7 +86,30 @@ query MudRecords(
 }
 ```
 
-## React Template
+## React GraphQL Client Template
 
-- [react-client-lite](../react-client-lite.mdx): Minimal setup to start creating
-  read-only clients with the Primodium GraphQL endpoint.
+The Primodium
+[React Client Lite Template](https://github.com/primodiumxyz/create-primodium)
+provides a minimal setup to start working on a read-only client for Primodium
+via our GraphQL Endpoint. Visit the demo site
+[here](https://template-react-client-lite.vercel.app/).
+
+![Template](../public/tooling/react-client-lite/template.svg)
+
+### Getting started
+
+```bash copy
+npm create primodium@latest --template react-client-lite
+cd react-client-lite
+npm install
+npm run dev
+```
+
+The Primodium `react-client-lite` template is based on `react+vite`. It uses
+[`gql.tada`](https://gql-tada.0no.co/) for query authoring and `shadcn/ui` for
+UI elements. Source for the template is available on Github
+[here](https://github.com/primodiumxyz/create-primodium/tree/main/template-react-client-lite).
+
+To get `gql.tada` magic introspection working, make sure that your editor is
+using the workspace typescript version or this will not work. For Visual Studio
+Code, you will be prompted to switch versions.

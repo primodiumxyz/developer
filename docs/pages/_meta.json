@@ -36,8 +36,9 @@
     "title": "Tooling",
     "type": "separator"
   },
-  "creating-dashboards": "Creating Dashboards",
-  "react-client-lite": "React Client Lite",
+  "core-library": "Client Core",
+  "react-client": "Client Templates",
+  "graphql": "GraphQL Dashboards",
 
   "protocol": {
     "title": "Protocol",
@@ -49,6 +50,7 @@
     "title": "Open Source",
     "type": "separator"
   },
+  "reactive-tables": "Reactive Tables",
   "indexer": "Primodium Indexer",
   "game-tools": "Primodium Game Tools"
 }
