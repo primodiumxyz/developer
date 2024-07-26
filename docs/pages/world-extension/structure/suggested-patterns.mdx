@@ -10,8 +10,9 @@ The generic approach that we are suggesting for most cases is:
   - If a user were to delegate directly to another user, the delegatee is not
     bound by any additional logic.
 
-See extension [examples](../examples.mdx) for an implementation of the following
-patterns and further diagrams.
+See the [BuildingUpgradeBounty](../../examples/buildingupgradebounty.mdx)
+extension example for an implementation of the following patterns and further
+diagrams.
 
 ## Private P2P Agreements
 
@@ -35,7 +36,7 @@ patterns and further diagrams.
 ### Admin:
 
 1. Complete the
-   [necessary steps](../extension-structure#registering-all-world-extensions) to
+   [necessary steps](../structure.mdx#registering-all-world-extensions) to
    register your namespace, tables, systems, and functions. Make the necessary
    systems **publicly accessible**.
 2. Transfer namespace ownership to timelock, multisig, or burn address.
@@ -51,7 +52,7 @@ patterns and further diagrams.
 ### Admin:
 
 1. Complete the
-   [necessary steps](../extension-structure#registering-all-world-extensions) to
+   [necessary steps](../structure.mdx#registering-all-world-extensions) to
    register your namespace, tables, systems, and functions.
    - Make systems default private unless otherwise necessary.
    - One system should be an alliance membership system.
