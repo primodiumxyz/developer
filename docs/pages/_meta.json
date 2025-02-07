@@ -22,6 +22,7 @@
     "type": "separator"
   },
   "reactive-tables": "Reactive Tables",
+  "gasless": "Gasless Transactions",
   "indexer": "Primodium Indexer",
   "primodium-empires": {
     "title": "Primodium: Empires",
