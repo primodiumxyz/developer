@@ -14,7 +14,7 @@ contracts.
 
 ## Prototype Config Data
 
-- [`@primodiumxyz/contracts/config/prototypeConfig.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/prototypeConfig.ts):
+- [`@primodiumxyz/contracts/config/prototypeConfig.ts`](https://github.com/primodiumxyz/primodium/blob/main/packages/contracts/config/prototypeConfig.ts):
   The main configuration file that defines game prototype data in Primodium. For
   example, the following defines the prototype data for `CopperMine`, a building
   that mines copper on an asteroid.
@@ -59,7 +59,7 @@ contracts.
 }
 ```
 
-- [`@primodiumxyz/contracts/config/enums.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/enums.ts):
+- [`@primodiumxyz/contracts/config/enums.ts`](https://github.com/primodiumxyz/primodium/blob/main/packages/contracts/config/enums.ts):
   Solidity Enums that define each building, resource, units, objectives, and
   related enumerated prototype data. For example, the following enum describes
   all resources that can be associated with an asteroid in Primodium.
@@ -97,7 +97,7 @@ export enum EResource {
 
 ## Prototype Config Scripts
 
-- [`@primodiumxyz/contracts/ts/prototypes/prototypeGenUtils.ts`](https://github.com/primodiumxyz/contracts/blob/main/ts/prototypes/prototypeGenUtils.ts):
+- [`@primodiumxyz/contracts/ts/prototypes/prototypeGenUtils.ts`](https://github.com/primodiumxyz/primodium/blob/main/packages/contracts/ts/prototypes/prototypeGenUtils.ts):
   Utility functions for generating prototype data. For example, the
   `getResourceValue()` function also referenced above converts a resource key
   and amount into a `EResource` enum and a `BigInt`, values that can be written
@@ -113,7 +113,7 @@ export const getResourceValue = (resourceValue: { [x: string]: number }) => {
 };
 ```
 
-- [`@primodiumxyz/contracts/config/util/blueprints.ts`](https://github.com/primodiumxyz/contracts/blob/main/config/util/blueprints.ts):
+- [`@primodiumxyz/contracts/config/util/blueprints.ts`](https://github.com/primodiumxyz/primodium/blob/main/packages/contracts/config/util/blueprints.ts):
   Contains the utility function `getBlueprint()` that takes in a building width
   and height measured in tiles and returns a building blueprint value stored in
   the `P_Blueprint` prototype table.
@@ -134,6 +134,6 @@ export function getBlueprint(width: number, height: number) {
 }
 ```
 
-- [`@primodiumxyz/contracts/ts/terrain/terraingen.ts`](https://github.com/primodiumxyz/contracts/blob/main/ts/terrain/terraingen.ts):
+- [`@primodiumxyz/contracts/ts/terrain/terraingen.ts`](https://github.com/primodiumxyz/primodium/blob/main/packages/contracts/ts/terrain/terraingen.ts):
   Generates a Foundry script for populating terrain ore distribution, described
   in detail in the [prototype generation example](./generation.mdx).

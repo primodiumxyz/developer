@@ -15,10 +15,10 @@ rules and are not expected to change during the game's lifecycle. Prototype
 tables are prefixed with `P_` and are populated during the `PostDeploy` step.
 
 The following json string in
-[`mud.config.ts`](https://github.com/primodiumxyz/contracts/blob/main/mud.config.ts#L85-L97)
+[`mud.config.ts`](https://github.com/primodiumxyz/primodium/blob/main/packages/contracts/mud.config.ts#L46-L58)
 encodes a table that stores key game configuration named `P_GameConfig`.
 
-```js copy filename="@primodiumxyz/contracts/mud.config.ts#L47-L59" showLineNumbers
+```js copy filename="@primodiumxyz/contracts/mud.config.ts#L46-L58" showLineNumbers
 {
   // ...
   P_GameConfig: {
@@ -44,9 +44,9 @@ All other tables store in-game data associated with players, space rocks,
 alliances, and other game entities. These tables are expected to change during
 the game's lifecycle. The following json string encodes a table that stores the
 position of a building named
-[`Position`](https://github.com/primodiumxyz/contracts/blob/main/mud.config.ts#L107-L114).
+[`Position`](https://github.com/primodiumxyz/primodium/blob/main/packages/contracts/mud.config.ts#L78-L81).
 
-```js copy filename="@primodiumxyz/contracts/mud.config.ts#L79-L82" showLineNumbers
+```js copy filename="@primodiumxyz/contracts/mud.config.ts#L78-L81" showLineNumbers
 {
   Position: {
     key: ["entity"],

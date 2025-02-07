@@ -2,14 +2,14 @@
   "name": "primodium",
   "private": true,
   "scripts": {
-    "dev": "pnpm --filter 'docs' run dev",
     "build": "pnpm recursive run build",
     "clean": "pnpm recursive run clean",
-    "test": "pnpm recursive run test",
-    "prepare": "husky install"
+    "dev": "pnpm --filter 'docs' run dev",
+    "prepare": "husky install",
+    "sort-package-json": "npx sort-package-json package.json 'packages/*/package.json'",
+    "test": "pnpm recursive run test"
   },
   "lint-staged": {
-    "*.{ts,tsx}": "eslint --cache --fix",
     "*.{ts,tsx,css,md,mdx,sol}": "prettier --write",
     "package.json": "pnpm sort-package-json"
   },

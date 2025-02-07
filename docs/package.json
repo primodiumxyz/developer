@@ -2,18 +2,18 @@
   "name": "docs",
   "version": "0.0.1",
   "description": "Primodium Public Docs",
-  "scripts": {
-    "dev": "next dev -p 3001",
-    "build": "next build",
-    "start": "next start",
-    "prettier": "pnpm exec prettier . --write"
-  },
   "license": "",
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev -p 3001",
+    "prettier": "pnpm exec prettier . --write",
+    "start": "next start"
+  },
   "dependencies": {
     "@fontsource/space-mono": "^5.0.18",
-    "next": "^13.0.6",
-    "nextra": "latest",
-    "nextra-theme-docs": "latest",
+    "next": "^13.5.6",
+    "nextra": "^2.13.3",
+    "nextra-theme-docs": "^2.13.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

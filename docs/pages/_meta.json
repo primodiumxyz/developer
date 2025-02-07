@@ -1,16 +1,4 @@
 {
-  "play": {
-    "title": "Play Primodium",
-    "type": "page",
-    "href": "https://www.primodium.com",
-    "newWindow": true
-  },
-  "discord": {
-    "title": "Join Discord",
-    "type": "page",
-    "href": "https://discord.gg/fFFtwhTVWm",
-    "newWindow": true
-  },
   "follow": {
     "title": "Follow",
     "type": "page",
@@ -21,36 +9,41 @@
     "title": "Topics",
     "type": "separator"
   },
-  "about": "Introduction",
-  "index": "Quickstart",
-  "latest": "Latest Release",
-  "game-guide": "Game Guide",
-  "overview": {
-    "title": "Overview",
+  "index": "Introduction",
+  "open-source-sol": {
+    "title": "Solana Packages",
     "type": "separator"
   },
-  "overview-source": "Source",
-  "overview-contracts": "Contracts",
-  "overview-client": "Client",
-  "tooling": {
-    "title": "Tooling",
-    "type": "separator"
-  },
-  "client-core": "Client Core",
-  "client-templates": "Client Templates",
-  "graphql": "GraphQL Dashboards",
-
-  "protocol": {
-    "title": "Protocol",
-    "type": "separator"
-  },
-  "world-extension": "World Extensions",
-  "examples": "Examples",
-  "open-source": {
-    "title": "Open Source",
+  "dex-indexer": "DEX Indexer Stack",
+  "dex-server": "Sponsoring Trades",
+  "tub": "Tub iOS Trading App",
+  "open-source-eth": {
+    "title": "Ethereum Packages",
     "type": "separator"
   },
   "reactive-tables": "Reactive Tables",
+  "gasless": "Gasless Transactions",
   "indexer": "Primodium Indexer",
-  "game-tools": "Primodium Game Tools"
+  "primodium-empires": {
+    "title": "Primodium: Empires",
+    "type": "separator"
+  },
+  "empires": "Quickstart",
+  "primodium": {
+    "title": "Primodium",
+    "type": "separator"
+  },
+  "quickstart": "Quickstart",
+  "latest": "Latest Release",
+  "game-guide": "Game Guide",
+  "overview-source": "Source",
+  "overview-contracts": "Contracts",
+  "overview-client": "Client",
+  "tooling": "Tooling",
+  "protocol": {
+    "title": "Primodium Protocol",
+    "type": "separator"
+  },
+  "world-extension": "World Extensions",
+  "examples": "Examples"
 }
