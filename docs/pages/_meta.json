@@ -26,9 +26,9 @@
     "title": "Solana Packages",
     "type": "separator"
   },
-  "dex-indexer-stack": "Solana DEX Indexer",
-  "dex-server": "Solana DEX Server",
-  "tub-ios": "Tub iOS Trading App",
+  "dex-indexer": "DEX Indexer Stack",
+  "dex-server": "Sponsoring Trades",
+  "tub": "Tub iOS Trading App",
   "open-source-eth": {
     "title": "Ethereum Packages",
     "type": "separator"
