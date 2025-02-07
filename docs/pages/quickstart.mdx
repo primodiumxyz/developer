@@ -2,6 +2,24 @@
 
 ![Quickstart Hero](../public/quickstart-hero-11.png)
 
+Primodium is a space-based, empire building MMO game. In Primodium, you mine
+resources, build military bases, and fight others to gain control over the
+asteroid belt.
+
+Unlike most games on the market, Primodium is a fully on-chain game. This means
+that all of Primodium's game logic and state are executed and stored on the
+blockchain. The goal for Primodium is to be open and permissionless, meaning any
+third party developer is free to build on top of it without constraints from
+EULA or other agreements.
+
+These developer documents are here to help you build on top of Primodium. You're
+free to use them to build whatever you think would help give you a competitive
+edge, enhance coordination between you and other players, or anything else you
+can think of.
+
+To get started as a Primodium developer, check out the
+[source](./overview-source.mdx) and find ways to contribute below.
+
 ## Contract Extensions
 
 Get started as a Primodium developer by cloning the example
@@ -32,7 +50,7 @@ functionality of Primodium's core contracts, which are documented in the
 
 You can contribute to Primodium's design and balancing by submitting pull
 requests to
-[`@primodiumxyz/contracts/config/prototypeConfig.ts`](https://github.com/primodiumxyz/primodium/blob/main/packages/contracts/config/prototypeConfig.ts),
+[`@primodiumxyz/primodium/config/prototypeConfig.ts`](https://github.com/primodiumxyz/primodium/blob/main/packages/contracts/config/prototypeConfig.ts),
 which contains the main configuration for game prototypes in Primodium.
 
 For example, the following code block from the above file defines the prototype
@@ -48,7 +66,7 @@ mines. There are four fields that you can immediately modify to your own needs:
 - `P_Production` specifies the production resources and denotes its production
   rate.
 
-```ts filename="@primodiumxyz/contracts/config/prototypeConfig.ts#L510-L560" showLineNumbers {10-17}
+```ts filename="@primodiumxyz/primodium/config/prototypeConfig.ts#L510-L560" showLineNumbers {10-17}
 {
   // ...
   IronPlateFactory: {
@@ -75,12 +93,12 @@ mines. There are four fields that you can immediately modify to your own needs:
 ```
 
 See
-[`@primodiumxyz/contracts/config/enums.ts`](https://github.com/primodiumxyz/primodium/blob/main/packages/contracts/config/enums.ts#L34-L63)
+[`@primodiumxyz/primodium/config/enums.ts`](https://github.com/primodiumxyz/primodium/blob/main/packages/contracts/config/enums.ts#L39-L66)
 for the resource types available in Primodium. The following
 [prototype config](./overview-source/configuration.mdx) in TypeScript is
 [generated](./overview-source/generation.mdx) into Solidity on compilation.
 
-```ts filename="@primodiumxyz/contracts/config/enums.ts#L34-L48" showLineNumbers
+```ts filename="@primodiumxyz/primodium/config/enums.ts#L39-L66" showLineNumbers
 export enum EResource {
   Iron = 1,
   Copper,

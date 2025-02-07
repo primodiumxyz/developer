@@ -1,9 +1,11 @@
 # Primodium Source
 
-Primodium contracts will be open-sourced in their entirety once the game design
-and balancing are finalized. Before then, the source code for Primodium tables
-and interfaces for systems are available, with their role in developing
-[world extensions](./world-extension.mdx) described in the following pages.
+The source for Primodium is available across two repositories:
+
+- [`@primodiumxyz/primodium`](https://github.com/primodiumxyz/primodium/): Full
+  source code with both Ethereum smart contracts and TypeScript frontend
+- [`@primodiumxyz/contracts`](https://github.com/primodiumxyz/contracts): Source
+  of generated smart contract interfaces for world extension developers
 
 All Primodium contracts conform to the open [MUD standard](https://mud.dev) for
 large-scale Ethereum applications, details of which can be found in the
@@ -16,10 +18,137 @@ open source means that these improvements will be shared as development
 progresses, such as [Primodium world extensions](./world-extension.mdx) and
 [prototype generation](./overview-source/generation.mdx) scripts.
 
-All contract sources are located in the
-[`@primodiumxyz/contracts`](https://github.com/primodiumxyz/contracts) package.
+The initial sections describe deploying your own Primodium instance, followed by
+World Extension development resources.
 
-## Quickstart
+## Installation
+
+The [`@primodiumxyz/primodium`](https://github.com/primodiumxyz/primodium/)
+monorepo contains the entire stack for running Primodium, including the React
+client and Phaser game, the local postgres indexer (that can be deployed to a
+cloud provider as well) and all the contracts.
+
+### Prerequisites
+
+There are a few CLI tools to install to be compatible with the entire monorepo.
+
+- [node](https://nodejs.org/en/download/) v20.x - Tested with node v20.18.2.
+  - You can use [nvm](https://github.com/nvm-sh/nvm) to install and manage
+    multiple versions of node.
+- [pnpm](https://pnpm.io/installation) v8.x - Tested with pnpm v8.15.9.
+- [Foundry](https://book.getfoundry.sh/getting-started/installation) - This will
+  get installer during the "prepare" script.
+- [Docker](https://docs.docker.com/get-docker/) - Or any other containerization
+  tool.
+
+### Setup
+
+Clone this repository:
+
+```bash
+git clone https://github.com/primodiumxyz/primodium.git
+```
+
+Install all dependencies:
+
+```bash
+pnpm i
+```
+
+### Environment
+
+Create a `.env` file in the root of the project, and follow the instructions in
+the `.env.example` file to set the environment variables.
+
+```bash
+cp .env.example .env
+```
+
+You will also need to write the deployer's private key in some environment
+variable in the contracts package.
+
+```bash
+# The default anvil private key
+echo "PRIVATE_KEY=0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80" >> ./packages/contracts/.env
+```
+
+### Structure
+
+```ml
+examples - "Examples and boilerplate for adding extensions to the game"
+packages - "Components of the entire stack for running Primodium"
+├── assets - "All ingame assets and atlas"
+├── client - "React client that integrates other components and supercharges with a browser UI"
+├── contracts - "MUD contracts, configuration and infrastructure—basically the whole state and conditions of the game"
+├── core - "Core logic, systems, hooks and utilities for the client"
+├── engine - "Game engine for managing Phaser scenes and user inputs"
+└── game - "Core Phaser infrastructure for the game; objects, scenes, systems, input controls, etc."
+```
+
+## Development
+
+### Running the game
+
+The whole stack can be run with the following command:
+
+```bash
+pnpm dev
+```
+
+This will run a series of scripts each in a separate window, including the
+client, the development chain (on which contracts get deployed) and the local
+postgres indexer.
+
+> NOTE: When running the indexer locally, docker network and volumes properly
+> clear only on rerun of `pnpm dev:indexer`. If you would like to manually free
+> these resources run `pnpm clean:indexer`.
+
+### Building
+
+You can build the entire monorepo with the following command:
+
+```bash
+pnpm build
+```
+
+This will build the client and core packages, and compile the contracts as well
+as generate the ABIs and TypeScript bindings.
+
+### Testing
+
+To run the tests for every package, run the following:
+
+```bash
+pnpm test
+```
+
+Or if you want to run the tests for a specific package, navigate to that package
+directory and run the same command.
+
+## Deployment
+
+To deploy the contracts on a specific chain, follow these steps:
+
+1. Update
+   [`.env`](https://github.com/primodiumxyz/primodium/tree/main/.env.example):
+   - `PRI_DEV`: set to `"false"` if you don't want to deploy the `DevSystem`
+     contract.
+   - `PRI_CHAIN_ID`: set to the chain you want to deploy to; you will also need
+     to add or update the `[profile.<chain_id>]` field in
+     [`packages/contracts/foundry.toml`](https://github.com/primodiumxyz/primodium/tree/main/packages/contracts/foundry.toml).
+2. Add the private key of the deployer to
+   [`packages/contracts/.env`](https://github.com/primodiumxyz/primodium/tree/main/packages/contracts/.env.example):
+   ```bash
+   echo "PRIVATE_KEY=<your-private-key>" >> ./packages/contracts/.env
+   ```
+3. Deploy the contracts:
+   ```bash
+   pnpm deploy:<chain_id> # if the command doesn't exist, create it in both `packages/contracts/package.json` and `package.json`
+   ```
+
+## World Extension Resources
+
+For developers creating world extensions, the following resources are available:
 
 Contract [Tables](./overview-contracts/tables.mdx):
 
