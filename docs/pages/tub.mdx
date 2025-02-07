@@ -32,17 +32,6 @@ Trades are constructed and submitted using our
 [server](https://github.com/primodiumxyz/tub-ios/blob/main/apps/server/), which
 handles priority fees that are sponsored by a provided wallet.
 
-The codebase is structured as a `pnpm` monorepo with the following packages:
-
-```ml
-apps - "Applications that compose the entire stack"
-├── dashboard - "A React dashboard for visualizing top-ranked tokens and analytics data from the app"
-├── ios - "The Swift iOS app"
-└── server - "A modified version of the published `@primodiumxyz/dex-server` package"
-packages - "Libraries that compose the stack"
-└── gql - "A modified version of the published `@primodiumxyz/dex-graphql` package"
-```
-
 ### Installation
 
 This monorepo uses `pnpm` as its package manager. First,
@@ -138,6 +127,28 @@ configure for the GraphQL URLs.
 
 Refer to the README in [`/apps/ios`](/apps/ios/README.md) to test the latest
 user-facing features, such as launching the app in Xcode.
+
+## Details
+
+### Indexing and database
+
+The entire flow for writing indexed trades to the database, and interacting with
+the database from the client, can be illustrated in the following diagram:
+
+![Indexing and database](../public/tub/indexing-lifecycle.svg)
+
+### Structure
+
+The codebase is structured as a `pnpm` monorepo with the following packages:
+
+```ml
+apps - "Applications that compose the entire stack"
+├── dashboard - "A React dashboard for visualizing top-ranked tokens and analytics data from the app"
+├── ios - "The Swift iOS app"
+└── server - "A modified version of the published `@primodiumxyz/dex-server` package"
+packages - "Libraries that compose the stack"
+└── gql - "A modified version of the published `@primodiumxyz/dex-graphql` package"
+```
 
 ## Contributing
 
