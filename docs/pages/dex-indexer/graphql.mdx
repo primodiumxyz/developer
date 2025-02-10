@@ -37,9 +37,9 @@ Although it is intended to be used with the
 package, it could also very well be adapted to any other indexing solution, on
 any other chain.
 
-!!! The way it's intended to use is that you need to refresh token rolling stats
+**The way it's intended to use is that you need to refresh token rolling stats
 every few seconds from some scheduled job, as it lifts up the workload and
-computation time from the user-initiated queries to some background job. !!!
+computation time from the user-initiated queries to some background job.**
 
 On a high-level, the way this database is optimized is that it uses continuous
 aggregates to compute relevant metrics into 1-minute buckets, and as a main
