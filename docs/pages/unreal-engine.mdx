@@ -1,0 +1,208 @@
+# Unreal Engine MUD
+
+The **Primodium Unreal Engine MUD Libraries** are a set of three libraries that
+allow [Unreal Engine](https://www.unrealengine.com/en-US) game clients to
+seamlessly interact with Ethereum smart contracts built with the
+[MUD](https://mud.dev/introduction) standard.
+
+The libraries are split across three packages:
+
+- [@primodiumxyz/UEMUD](https://github.com/primodiumxyz/UEMUD): MUD Unreal
+  Engine client
+- [@primodiumxyz/ContextFramework](https://github.com/primodiumxyz/ContextFramework):
+  Custom ECS framework for Unreal Engine
+- [@primodiumxyz/UEEmojimonExample](https://github.com/primodiumxyz/UEEmojimonExample):
+  Example game using the above libraries
+
+## UEMUD
+
+[**UEMUD**](https://github.com/primodiumxyz/UEMUD) is an Unreal Engine plugin
+for developing clients for on-chain games built with the MUD framework. It has
+the following dependencies:
+
+- [turbolink](https://github.com/thejinchao/turbolink)
+- [web3.unreal](https://github.com/G7DAO/web3.unreal)
+
+## ContextFramework
+
+[**CustomFramework**](https://github.com/primodiumxyz/ContextFramework) is a
+Custom [ECS](https://en.wikipedia.org/wiki/Entity_component_system) framework
+for Unreal Engine. This is a very early work-in-progress (WIP).
+
+### Core
+
+#### Data Types
+
+`FCF_Context`: an Entity in the ECS. Each `FCF_Context` is unique and holds data
+as a map of components.
+
+`FCF_Component`: Each component type either holds **mutable** or **immutable**
+data for the context where it is stored. Components can also be used as flags
+for checking.
+
+#### Functionality
+
+`UCF_Core`: a static function library used to create and remove contexts and set
+or remove components from contexts
+
+`UCF_CoreSubsystem`: a game instance subsystem that stores and handles context
+and component actions internally. This subsystem is used internally by
+`UCF_Core`.
+
+#### Unreal Engine Binding
+
+`ACF_ActorWrapper`: This (and all Wrapper types) can be bound to a context using
+the unique ID stored on them. They allow function calls within their hierarchy
+to access the bound context without manually using the context ID.
+
+### Events
+
+#### Data Types
+
+`FCF_Message`: The base data type for messages sent through the event system.
+
+#### Functionality
+
+`UCF_EventStatics` is a static function library to listen to messages and send
+messages, both locally or over the network.
+
+`UCF_EventSubsystem` is a game instance subsystem that stores listeners for
+events, and fires those events on the instance it runs on.
+
+#### ENetworkMessageMode
+
+`FromServerToAllClients`: Broadcasts the message locally on the server, then
+fires on all clients through the `GameState`. `FromServerToSepcificClient`:
+Broadcasts the message locally on the server, then fires on a specific client
+(using `PlayerId`) through their `PlayerState`. `FromClientToServer`: Broadcasts
+the message locally on the client, then fires on the server (using the invoker
+client's `PlayerState`). The `PlayerState` can also be used for authentication
+to allow or disallow the event.
+
+#### Details
+
+`DoubleMessageTypeEvents`: Since we cannot directly template message types for
+component types (for general events that might be fired based on another data
+type), we use _double message types_ to handle these scenarios. For example, if
+you want to listen for an event when `FSampleComponent` is set on any context,
+you would use a combination of `FCF_ComponentSetMessageBase` and
+`FSampleComponent` to listen for that event.
+
+### Groups
+
+Groups make it easier to query specific contexts that share one or more
+component types and to cache that query for later use. They also allow for
+“singleton” type access to data in the form of components when the group only
+has a single context in it.
+
+#### Data Types
+
+`UCF_GroupStatics`: a static function library used to access group
+functionalities such as getting and setting singleton components and retrieve
+group contexts
+
+You can also set singleton components using a singleton component type. For
+instance, if a context has a specific singleton component type as a flag, the
+developer can set components on that context using the flag component type.
+
+##### Example Usage
+
+If we use `FC_SB_IsPlayerContext` to flag contexts that hold player data, we can
+retrieve the group of contexts that have this component. The first time a group
+is requested, it will search all contexts to build the group. After that, the
+group automatically updates whenever this component type is added or removed
+from a context, and accessing the group again will not require a new search.
+
+> **Tip**  
+> You can create groups earlier by having subsystems that initialize these
+> groups, so the initial search is done before gameplay logic needs them.
+
+### Systems
+
+There is no _specific_ type required when writing systems for the Context
+Framework, but a recommended approach makes it easier to manage.
+
+In practice, we:
+
+1. Create systems as Unreal Engine Subsystems.
+2. Place them in the module where they should be initialized.
+3. Inherit them from special subsystem classes made for that submodule (to
+   prevent loading on the wrong instances in _Play In Editor_ mode).
+
+The key classes are:
+
+- `US_CO_GameInstanceSubsystem`: for client systems.
+- `US_SO_GameInstanceSubsystem`: for server systems.
+
+A system typically:
+
+- Listens for an event when initialized.
+- Executes logic when that event is triggered.
+
+When multiple systems want to subscribe to the same event, it is better to
+create a `ChainSystem` that subscribes to the event and calls logic on the other
+systems in the desired order.
+
+Because those other systems are called by the ChainSystem event, they should not
+subscribe directly when they are initialized.
+
+## UEEmojimonExample
+
+[**UEEmojimonExample**](https://github.com/primodiumxyz/UEEmojimonExample) is an
+Unreal client implementation of the
+[MUD Emojimon](https://mud.dev/guides/emojimon) example project using the
+[UEMUD](#uemud) Plugin.
+
+### Dependencies
+
+This project has the following dependencies:
+
+- [ContextFramework](https://github.com/a-najafi/ContextFramework)
+- [UEMUD](https://github.com/a-najafi/UEMUD)
+- [turbolink](https://github.com/thejinchao/turbolink)
+- [web3.unreal](https://github.com/G7DAO/web3.unreal)
+
+### Setup and Configuration
+
+1. **Project Settings**
+
+   - Make sure to check your Project Settings for custom configurations
+     regarding:
+     - MUD World Settings
+     - JSON-RPC (jRPC) server address
+     - gRPC server addresses
+
+2. **HyperPlay**
+
+   - Currently, HyperPlay must be installed and running to send transactions.
+   - Work is in progress (WIP) for encoding and signing transactions via
+     `eth_sendRawTransaction`.
+
+3. **MUD gRPC Services**
+
+   - The client syncs using MUD gRPC services (stream and snapshot), which must
+     be running.
+   - Set the address and port through the **turbolink** plugin settings.
+
+4. **Faucet Service**
+
+   - To receive test funds (drip), a faucet service must be running.
+
+5. **Generated Classes**
+
+   - The included **turbolink** plugin has generated classes for MUD services,
+     which will be refactored into **UEMUD** later.
+
+6. **Modified web3.unreal**
+   - `web3Unreal` has been modified to receive `ChainMetadata` in its function.
+
+### Gameplay Notes
+
+- **Join the game**  
+  Press **E** to join. The spawn location is currently hard-coded to **(2,2)**.
+- **Movement**  
+  Use **WASD** or arrow keys to move the avatar.
+
+- **Avatar Colors**
+  - Your local avatar is **green**.
+  - Other players’ avatars are **white**.
