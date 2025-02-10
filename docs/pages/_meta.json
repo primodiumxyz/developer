@@ -24,6 +24,7 @@
   "reactive-tables": "Reactive Tables",
   "gasless": "Gasless Transactions",
   "indexer": "Primodium Indexer",
+  "unreal-engine": "Unreal Engine MUD",
   "primodium-empires": {
     "title": "Primodium: Empires",
     "type": "separator"
