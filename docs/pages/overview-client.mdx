@@ -14,8 +14,9 @@ directory in the
 monorepo.
 
 This client imports all necessary packages from the rest of this monorepo to be
-able to render the Phaser game, with a React UI on top of it, interact with the
-contracts, and sync the state with the indexer database (or RPC updates).
+able to render the [Phaser](https://phaser.io/) game, with a
+[React](https://react.dev/) UI on top of it, interact with the contracts, and
+sync the state with the indexer database (or RPC updates).
 
 ## Running the game
 
@@ -33,13 +34,13 @@ Then navigate to [http://localhost:3000](http://localhost:3000) in your browser.
 ## Organization
 
 This package uses
-[the core package](https://github.com/primodiumxyz/primodium/tree/main/core) for
-all the logic,
-[the engine package](https://github.com/primodiumxyz/primodium/tree/main/engine)
+[the core package](https://github.com/primodiumxyz/primodium/tree/main/packages/core)
+for all the logic,
+[the engine package](https://github.com/primodiumxyz/primodium/tree/main/packages/engine)
 for the Phaser scene management (api, creating scenes, rendering chunks),
-[the game package](https://github.com/primodiumxyz/primodium/tree/main/game) for
-Phaser, and
-[the assets package](https://github.com/primodiumxyz/primodium/tree/main/assets)
+[the game package](https://github.com/primodiumxyz/primodium/tree/main/packages/game)
+for Phaser, and
+[the assets package](https://github.com/primodiumxyz/primodium/tree/main/packages/assets)
 for the assets.
 
 It is dedicated to the various UI components, hooks, and utilities.
